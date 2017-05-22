@@ -1,4 +1,4 @@
-package com.seancheey;
+package com.seancheey.gui;
 
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -6,19 +6,21 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
-import javax.swing.*;
 
 public class MainController extends Application {
     @FXML
     private TextField username, password;
 
+    private static Stage PrimaryStage;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
         primaryStage.setTitle("Amao Game");
         primaryStage.setScene(new Scene(root, 800, 600));
+        PrimaryStage = primaryStage;
         primaryStage.show();
     }
 
@@ -27,8 +29,10 @@ public class MainController extends Application {
         launch(args);
     }
 
-    public void login() {
+    public void login() throws Exception{
         System.out.println(username.getText() + "\n" + password.getText());
+        Parent root = FXMLLoader.load(getClass().getResource("bot_edit.fxml"));
+        PrimaryStage.setScene(new Scene(root, 800,600));
     }
 
     public void register() {
