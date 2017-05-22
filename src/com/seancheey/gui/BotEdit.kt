@@ -7,6 +7,7 @@ import javafx.fxml.Initializable
 import javafx.scene.image.ImageView
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.FlowPane
+import javafx.scene.layout.GridPane
 import java.net.URL
 import java.util.*
 
@@ -22,6 +23,9 @@ class BotEdit : Initializable {
     var blocksFlowPane: FlowPane? = null
     @FXML
     var weaponsFlowPane: FlowPane? = null
+    @FXML
+    var editPane: GridPane? = null
+
     private var hoverView: ImageView? = null
 
     var holding: Component? = null
