@@ -1,34 +1,18 @@
 package com.seancheey.game
 
-import javafx.geometry.Dimension2D
-import javafx.scene.image.Image
-
 /**
- * Created by Seancheey on 20/05/2017.
+ * Created by Seancheey on 23/05/2017.
  * GitHub: https://github.com/Seancheey
  */
-
-abstract class Component(val name: String, imageURL: String, var width: Int, var height: Int) {
-    var image: Image
-    var imageURL = ""
-        set(value) {
-            field = value
-            if (value != "") {
-                image = Image(imageURL)
-            }
-        }
-    var size: Dimension2D
-        get() = Dimension2D(width.toDouble(), height.toDouble())
-        set(value) {
-            width = value.width.toInt()
-            height = value.height.toInt()
-        }
-
-    init {
-        this.imageURL = imageURL
-        image = Image(imageURL)
-    }
-
-    constructor() : this("Default", "cube.png", 10, 10)
-
+data class Component<out T : Model>(val model: T, val hostRobot: Robot, var x: Int, var y: Int) {
+    val name: String
+        get() = model.name
+    val width: Int
+        get() = model.width
+    val height: Int
+        get() = model.height
+    val health: Int
+        get() = model.health
+    val weight: Int
+        get() = model.weight
 }
