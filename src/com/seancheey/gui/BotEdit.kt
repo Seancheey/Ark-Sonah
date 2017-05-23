@@ -4,12 +4,12 @@ import com.seancheey.game.Model
 import com.seancheey.game.Models
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
-import javafx.scene.control.Label
 import javafx.scene.image.ImageView
-import javafx.scene.input.*
+import javafx.scene.input.ClipboardContent
+import javafx.scene.input.MouseEvent
+import javafx.scene.input.TransferMode
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.FlowPane
-import javafx.scene.layout.GridPane
 import javafx.scene.layout.TilePane
 import java.net.URL
 import java.util.*
@@ -36,13 +36,14 @@ class BotEdit : Initializable {
         for (component in Models.blocks) {
             blocksFlowPane!!.children.add(ModelSlot(component, this))
         }
-        for(i in 1..9) {
+        for (i in 1..9) {
             editPane!!.children.add(ComponentGrid())
         }
     }
 }
-class ComponentGrid(var model: Model?=null): ImageView(Model().image){
-    init{
+
+class ComponentGrid(var model: Model? = null) : ImageView(Model().image) {
+    init {
         id = "component_grid"
         prefHeight(50.0)
         minHeight(50.0)

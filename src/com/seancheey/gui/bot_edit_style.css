@@ -1,4 +1,4 @@
-#editPane *{
+#editPane * {
     -fx-stroke-type: outside;
     -fx-stroke-width: 5;
     -fx-stroke-line-join: round;

@@ -6,7 +6,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 public class MainController extends Application {
@@ -29,10 +28,10 @@ public class MainController extends Application {
         launch(args);
     }
 
-    public void login() throws Exception{
+    public void login() throws Exception {
         System.out.println(username.getText() + "\n" + password.getText());
         Parent root = FXMLLoader.load(getClass().getResource("bot_edit.fxml"));
-        PrimaryStage.setScene(new Scene(root, 800,600));
+        PrimaryStage.setScene(new Scene(root, 800, 600));
     }
 
     public void register() {

@@ -5,6 +5,6 @@ package com.seancheey.game
  * GitHub: https://github.com/Seancheey
  */
 
-class Robot(var components: Array<Component<Model>>){
+class Robot(var components: Array<Component<Model>>) {
 
 }

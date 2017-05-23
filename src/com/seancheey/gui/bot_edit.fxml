@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.*?>
-
-<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@bot_edit_style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seancheey.gui.BotEdit">
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="400.0" prefWidth="600.0" stylesheets="@bot_edit_style.css" xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seancheey.gui.BotEdit">
     <left>
         <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-           <tabs>
-               <Tab text="Blocks">
-                  <content>
-                      <FlowPane fx:id="blocksFlowPane" prefHeight="200.0" prefWidth="200.0" />
-                  </content>
-               </Tab>
-               <Tab text="Weapons">
-                  <content>
-                      <FlowPane fx:id="weaponsFlowPane" prefHeight="200.0" prefWidth="200.0" />
-                  </content>
-               </Tab>
-            <Tab text="Movements">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-              </content>
-            </Tab>
-           </tabs>
+            <tabs>
+                <Tab text="Blocks">
+                    <content>
+                        <FlowPane fx:id="blocksFlowPane" prefHeight="200.0" prefWidth="200.0"/>
+                    </content>
+                </Tab>
+                <Tab text="Weapons">
+                    <content>
+                        <FlowPane fx:id="weaponsFlowPane" prefHeight="200.0" prefWidth="200.0"/>
+                    </content>
+                </Tab>
+                <Tab text="Movements">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+                    </content>
+                </Tab>
+            </tabs>
         </TabPane>
     </left>
-   <center>
-      <TilePane id="editPane" fx:id="editPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <padding>
-            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-         </padding></TilePane>
-   </center>
+    <center>
+        <TilePane id="editPane" fx:id="editPane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <padding>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+            </padding>
+        </TilePane>
+    </center>
 </BorderPane>
