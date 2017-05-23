@@ -10,6 +10,7 @@ import javafx.scene.input.MouseEvent
 import javafx.scene.input.TransferMode
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.FlowPane
+import javafx.scene.layout.StackPane
 import javafx.scene.layout.TilePane
 import java.net.URL
 import java.util.*
@@ -36,21 +37,33 @@ class BotEdit : Initializable {
         for (component in Models.blocks) {
             blocksFlowPane!!.children.add(ModelSlot(component, this))
         }
-        for (i in 1..9) {
-            editPane!!.children.add(ComponentGrid())
+        for (i in 1..7*7) {
+            editPane!!.children.add(ComponentGrid(this))
         }
     }
 }
 
-class ComponentGrid(var model: Model? = null) : ImageView(Model().image) {
+class ComponentGrid(val editController: BotEdit, model: Model? = null) : StackPane() {
+    var imageView: ImageView = ImageView()
+    var model: Model? = null
+        set(value) {
+            field = value
+            imageView.image = value?.image
+        }
+
     init {
-        id = "component_grid"
-        prefHeight(50.0)
-        minHeight(50.0)
-        minWidth(50.0)
-        prefWidth(50.0)
-        style = "-fx-background-color: darkgrey"
+        width = 52.0
+        height = 52.0
+        this.model = model
+        setOnDragOver { event -> event.acceptTransferModes(TransferMode.MOVE, TransferMode.LINK, TransferMode.COPY);event.consume() }
+        setOnDragDropped {event -> imageView.image = editController.holding?.image; event.isDropCompleted = true; event.consume()}
+        imageView.fitHeight = 50.0
+        imageView.fitWidth = 50.0
+
+        children.add(imageView)
+
     }
+
 }
 
 class ModelSlot(val componentModel: Model, val editController: BotEdit) : ImageView(componentModel.imageURL) {
@@ -58,15 +71,17 @@ class ModelSlot(val componentModel: Model, val editController: BotEdit) : ImageV
     init {
         id = "model_slot"
         setOnMousePressed { editController.holding = componentModel }
-        prefWidth(50.toDouble())
-        prefHeight(50.toDouble())
+        if (image.height > 50 || image.width > 50) {
+            fitWidth = 50.0
+            fitHeight = 50.0
+        }
         // bind mouse location to hoverView
         setOnDragDetected { event ->
-            drag(event)
+            dragBegin(event)
         }
     }
 
-    fun drag(event: MouseEvent): Unit {
+    fun dragBegin(event: MouseEvent): Unit {
         val db = startDragAndDrop(TransferMode.COPY, TransferMode.LINK, TransferMode.MOVE)
         val clipboard = ClipboardContent()
         clipboard.putImage(editController.holding?.image)
