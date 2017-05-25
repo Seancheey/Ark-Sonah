@@ -5,68 +5,56 @@
 <?import javafx.scene.layout.*?>
 <BorderPane fx:id="borderPane" stylesheets="@bot_edit_style.css" xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seancheey.gui.BotEdit">
+    <right>
+        <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0"
+                   BorderPane.alignment="CENTER">
+            <TitledPane animated="false" text="Stats">
+                <VBox prefHeight="200.0" prefWidth="100.0">
+                    <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                        <Label layoutY="14.0" text="Health" AnchorPane.leftAnchor="2.0"
+                               AnchorPane.topAnchor="2.0"/>
+                    </AnchorPane>
+                    <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                        <Label layoutX="-3.0" layoutY="14.0" text="Weight" AnchorPane.leftAnchor="2.0"
+                               AnchorPane.topAnchor="2.0"/>
+                    </AnchorPane>
+                </VBox>
+            </TitledPane>
+            <VBox prefHeight="200.0" prefWidth="100.0"/>
+        </SplitPane>
+    </right>
+    <top>
+        <ToolBar BorderPane.alignment="CENTER">
+            <Button mnemonicParsing="false" text="Menu"/>
+        </ToolBar>
+    </top>
+    <center>
+        <VBox alignment="CENTER">
+            <HBox alignment="CENTER">
+                <TextField fx:id="nameField" alignment="CENTER" prefWidth="400.0"
+                           promptText="Enter your robot name"/>
+            </HBox>
+            <AnchorPane fx:id="editPane" minHeight="400.0" minWidth="400.0"/>
+            <HBox alignment="CENTER">
+                <Button mnemonicParsing="false" text="Paint"/>
+                <Button mnemonicParsing="false" text="Clear"/>
+            </HBox>
+            <padding>
+                <Insets bottom="5.0" left="2.0" right="2.0" top="5.0"/>
+            </padding>
+        </VBox>
+    </center>
     <left>
         <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
-            <tabs>
-                <Tab text="Blocks">
-                    <content>
-                        <FlowPane fx:id="blocksFlowPane" prefHeight="200.0" prefWidth="200.0" />
-                    </content>
-                </Tab>
-                <Tab text="Weapons">
-                    <content>
-                        <FlowPane fx:id="weaponsFlowPane" prefHeight="200.0" prefWidth="200.0" />
-                    </content>
-                </Tab>
-                <Tab text="Movements">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                    </content>
-                </Tab>
-            </tabs>
+            <Tab text="Blocks">
+                <FlowPane fx:id="blocksFlowPane" prefHeight="200.0" prefWidth="200.0"/>
+            </Tab>
+            <Tab text="Weapons">
+                <FlowPane fx:id="weaponsFlowPane" prefHeight="200.0" prefWidth="200.0"/>
+            </Tab>
+            <Tab text="Movements">
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"/>
+            </Tab>
         </TabPane>
     </left>
-   <right>
-      <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
-         <items>
-            <TitledPane animated="false" text="Stats">
-               <content>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
-                     <children>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                           <children>
-                              <Label layoutY="14.0" text="Health" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="2.0" />
-                           </children>
-                        </AnchorPane>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                           <children>
-                              <Label layoutX="-3.0" layoutY="14.0" text="Weight" AnchorPane.leftAnchor="2.0" AnchorPane.topAnchor="2.0" />
-                           </children>
-                        </AnchorPane>
-                     </children>
-                  </VBox>
-               </content>
-            </TitledPane>
-            <VBox prefHeight="200.0" prefWidth="100.0" />
-         </items>
-      </SplitPane>
-   </right>
-   <top>
-      <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <items>
-          <Button mnemonicParsing="false" text="Menu" />
-        </items>
-      </ToolBar>
-   </top>
-    <center>
-        <TilePane id="editPane" fx:id="editPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-                  minWidth="-Infinity" prefHeight="400.0" prefWidth="400.0" BorderPane.alignment="CENTER">
-            <padding>
-                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
-            </padding>
-            <opaqueInsets>
-                <Insets/>
-            </opaqueInsets>
-        </TilePane>
-    </center>
 </BorderPane>

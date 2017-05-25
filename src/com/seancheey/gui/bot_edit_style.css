@@ -1,10 +1,11 @@
 #editPane * {
-    -fx-stroke-type: outside;
-    -fx-stroke-width: 2;
-    -fx-stroke-line-join: round;
-    -fx-stroke: darkgrey;
-    -fx-border-width: 2;
+    -fx-border-width: 1;
     -fx-border-color: lightgray;
-    -fx-border-radius: 2;
-    -fx-padding: 1 1 1 1;
+}
+
+.button {
+    -fx-border-width: 2;
+    -fx-border-color: antiquewhite;
+    -fx-background-color: azure;
+    -fx-font-size: 15pt;
 }

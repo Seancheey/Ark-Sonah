@@ -5,12 +5,13 @@ import com.seancheey.game.Model
 import com.seancheey.game.Models
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
+import javafx.scene.control.TextField
 import javafx.scene.image.ImageView
 import javafx.scene.input.*
+import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.FlowPane
 import javafx.scene.layout.StackPane
-import javafx.scene.layout.TilePane
 import java.net.URL
 import java.util.*
 
@@ -27,7 +28,9 @@ class BotEdit : Initializable {
     @FXML
     var weaponsFlowPane: FlowPane? = null
     @FXML
-    var editPane: TilePane? = null
+    var editPane: AnchorPane? = null
+    @FXML
+    var nameField: TextField? = null
 
     var holding: Model? = null
 
@@ -43,18 +46,27 @@ class BotEdit : Initializable {
     }
 
     private fun initEditPane(): Unit {
-        val size = GameConfig.edit_grid_num * GameConfig.edit_grid_width + GameConfig.edit_grid_width - 1
-        editPane!!.minWidth = size.toDouble()
-        editPane!!.maxWidth = size.toDouble()
+        val width = GameConfig.edit_grid_width.toDouble()
+        val num = GameConfig.edit_grid_num
+        val size = num * width
+        editPane!!.minWidth = size
+        editPane!!.maxWidth = size
         // add grid to edit pane
-        for (i in 1..GameConfig.edit_grid_num * GameConfig.edit_grid_num) {
-            editPane!!.children.add(ComponentGrid(this))
+        val grids = arrayListOf<ComponentGrid>()
+        for (y in 0..num - 1) {
+            for (x in 0..num - 1) {
+                val grid = ComponentGrid(this, x, y)
+                AnchorPane.setTopAnchor(grid, width * y)
+                AnchorPane.setLeftAnchor(grid, width * x)
+                grids.add(grid)
+            }
         }
-
+        editPane!!.children.addAll(grids)
+        nameField!!.setMaxSize(size, size)
     }
 }
 
-class ComponentGrid(val editController: BotEdit, model: Model? = null) : StackPane() {
+class ComponentGrid(val editController: BotEdit, val x: Int, val y: Int, model: Model? = null) : StackPane() {
     var imageView: ImageView = ImageView()
     var model: Model? = null
         set(value) {
@@ -63,11 +75,16 @@ class ComponentGrid(val editController: BotEdit, model: Model? = null) : StackPa
         }
 
     init {
-        minWidth = GameConfig.edit_grid_width.toDouble()
-        minHeight = GameConfig.edit_grid_width.toDouble()
         this.model = model
-        imageView.fitWidthProperty().bind(widthProperty().add(-6))
-        imageView.fitHeightProperty().bind(heightProperty().add(-6))
+        //set size of grid
+        val size = GameConfig.edit_grid_width.toDouble()
+        minWidth = size
+        minHeight = size
+        maxWidth = size
+        maxHeight = size
+        // set size of image
+        imageView.fitWidthProperty().bind(widthProperty().add(-4))
+        imageView.fitHeightProperty().bind(heightProperty().add(-4))
         children.add(imageView)
         setOnDragOver { event -> event.acceptTransferModes(TransferMode.MOVE, TransferMode.LINK, TransferMode.COPY);event.consume() }
         setOnDragDropped { event -> dragDropped(event) }
