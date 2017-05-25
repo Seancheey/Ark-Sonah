@@ -1,13 +1,12 @@
 package com.seancheey.gui
 
+import com.seancheey.game.GameConfig
 import com.seancheey.game.Model
 import com.seancheey.game.Models
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.image.ImageView
-import javafx.scene.input.ClipboardContent
-import javafx.scene.input.MouseEvent
-import javafx.scene.input.TransferMode
+import javafx.scene.input.*
 import javafx.scene.layout.BorderPane
 import javafx.scene.layout.FlowPane
 import javafx.scene.layout.StackPane
@@ -33,13 +32,25 @@ class BotEdit : Initializable {
     var holding: Model? = null
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
-        // add components to flowPane
+        initModelFlowPanes()
+        initEditPane()
+    }
+
+    private fun initModelFlowPanes(): Unit {
         for (component in Models.blocks) {
             blocksFlowPane!!.children.add(ModelSlot(component, this))
         }
-        for (i in 1..7*7) {
+    }
+
+    private fun initEditPane(): Unit {
+        val size = GameConfig.edit_grid_num * GameConfig.edit_grid_width + GameConfig.edit_grid_width - 1
+        editPane!!.minWidth = size.toDouble()
+        editPane!!.maxWidth = size.toDouble()
+        // add grid to edit pane
+        for (i in 1..GameConfig.edit_grid_num * GameConfig.edit_grid_num) {
             editPane!!.children.add(ComponentGrid(this))
         }
+
     }
 }
 
@@ -52,18 +63,24 @@ class ComponentGrid(val editController: BotEdit, model: Model? = null) : StackPa
         }
 
     init {
-        width = 52.0
-        height = 52.0
+        minWidth = GameConfig.edit_grid_width.toDouble()
+        minHeight = GameConfig.edit_grid_width.toDouble()
         this.model = model
-        setOnDragOver { event -> event.acceptTransferModes(TransferMode.MOVE, TransferMode.LINK, TransferMode.COPY);event.consume() }
-        setOnDragDropped {event -> imageView.image = editController.holding?.image; event.isDropCompleted = true; event.consume()}
-        imageView.fitHeight = 50.0
-        imageView.fitWidth = 50.0
-
+        imageView.fitWidthProperty().bind(widthProperty().add(-6))
+        imageView.fitHeightProperty().bind(heightProperty().add(-6))
         children.add(imageView)
-
+        setOnDragOver { event -> event.acceptTransferModes(TransferMode.MOVE, TransferMode.LINK, TransferMode.COPY);event.consume() }
+        setOnDragDropped { event -> dragDropped(event) }
     }
 
+    fun dragDropped(event: DragEvent): Unit {
+        if (event.dragboard.hasContent(modelFormat)) {
+            model = event.dragboard.getContent(modelFormat) as Model
+            event.isDropCompleted = true
+            editController.holding = null
+            event.consume()
+        }
+    }
 }
 
 class ModelSlot(val componentModel: Model, val editController: BotEdit) : ImageView(componentModel.imageURL) {
@@ -84,9 +101,12 @@ class ModelSlot(val componentModel: Model, val editController: BotEdit) : ImageV
     fun dragBegin(event: MouseEvent): Unit {
         val db = startDragAndDrop(TransferMode.COPY, TransferMode.LINK, TransferMode.MOVE)
         val clipboard = ClipboardContent()
-        clipboard.putImage(editController.holding?.image)
+        clipboard.put(modelFormat, editController.holding)
         db.setContent(clipboard)
+
         db.dragView = editController.holding?.image
         event.consume()
     }
 }
+
+object modelFormat : DataFormat("object/model")

@@ -31,7 +31,10 @@ public class MainController extends Application {
     public void login() throws Exception {
         System.out.println(username.getText() + "\n" + password.getText());
         Parent root = FXMLLoader.load(getClass().getResource("bot_edit.fxml"));
-        PrimaryStage.setScene(new Scene(root, 800, 600));
+        PrimaryStage.setScene(new Scene(root, 1080, 670));
+        PrimaryStage.hide();
+        PrimaryStage.show();
+        PrimaryStage.setFullScreen(true);
     }
 
     public void register() {
