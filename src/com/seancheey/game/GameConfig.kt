@@ -5,6 +5,6 @@ package com.seancheey.game
  * GitHub: https://github.com/Seancheey
  */
 object GameConfig {
-    val edit_grid_num = 12
-    val edit_grid_width = 25
+    val edit_grid_num = 20
+    val edit_grid_width = 20
 }
