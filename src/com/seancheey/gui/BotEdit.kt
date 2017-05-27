@@ -5,6 +5,7 @@ import com.seancheey.game.Model
 import com.seancheey.game.Models
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
+import javafx.scene.Node
 import javafx.scene.control.TextField
 import javafx.scene.image.ImageView
 import javafx.scene.input.*
@@ -20,6 +21,13 @@ import java.util.*
  * GitHub: https://github.com/Seancheey
  */
 
+object modelFormat : DataFormat("object/model")
+
+private var editController: BotEdit? = null
+
+private val gridWidth: Double = GameConfig.edit_grid_width.toDouble()
+private val gridNum: Int = GameConfig.edit_grid_num
+
 class BotEdit : Initializable {
     @FXML
     var borderPane: BorderPane? = null
@@ -32,7 +40,9 @@ class BotEdit : Initializable {
     @FXML
     var nameField: TextField? = null
 
-    var holding: Model? = null
+    init {
+        editController = this
+    }
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         initModelFlowPanes()
@@ -41,89 +51,139 @@ class BotEdit : Initializable {
 
     private fun initModelFlowPanes(): Unit {
         for (component in Models.blocks) {
-            blocksFlowPane!!.children.add(ModelSlot(component, this))
+            blocksFlowPane!!.children.add(ModelSlot(component))
         }
     }
 
     private fun initEditPane(): Unit {
-        val width = GameConfig.edit_grid_width.toDouble()
-        val num = GameConfig.edit_grid_num
-        val size = num * width
+        val size = gridNum * gridWidth
         editPane!!.minWidth = size
         editPane!!.maxWidth = size
         // add grid to edit pane
         val grids = arrayListOf<ComponentGrid>()
-        for (y in 0..num - 1) {
-            for (x in 0..num - 1) {
-                val grid = ComponentGrid(this, x, y)
-                AnchorPane.setTopAnchor(grid, width * y)
-                AnchorPane.setLeftAnchor(grid, width * x)
+        for (y in 0..gridNum - 1) {
+            for (x in 0..gridNum - 1) {
+                val grid = ComponentGrid(x, y)
+                AnchorPane.setTopAnchor(grid, gridWidth * y)
+                AnchorPane.setLeftAnchor(grid, gridWidth * x)
                 grids.add(grid)
             }
         }
         editPane!!.children.addAll(grids)
         nameField!!.setMaxSize(size, size)
     }
+
+    fun putComponent(model: Model, x: Int, y: Int): Unit {
+        putComponentView(model, x, y)
+        switchComponentGridInRange(x, y, model.width, model.height, false)
+    }
+
+    fun switchComponentGridInRange(x: Int, y: Int, width: Int, height: Int, value: Boolean) {
+        for (y2 in y..y + height - 1) {
+            for (x2 in x..x + width - 1) {
+                val compGrid = getComponentGridAt(x2, y2)
+                if (compGrid != null) {
+                    compGrid.enabled = value
+                }
+            }
+        }
+    }
+
+    private fun putComponentView(model: Model, x: Int, y: Int) {
+        val componentView = ComponentView(model, x, y)
+        AnchorPane.setLeftAnchor(componentView, x * gridWidth)
+        AnchorPane.setTopAnchor(componentView, y * gridWidth)
+        editPane!!.children.add(componentView)
+    }
+
+    private fun getComponentGridAt(x: Int, y: Int): ComponentGrid? {
+        if (x < gridWidth || y < gridWidth) {
+            for (node in editPane!!.children) {
+                if (node is ComponentGrid) {
+                    if (node.x == x && node.y == y) {
+                        return node
+                    }
+                }
+            }
+        }
+        return null
+    }
 }
 
-class ComponentGrid(val editController: BotEdit, val x: Int, val y: Int, model: Model? = null) : StackPane() {
-    var imageView: ImageView = ImageView()
-    var model: Model? = null
-        set(value) {
-            field = value
-            imageView.image = value?.image
+class ComponentView(val model: Model, val x: Int, val y: Int) : ImageView(model.image) {
+    init {
+        fitWidth = GameConfig.edit_grid_width * model.width.toDouble()
+        fitHeight = GameConfig.edit_grid_width * model.height.toDouble()
+        setOnDragDetected { event ->
+            dragComponentStart(model, this, event)
+            editController!!.editPane!!.children.remove(this)
+            editController!!.switchComponentGridInRange(x, y, model.width, model.height, true)
         }
+    }
+}
+
+class ComponentGrid(val x: Int, val y: Int, model: Model? = null) : StackPane() {
+
+    var model: Model? = null
+    var enabled = true
 
     init {
         this.model = model
-        //set size of grid
-        val size = GameConfig.edit_grid_width.toDouble()
-        minWidth = size
-        minHeight = size
-        maxWidth = size
-        maxHeight = size
-        // set size of image
-        imageView.fitWidthProperty().bind(widthProperty().add(-4))
-        imageView.fitHeightProperty().bind(heightProperty().add(-4))
-        children.add(imageView)
-        setOnDragOver { event -> event.acceptTransferModes(TransferMode.MOVE, TransferMode.LINK, TransferMode.COPY);event.consume() }
-        setOnDragDropped { event -> dragDropped(event) }
-    }
 
-    fun dragDropped(event: DragEvent): Unit {
-        if (event.dragboard.hasContent(modelFormat)) {
-            model = event.dragboard.getContent(modelFormat) as Model
-            event.isDropCompleted = true
-            editController.holding = null
-            event.consume()
+        minWidth = gridWidth
+        minHeight = gridWidth
+        maxWidth = gridWidth
+        maxHeight = gridWidth
+
+        setOnDragOver {
+            event ->
+            if (enabled) {
+                event.acceptTransferModes(TransferMode.MOVE, TransferMode.LINK, TransferMode.COPY)
+                event.consume()
+            }
         }
+        setOnDragDropped { event ->
+            if (enabled) dragComponentEnd(x, y, event)
+        }
+
     }
 }
 
-class ModelSlot(val componentModel: Model, val editController: BotEdit) : ImageView(componentModel.imageURL) {
+class ModelSlot(val componentModel: Model) : ImageView(componentModel.imageURL) {
 
     init {
         id = "model_slot"
-        setOnMousePressed { editController.holding = componentModel }
         if (image.height > 50 || image.width > 50) {
             fitWidth = 50.0
             fitHeight = 50.0
         }
         // bind mouse location to hoverView
         setOnDragDetected { event ->
-            dragBegin(event)
+            dragComponentStart(componentModel, this, event)
         }
     }
+}
 
-    fun dragBegin(event: MouseEvent): Unit {
-        val db = startDragAndDrop(TransferMode.COPY, TransferMode.LINK, TransferMode.MOVE)
-        val clipboard = ClipboardContent()
-        clipboard.put(modelFormat, editController.holding)
-        db.setContent(clipboard)
+fun dragComponentStart(model: Model, node: Node, event: MouseEvent): Unit {
+    // start drag with any transfer mode
+    val db = node.startDragAndDrop(TransferMode.COPY, TransferMode.LINK, TransferMode.MOVE)
+    // put the model into clipboard
+    val clipboard = ClipboardContent()
+    clipboard.put(modelFormat, model)
+    db.setContent(clipboard)
+    // set mouse holding image
+    db.dragView = model.image
+    event.consume()
+}
 
-        db.dragView = editController.holding?.image
+fun dragComponentEnd(x: Int, y: Int, event: DragEvent) {
+    if (event.dragboard.hasContent(modelFormat)) {
+        val model = event.dragboard.getContent(modelFormat) as Model
+
+        editController!!.putComponent(model, x, y)
+
+        event.isDropCompleted = true
         event.consume()
     }
 }
 
-object modelFormat : DataFormat("object/model")
