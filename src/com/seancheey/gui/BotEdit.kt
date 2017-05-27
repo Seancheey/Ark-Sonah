@@ -11,8 +11,8 @@ import javafx.scene.image.ImageView
 import javafx.scene.input.*
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.BorderPane
-import javafx.scene.layout.FlowPane
 import javafx.scene.layout.StackPane
+import javafx.scene.layout.TilePane
 import java.net.URL
 import java.util.*
 
@@ -42,9 +42,9 @@ class BotEdit : Initializable {
     @FXML
     var borderPane: BorderPane? = null
     @FXML
-    var blocksFlowPane: FlowPane? = null
+    var blocksPane: TilePane? = null
     @FXML
-    var weaponsFlowPane: FlowPane? = null
+    var weaponsPane: TilePane? = null
     @FXML
     var editPane: AnchorPane? = null
     @FXML
@@ -61,7 +61,7 @@ class BotEdit : Initializable {
 
     private fun initModelFlowPanes(): Unit {
         for (component in Models.blocks) {
-            blocksFlowPane!!.children.add(ModelSlot(component))
+            blocksPane!!.children.add(ModelSlot(component))
         }
     }
 
