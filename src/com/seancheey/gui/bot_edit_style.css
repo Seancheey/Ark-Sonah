@@ -2,10 +2,3 @@
     -fx-border-width: 1;
     -fx-border-color: lightgray;
 }
-
-.button {
-    -fx-border-width: 2;
-    -fx-border-color: antiquewhite;
-    -fx-background-color: azure;
-    -fx-font-size: 15pt;
-}
