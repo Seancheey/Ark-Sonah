@@ -1,8 +1,6 @@
 package com.seancheey.gui
 
-import com.seancheey.game.GameConfig
-import com.seancheey.game.Model
-import com.seancheey.game.Models
+import com.seancheey.game.*
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.Node
@@ -71,8 +69,8 @@ class BotEdit : Initializable {
         editPane!!.maxWidth = size
         // add grid to edit pane
         val grids = arrayListOf<ComponentGrid>()
-        for (y in 0..gridNum - 1) {
-            for (x in 0..gridNum - 1) {
+        for (y in 0 until gridNum) {
+            for (x in 0 until gridNum) {
                 val grid = ComponentGrid(x, y)
                 AnchorPane.setTopAnchor(grid, gridWidth * y)
                 AnchorPane.setLeftAnchor(grid, gridWidth * x)
@@ -83,14 +81,27 @@ class BotEdit : Initializable {
         nameField!!.setMaxSize(size, size)
     }
 
+    fun getRobot(): Robot {
+        return Robot(nameField!!.text, getComponents())
+    }
+
+    private fun getComponents(): List<Component<Model>> {
+        val components = arrayListOf<Component<Model>>()
+        for (node in editPane!!.children) {
+            if (node is ComponentView)
+                components.add(node.toComponent())
+        }
+        return components
+    }
+
     fun putComponent(model: Model, x: Int, y: Int): Unit {
         putComponentView(model, x, y)
         switchComponentGridInRange(x, y, model.width, model.height, false)
     }
 
     fun switchComponentGridInRange(x: Int, y: Int, width: Int, height: Int, value: Boolean) {
-        for (y2 in y..y + height - 1) {
-            for (x2 in x..x + width - 1) {
+        for (y2 in y until y + height) {
+            for (x2 in x until x + width) {
                 val compGrid = getComponentGridAt(x2, y2)
                 if (compGrid != null) {
                     compGrid.enabled = value
@@ -133,6 +144,10 @@ class ComponentView(val model: Model, val x: Int, val y: Int) : ImageView(model.
             editController!!.editPane!!.children.remove(this)
             editController!!.switchComponentGridInRange(x, y, model.width, model.height, true)
         }
+    }
+
+    fun toComponent(): Component<Model> {
+        return Component(model, x, y, null)
     }
 }
 
