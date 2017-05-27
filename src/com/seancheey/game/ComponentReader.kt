@@ -17,12 +17,14 @@ class ComponentReader<out T>(path: String) {
         content = File(path).readLines()
     }
 
-    private fun toComponent(type: String, line: String): T {
+    private fun toComponent(type: String, line: String): T? {
         val args = line.split(" ")
         args[0].replace('_', ' ')
+        if (args.size < 5)
+            return null
         when (type) {
             "Block", "block", "Model", "model" ->
-                return ModelFactory.createModel(args) as T
+                return ModelFactory.createModel(args) as? T
             else ->
                 throw Exception("Unknow exception called: $type")
         }
@@ -31,8 +33,11 @@ class ComponentReader<out T>(path: String) {
     fun readAll(): List<T> {
         val array: ArrayList<T> = arrayListOf()
         val type = content[0]
-        for ((i, line) in content.slice(1..content.size - 1).withIndex()) {
-            array.add(toComponent(type, line))
+        // go through all lines except first one
+        for (line in content.slice(1..content.size - 1)) {
+            val c = toComponent(type, line)
+            if (c != null)
+                array.add(c)
         }
         return array.toList()
     }

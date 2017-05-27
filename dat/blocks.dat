@@ -1,8 +1,8 @@
 Block
-Cube file:dat/cube.png 10 10 10 10
-Block file:dat/test1.png 10 10 10 10
-Block file:dat/test2.png 10 10 10 10
-Block file:dat/test3.png 10 10 10 10
-Block file:dat/test4.png 10 10 10 10
-Block file:dat/test5.png 10 10 10 10
-Block file:dat/test6.png 10 10 10 10
+Cube file:dat/cube.png 1 1 1 1
+Block file:dat/test1.png 1 1 2 1
+Block file:dat/test2.png 1 1 2 2
+Block file:dat/test3.png 1 1 2 2
+Block file:dat/test4.png 1 1 2 1
+Block file:dat/test5.png 1 1 1 2
+Block file:dat/test6.png 1 1 2 2
