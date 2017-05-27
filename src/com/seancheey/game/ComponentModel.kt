@@ -9,7 +9,7 @@ import java.io.Serializable
  * GitHub: https://github.com/Seancheey
  */
 
-open class Model(val name: String, imageURL: String, var health: Int, var weight: Int, var width: Int, var height: Int) : Serializable {
+open class ComponentModel(val name: String, imageURL: String, var health: Int, var weight: Int, var width: Int, var height: Int) : Serializable {
     @Transient
     var image: Image
         get() {
@@ -40,7 +40,7 @@ open class Model(val name: String, imageURL: String, var health: Int, var weight
     constructor() : this("Default", "file:dat/cube.png", 10, 10, 10, 10)
 
     override fun toString(): String {
-        return "Model(" +
+        return "ComponentModel(" +
                 "name='$name'," +
                 "health=$health," +
                 "weight=$weight," +

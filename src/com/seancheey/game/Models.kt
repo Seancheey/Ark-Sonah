@@ -5,5 +5,5 @@ package com.seancheey.game
  * GitHub: https://github.com/Seancheey
  */
 object Models {
-    val blocks: List<Model> = ComponentReader<Model>("dat/blocks.dat").readAll()
+    val BLOCKS: List<ComponentModel> = ComponentReader<ComponentModel>("dat/BLOCKS.dat").readAll()
 }

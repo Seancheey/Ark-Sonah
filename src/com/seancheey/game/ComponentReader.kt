@@ -23,7 +23,7 @@ class ComponentReader<out T>(path: String) {
         if (args.size < 5)
             return null
         when (type) {
-            "Block", "block", "Model", "model" ->
+            "Block", "block", "ComponentModel", "componentModel" ->
                 return ModelFactory.createModel(args) as? T
             else ->
                 throw Exception("Unknow exception called: $type")

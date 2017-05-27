@@ -8,9 +8,9 @@ package com.seancheey.game
 object ModelFactory {
     private val modelParamNum = 6
 
-    fun createModel(args: List<String>): Model {
+    fun createModel(args: List<String>): ComponentModel {
         if (args.size == modelParamNum) {
-            return Model(args[0], args[1], args[2].toInt(), args[3].toInt(), args[4].toInt(), args[5].toInt())
+            return ComponentModel(args[0], args[1], args[2].toInt(), args[3].toInt(), args[4].toInt(), args[5].toInt())
         } else {
             throw Exception("Argument number required is different from received\nRequired: $modelParamNum, Received: ${args.size}")
         }

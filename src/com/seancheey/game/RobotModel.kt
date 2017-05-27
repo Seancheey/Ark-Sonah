@@ -5,4 +5,4 @@ package com.seancheey.game
  * GitHub: https://github.com/Seancheey
  */
 
-class Robot(var name: String, var components: List<Component<Model>>)
+data class RobotModel(var name: String, var components: List<Component<ComponentModel>>)
