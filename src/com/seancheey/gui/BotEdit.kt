@@ -210,8 +210,11 @@ fun dragComponentStart(componentModel: ComponentModel, node: Node, event: MouseE
     val clipboard = ClipboardContent()
     clipboard.put(modelFormat, componentModel)
     db.setContent(clipboard)
-    // set mouse holding image
+    // set mouse holding image and offsets
     db.dragView = componentModel.image
+    db.dragViewOffsetX = (componentModel.width - 1) * componentModel.image.width / componentModel.width / 2
+    db.dragViewOffsetY = -(componentModel.height - 1) * componentModel.image.height / componentModel.height / 2
+
     event.consume()
 }
 
