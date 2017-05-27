@@ -176,10 +176,11 @@ class ModelSlot(val componentModel: Model) : ImageView(componentModel.imageURL) 
 
     init {
         id = "model_slot"
-        if (image.height > 50 || image.width > 50) {
-            fitWidth = 50.0
-            fitHeight = 50.0
-        }
+        val ratio = gridWidth / if (fitWidth > fitHeight) fitWidth else fitHeight
+        fitWidth = if (fitWidth > fitHeight) gridWidth else fitWidth * ratio
+        fitHeight = if (fitWidth < fitHeight) gridWidth else fitHeight * ratio
+        prefWidth(fitWidth)
+        prefHeight(fitHeight)
         // bind mouse location to hoverView
         setOnDragDetected { event ->
             dragComponentStart(componentModel, this, event)
@@ -209,4 +210,3 @@ fun dragComponentEnd(x: Int, y: Int, event: DragEvent) {
         event.consume()
     }
 }
-
