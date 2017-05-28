@@ -154,10 +154,10 @@ class BotEdit : Initializable {
 
     fun putComponent(componentModel: ComponentModel, x: Int, y: Int): Unit {
         putComponentView(componentModel, x, y)
-        switchComponentGridInRange(x, y, componentModel.width, componentModel.height, false)
+        setGridsInRangeIsEnabled(x, y, componentModel.width, componentModel.height, false)
     }
 
-    fun switchComponentGridInRange(x: Int, y: Int, width: Int, height: Int, value: Boolean) {
+    fun setGridsInRangeIsEnabled(x: Int, y: Int, width: Int, height: Int, value: Boolean) {
         for (y2 in y until y + height) {
             for (x2 in x until x + width) {
                 val compGrid = getComponentGridAt(x2, y2)
@@ -195,12 +195,10 @@ class BotEdit : Initializable {
  */
 class ComponentView(val componentModel: ComponentModel, val x: Int, val y: Int) : ImageView(componentModel.image) {
     init {
-        fitWidth = Config.botGridWidth * componentModel.width.toDouble()
-        fitHeight = Config.botGridWidth * componentModel.height.toDouble()
         setOnDragDetected { event ->
             dragComponentStart(componentModel, this, event)
             editController!!.editPane!!.children.remove(this)
-            editController!!.switchComponentGridInRange(x, y, componentModel.width, componentModel.height, true)
+            editController!!.setGridsInRangeIsEnabled(x, y, componentModel.width, componentModel.height, true)
         }
     }
 
@@ -236,7 +234,6 @@ class ComponentGrid(val x: Int, val y: Int, componentModel: ComponentModel? = nu
         setOnDragDropped { event ->
             if (enabled) dragComponentEnd(x, y, event)
         }
-
     }
 }
 
@@ -245,15 +242,9 @@ class ComponentGrid(val x: Int, val y: Int, componentModel: ComponentModel? = nu
  * It is created when BotEdit pane is initialized
  * ComponentModel slots are initialized according to data files
  */
-class ComponentModelSlot(val componentModel: ComponentModel) : ImageView(componentModel.imageURL) {
+class ComponentModelSlot(val componentModel: ComponentModel) : ImageView(componentModel.image) {
 
     init {
-        id = "model_slot"
-        val ratio = gridWidth / if (fitWidth > fitHeight) fitWidth else fitHeight
-        fitWidth = if (fitWidth > fitHeight) gridWidth else fitWidth * ratio
-        fitHeight = if (fitWidth < fitHeight) gridWidth else fitHeight * ratio
-        prefWidth(fitWidth)
-        prefHeight(fitHeight)
         // bind mouse location to hoverView
         setOnDragDetected { event ->
             dragComponentStart(componentModel, this, event)

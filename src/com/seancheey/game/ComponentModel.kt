@@ -10,11 +10,12 @@ import java.io.Serializable
  */
 
 open class ComponentModel(val name: String, imageURL: String, var health: Int, var weight: Int, var width: Int, var height: Int) : Serializable {
+    @Suppress("SENSELESS_COMPARISON")
     @Transient
     var image: Image
         get() {
             if (field == null) {
-                field = Image(imageURL)
+                imageURL = imageURL
             }
             return field
         }
@@ -22,7 +23,7 @@ open class ComponentModel(val name: String, imageURL: String, var health: Int, v
         set(value) {
             field = value
             if (value != "") {
-                image = Image(imageURL)
+                image = Image(imageURL, width * Config.botGridWidth, height * Config.botGridWidth, false, false)
             }
         }
     var size: Dimension2D
@@ -34,20 +35,9 @@ open class ComponentModel(val name: String, imageURL: String, var health: Int, v
 
     init {
         this.imageURL = imageURL
-        image = Image(imageURL)
+        image = Image(imageURL, width * Config.botGridWidth, height * Config.botGridWidth, false, false)
     }
 
     constructor() : this("Default", "file:dat/cube.png", 10, 10, 10, 10)
-
-    override fun toString(): String {
-        return "ComponentModel(" +
-                "name='$name'," +
-                "health=$health," +
-                "weight=$weight," +
-                "width=$width," +
-                "height=$height," +
-                "imageURL='$imageURL'" +
-                ")"
-    }
 
 }
