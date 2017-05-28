@@ -13,15 +13,23 @@ import java.io.Serializable
  * Designed as an immutable class as robot model
  */
 data class RobotModel(var name: String, val components: List<Component<ComponentModel>>) : Serializable {
+    @Suppress("SENSELESS_COMPARISON")
     val image: Image
 
     init {
         image = updateImage()
     }
 
+    constructor() : this("", arrayListOf())
+
 
     private fun updateImage(): Image {
+        if (components.isEmpty()) {
+            println("no bot!")
+            return Image("file:dat/norobot.png")
+        }
         val writeImage = WritableImage(Config.botPixelSize.toInt(), Config.botPixelSize.toInt())
+
         val writer = writeImage.pixelWriter
         for (comp in components.map { component -> component }) {
             val compImage = comp.image

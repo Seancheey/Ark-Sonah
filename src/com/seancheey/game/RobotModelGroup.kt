@@ -21,16 +21,24 @@ data class RobotModelGroup(var robotModels: List<RobotModel>) : Serializable, It
             }
             throw NoSuchElementException()
         }
+    }
 
+    init {
+        if (robotModels.size < Config.botGroupNum) {
+            val botlist = arrayListOf<RobotModel>()
+            for (model in robotModels) {
+                botlist.add(model)
+            }
+            while (botlist.size < Config.botGroupNum) {
+                botlist.add(RobotModel())
+            }
+            robotModels = botlist.toList()
+        } else if (robotModels.size > Config.botGroupNum) {
+            robotModels = robotModels.slice(0 until Config.botGroupNum)
+        }
     }
 
     override fun iterator(): Iterator<RobotModel> {
         return RobotModelIterator(robotModels)
-    }
-
-    init {
-        if (robotModels.size > Config.botGroupNum) {
-            robotModels = robotModels.slice(0 until Config.botGroupNum)
-        }
     }
 }
