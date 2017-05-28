@@ -1,4 +1,5 @@
-#editPane * {
+#editPane *, #botGroupBox *, #botGroupBox {
     -fx-border-width: 1;
     -fx-border-color: lightgray;
 }
+

@@ -8,7 +8,7 @@ import javafx.scene.control.TextField
 import javafx.scene.image.ImageView
 import javafx.scene.input.*
 import javafx.scene.layout.AnchorPane
-import javafx.scene.layout.BorderPane
+import javafx.scene.layout.HBox
 import javafx.scene.layout.StackPane
 import javafx.scene.layout.TilePane
 import java.net.URL
@@ -26,10 +26,10 @@ object modelFormat : DataFormat("object/componentModel")
 private var editController: BotEdit? = null
 
 /** for quick reference to game settings **/
-private val gridWidth: Double = GameConfig.edit_grid_width.toDouble()
+private val gridWidth: Double = Config.botGridWidth
 
 /** for quick reference to game settings **/
-private val gridNum: Int = GameConfig.edit_grid_num
+private val gridNum: Int = Config.botGridNum
 
 
 /**
@@ -37,33 +37,48 @@ private val gridNum: Int = GameConfig.edit_grid_num
  * One should not create any new instance of this class
  */
 class BotEdit : Initializable {
-    @FXML
-    var borderPane: BorderPane? = null
+    /**
+     * Component panes for player to select component models
+     */
     @FXML
     var blocksPane: TilePane? = null
     @FXML
     var weaponsPane: TilePane? = null
+    /**
+     * Pane for player to edit their ships
+     */
     @FXML
     var editPane: AnchorPane? = null
+    /**
+     * TextField of robot name
+     */
     @FXML
     var nameField: TextField? = null
+    /**
+     * Robot selection HBox
+     */
+    @FXML
+    var botGroupBox: HBox? = null
 
     init {
-        editController = this
+        // make editController a singleton
+        if (editController == null)
+            editController = this
     }
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         initModelFlowPanes()
         initEditPane()
+        initBotGroup()
     }
 
-    private fun initModelFlowPanes(): Unit {
+    private fun initModelFlowPanes() {
         for (component in Models.BLOCKS) {
-            blocksPane!!.children.add(ModelSlot(component))
+            blocksPane!!.children.add(ComponentModelSlot(component))
         }
     }
 
-    private fun initEditPane(): Unit {
+    private fun initEditPane() {
         val size = gridNum * gridWidth
         editPane!!.minWidth = size
         editPane!!.maxWidth = size
@@ -79,6 +94,49 @@ class BotEdit : Initializable {
         }
         editPane!!.children.addAll(grids)
         nameField!!.setMaxSize(size, size)
+    }
+
+    private fun initBotGroup() {
+        val models = Config.player.robots[0].robotModels
+        for (i in 0 until Config.botGroupNum) {
+            if (i < models.size) {
+                val botModelSlot = RobotModelSlot(models[i])
+                botModelSlot.setOnMouseClicked {
+                    setEditingRobot(models[i])
+                }
+                botGroupBox!!.children.add(botModelSlot)
+            } else {
+                botGroupBox!!.children.add(RobotModelSlot(null))
+            }
+        }
+    }
+
+    fun setEditingRobot(robotModel: RobotModel?) {
+        // change nameField
+        editController!!.nameField!!.text = robotModel?.name
+        // change components on grid
+        editController!!.clearComponents()
+        if (robotModel != null) {
+            for (comp in robotModel.components) {
+                editController!!.putComponent(comp.model, comp.x, comp.y)
+            }
+        }
+    }
+
+    fun saveRobot() {
+        //TODO save robot
+    }
+
+    fun clearComponents() {
+        val toDelete = arrayListOf<ComponentView>()
+        for (node in editPane!!.children) {
+            if (node is ComponentView) {
+                toDelete.add(node)
+            }
+        }
+        for (view in toDelete) {
+            editPane!!.children.remove(view)
+        }
     }
 
     fun getRobotModel(): RobotModel {
@@ -133,12 +191,12 @@ class BotEdit : Initializable {
 
 /**
  * A component of a robot
- * It is created when a player drags component componentModel from a ModelSlot to any grid
+ * It is created when a player drags component componentModel from a ComponentModelSlot to any grid
  */
 class ComponentView(val componentModel: ComponentModel, val x: Int, val y: Int) : ImageView(componentModel.image) {
     init {
-        fitWidth = GameConfig.edit_grid_width * componentModel.width.toDouble()
-        fitHeight = GameConfig.edit_grid_width * componentModel.height.toDouble()
+        fitWidth = Config.botGridWidth * componentModel.width.toDouble()
+        fitHeight = Config.botGridWidth * componentModel.height.toDouble()
         setOnDragDetected { event ->
             dragComponentStart(componentModel, this, event)
             editController!!.editPane!!.children.remove(this)
@@ -187,7 +245,7 @@ class ComponentGrid(val x: Int, val y: Int, componentModel: ComponentModel? = nu
  * It is created when BotEdit pane is initialized
  * ComponentModel slots are initialized according to data files
  */
-class ModelSlot(val componentModel: ComponentModel) : ImageView(componentModel.imageURL) {
+class ComponentModelSlot(val componentModel: ComponentModel) : ImageView(componentModel.imageURL) {
 
     init {
         id = "model_slot"

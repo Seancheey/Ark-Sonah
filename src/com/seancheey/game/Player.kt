@@ -8,5 +8,5 @@ import java.io.Serializable
  */
 
 data class Player(val id: Long, var name: String, val robots: ArrayList<RobotModelGroup>) : Serializable {
-    constructor(id: Long, name: String) : this(id, name, arrayListOf())
+    constructor(id: Long, name: String) : this(id, name, arrayListOf(RobotModelGroup(arrayListOf())))
 }

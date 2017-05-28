@@ -10,6 +10,8 @@ object Config {
     val botPixelSize
         get() = botGridNum * botGridWidth
     val botGroupNum = 8
+    val botWidth
+        get() = botGridWidth * 5
     var player: Player = Player(0L, "guest")
         set(value) {
             if (player.name == "guest") field = value
