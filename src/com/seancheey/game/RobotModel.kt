@@ -25,7 +25,6 @@ data class RobotModel(var name: String, val components: List<Component<Component
 
     private fun updateImage(): Image {
         if (components.isEmpty()) {
-            println("no bot!")
             return Image("file:dat/norobot.png")
         }
         val writeImage = WritableImage(Config.botPixelSize.toInt(), Config.botPixelSize.toInt())

@@ -60,6 +60,14 @@ class BotEdit : Initializable {
     @FXML
     var botGroupBox: HBox? = null
 
+    /**
+     * Index of player's selected index of bot group and model
+     */
+    var selectBotGroupIndex: Int = 0
+    var selectBotModelIndex: Int = 0
+    val editingRobot: RobotModel
+        get() = Config.player.robots[selectBotGroupIndex][selectBotModelIndex]
+
     init {
         // make editController a singleton
         if (editController == null)
@@ -97,28 +105,30 @@ class BotEdit : Initializable {
     }
 
     private fun initBotGroup() {
-        val models = Config.player.robots[0].robotModels
-        for (model in models) {
+        // select player's first BotGroup to initialize
+        val models = Config.player.robots[0]
+        for ((i, model) in models.withIndex()) {
             val robotModelSlot = RobotModelSlot(model)
-            robotModelSlot.setOnMouseClicked { setEditingRobot(model) }
+            robotModelSlot.setOnMouseClicked { setEditingRobot(i) }
             botGroupBox!!.children.add(robotModelSlot)
         }
     }
 
-    fun setEditingRobot(robotModel: RobotModel?) {
+    fun setEditingRobot(index: Int) {
+        selectBotModelIndex = index
         // change nameField
-        editController!!.nameField!!.text = robotModel?.name
+        editController!!.nameField!!.text = editingRobot.name
         // change components on grid
         editController!!.clearComponents()
-        if (robotModel != null) {
-            for (comp in robotModel.components) {
-                editController!!.putComponent(comp.model, comp.x, comp.y)
-            }
+        for ((model, x, y) in editingRobot.components) {
+            editController!!.putComponent(model, x, y)
         }
     }
 
     fun saveRobot() {
-        //TODO save robot
+        Config.player.robots[selectBotGroupIndex][selectBotModelIndex] = getRobotModel()
+        botGroupBox!!.children.clear()
+        initBotGroup()
     }
 
     fun clearComponents() {
