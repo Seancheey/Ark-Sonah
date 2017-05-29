@@ -2,4 +2,4 @@ out/
 .idea
 *.png
 .DS_Store
-.object
+*.object
