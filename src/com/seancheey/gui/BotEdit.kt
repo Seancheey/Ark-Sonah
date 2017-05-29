@@ -123,6 +123,7 @@ class BotEdit : Initializable {
         for ((model, x, y) in editingRobot.components) {
             editController!!.putComponent(model, x, y)
         }
+        setGridsInRangeIsEnabled(0, 0, Config.botGridNum, Config.botGridNum, true)
     }
 
     fun saveRobot() {
@@ -132,14 +133,9 @@ class BotEdit : Initializable {
     }
 
     fun clearComponents() {
-        val toDelete = arrayListOf<ComponentView>()
-        for (node in editPane!!.children) {
-            if (node is ComponentView) {
-                toDelete.add(node)
-            }
-        }
+        val toDelete = editPane!!.children.filterIsInstance<ComponentView>()
         for (view in toDelete) {
-            editPane!!.children.remove(view)
+            removeComponent(view)
         }
     }
 
@@ -156,9 +152,19 @@ class BotEdit : Initializable {
         return components
     }
 
-    fun putComponent(componentModel: ComponentModel, x: Int, y: Int): Unit {
+    fun putComponent(componentModel: ComponentModel, x: Int, y: Int) {
         putComponentView(componentModel, x, y)
         setGridsInRangeIsEnabled(x, y, componentModel.width, componentModel.height, false)
+    }
+
+    fun removeComponent(componentView: ComponentView): Boolean {
+        if (editPane!!.children.contains(componentView)) {
+            setGridsInRangeIsEnabled(componentView.x, componentView.y, componentView.componentModel.width, componentView.componentModel.height, true)
+            editPane!!.children.remove(componentView)
+            return true
+        } else {
+            return false
+        }
     }
 
     fun setGridsInRangeIsEnabled(x: Int, y: Int, width: Int, height: Int, value: Boolean) {
@@ -201,8 +207,7 @@ class ComponentView(val componentModel: ComponentModel, val x: Int, val y: Int) 
     init {
         setOnDragDetected { event ->
             dragComponentStart(componentModel, this, event)
-            editController!!.editPane!!.children.remove(this)
-            editController!!.setGridsInRangeIsEnabled(x, y, componentModel.width, componentModel.height, true)
+            editController!!.removeComponent(this)
         }
     }
 
