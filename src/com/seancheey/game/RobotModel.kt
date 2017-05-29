@@ -12,7 +12,7 @@ import java.io.Serializable
 /**
  * Designed as an immutable class as robot model
  */
-data class RobotModel(var name: String, val components: List<Component<ComponentModel>>) : Serializable {
+open class RobotModel(var name: String, val components: List<Component<ComponentModel>>) : Serializable {
     @Suppress("SENSELESS_COMPARISON")
     @Transient
     val image: Image
@@ -51,4 +51,21 @@ data class RobotModel(var name: String, val components: List<Component<Component
         }
         return writeImage
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is RobotModel) return false
+
+        if (name != other.name) return false
+        if (components != other.components) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = name.hashCode()
+        result = 31 * result + components.hashCode()
+        return result
+    }
+
 }
