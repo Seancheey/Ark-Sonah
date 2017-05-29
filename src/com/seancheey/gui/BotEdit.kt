@@ -123,9 +123,14 @@ class BotEdit : Initializable {
     }
 
     fun saveRobot() {
+        Config.player.saveData()
+    }
+
+    fun updateRobot() {
         Config.player.robots[selectBotGroupIndex][selectBotModelIndex] = getRobotModel()
         botGroupBox!!.children.clear()
         initBotGroup()
+
     }
 
     fun clearComponents() {
@@ -254,6 +259,7 @@ class ComponentGrid(val x: Int, val y: Int, componentModel: ComponentModel? = nu
         if (event.dragboard.hasContent(modelFormat)) {
 
             editController!!.putComponent(event.dragboard.getContent(modelFormat) as ComponentModel, x, y)
+            editController!!.updateRobot()
 
             event.isDropCompleted = true
             event.consume()

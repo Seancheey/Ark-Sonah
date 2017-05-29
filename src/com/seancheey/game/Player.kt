@@ -1,5 +1,7 @@
 package com.seancheey.game
 
+import java.io.FileOutputStream
+import java.io.ObjectOutputStream
 import java.io.Serializable
 
 /**
@@ -9,4 +11,10 @@ import java.io.Serializable
 
 data class Player(val id: Long, var name: String, val robots: ArrayList<RobotModelGroup>) : Serializable {
     constructor(id: Long, name: String) : this(id, name, arrayListOf(RobotModelGroup(arrayListOf())))
+
+    fun saveData(path: String = "dat/player.object") {
+        val fileo = FileOutputStream(path)
+        val objecto = ObjectOutputStream(fileo)
+        objecto.writeObject(this)
+    }
 }

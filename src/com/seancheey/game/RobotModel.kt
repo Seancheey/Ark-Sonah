@@ -14,7 +14,14 @@ import java.io.Serializable
  */
 data class RobotModel(var name: String, val components: List<Component<ComponentModel>>) : Serializable {
     @Suppress("SENSELESS_COMPARISON")
+    @Transient
     val image: Image
+        get() {
+            if (field == null) {
+                field = updateImage()
+            }
+            return field
+        }
 
     init {
         image = updateImage()
