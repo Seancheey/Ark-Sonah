@@ -18,7 +18,7 @@ public class MainStage extends Application {
         primaryStage.setTitle("Amao Game");
         primaryStage.setScene(new Scene(root, 800.0, 600.0));
         primaryStage.show();
-        PrimaryStage.INSTANCE.setStage(primaryStage);
+        Stages.INSTANCE.setStage(primaryStage);
     }
 
     public static void main(String args[]) {

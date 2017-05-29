@@ -7,6 +7,6 @@ import javafx.stage.Stage
  * GitHub: https://github.com/Seancheey
  */
 
-object PrimaryStage {
+object Stages {
     var stage: Stage? = null
 }

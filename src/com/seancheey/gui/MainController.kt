@@ -8,8 +8,6 @@ package com.seancheey.gui
 import com.seancheey.game.Config
 import com.seancheey.game.Player
 import javafx.fxml.FXML
-import javafx.fxml.FXMLLoader
-import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.scene.control.TextField
 
@@ -25,11 +23,10 @@ class MainController {
             // id method will be changed later
             Config.player = Player("$username/$password".hashCode().toLong(), username!!.text)
         }
-        val root: Parent = FXMLLoader.load(javaClass.getResource("bot_edit.fxml"))
-        PrimaryStage.stage!!.scene = Scene(root, 1080.0, 670.0)
-        PrimaryStage.stage!!.hide()
-        PrimaryStage.stage!!.show()
-        PrimaryStage.stage!!.isFullScreen = true
+        Stages.stage!!.scene = Scene(Scenes.bot_edit, 1080.0, 670.0)
+        Stages.stage!!.hide()
+        Stages.stage!!.show()
+        Stages.stage!!.isFullScreen = true
     }
 
     fun register() {
