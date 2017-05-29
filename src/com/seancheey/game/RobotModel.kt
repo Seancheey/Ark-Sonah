@@ -40,8 +40,8 @@ data class RobotModel(var name: String, val components: List<Component<Component
         for (comp in components.map { component -> component }) {
             val compImage = comp.image
             val reader = compImage.pixelReader
-            for (readX in 0 until compImage.height.toInt()) {
-                for (readY in 0 until compImage.width.toInt()) {
+            for (readY in 0 until compImage.height.toInt()) {
+                for (readX in 0 until compImage.width.toInt()) {
                     val color = reader.getColor(readX, readY)
                     val xPos = comp.x * Config.botGridWidth + readX / compImage.width * Config.botGridWidth * comp.width
                     val yPos = comp.y * Config.botGridWidth + readY / compImage.height * Config.botGridWidth * comp.height
