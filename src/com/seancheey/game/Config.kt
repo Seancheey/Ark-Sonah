@@ -16,4 +16,5 @@ object Config {
         set(value) {
             if (player.name == "guest") field = value
         }
+    var fullScreen = false
 }
