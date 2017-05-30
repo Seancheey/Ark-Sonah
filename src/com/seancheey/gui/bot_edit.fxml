@@ -25,7 +25,7 @@
     </right>
     <top>
         <ToolBar BorderPane.alignment="CENTER">
-            <Button mnemonicParsing="false" text="Menu"/>
+            <Button mnemonicParsing="false" onAction="#menu" text="Menu"/>
         </ToolBar>
     </top>
     <center>

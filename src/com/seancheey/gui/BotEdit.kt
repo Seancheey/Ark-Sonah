@@ -205,6 +205,10 @@ class BotEdit : Initializable {
         db.dragViewOffsetY = -(componentModel.height - 1) * componentModel.image.height / componentModel.height / 2
     }
 
+    fun menu() {
+        Stages.switchScene(Scenes.menu)
+    }
+
 
 }
 
