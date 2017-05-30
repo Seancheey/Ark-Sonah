@@ -3,12 +3,11 @@
     <typedef resource="org/jetbrains/kotlin/ant/antlib.xml" classpath="${env.KOTLIN_LIB}/kotlin-ant.jar"/>
 
     <property name="jar" value="build/BNR.jar"/>
-    <property name="mainclass" value="com.seancheey.gui.MainController"/>
+    <property name="mainclass" value="com.seancheey.gui.MainStage"/>
 
     <target name="all" depends="compile, jar, run"/>
     <target name="compile">
         <mkdir dir="bin"/>
-        <javac destdir="bin" includeAntRuntime="false" srcdir="src"/>
         <kotlinc output="bin" src="src" nowarn="true"/>
     </target>
 
