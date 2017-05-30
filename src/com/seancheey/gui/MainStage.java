@@ -15,10 +15,10 @@ public class MainStage extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("main.fxml"));
-        primaryStage.setTitle("Amao Game");
+        primaryStage.setTitle("Ark Sonah");
         primaryStage.setScene(new Scene(root, 800.0, 600.0));
         primaryStage.show();
-        Stages.INSTANCE.setStage(primaryStage);
+        Stages.INSTANCE.setPrimaryStage(primaryStage);
     }
 
     public static void main(String args[]) {

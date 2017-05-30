@@ -23,10 +23,7 @@ class MainController {
             // id method will be changed later
             Config.player = Player("$username/$password".hashCode().toLong(), username!!.text)
         }
-        Stages.stage!!.scene = Scene(Scenes.bot_edit, 1080.0, 670.0)
-        Stages.stage!!.hide()
-        Stages.stage!!.show()
-        Stages.stage!!.isFullScreen = true
+        Stages.primaryStage!!.scene = Scene(Scenes.menu, 800.0, 600.0)
     }
 
     fun register() {

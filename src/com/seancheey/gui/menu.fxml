@@ -21,7 +21,7 @@
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
             </BorderPane.margin>
             <ImageView fitHeight="108.0" fitWidth="227.0" pickOnBounds="true" preserveRatio="true">
-                <Image url="@../../../../dat/funny_tree.png"/>
+                <Image url="file:dat/funny_tree.png"/>
             </ImageView>
             <Button mnemonicParsing="false" onAction="#startGame" text="Start Game">
                 <VBox.margin>

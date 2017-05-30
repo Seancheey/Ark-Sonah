@@ -8,5 +8,5 @@ import javafx.stage.Stage
  */
 
 object Stages {
-    var stage: Stage? = null
+    var primaryStage: Stage? = null
 }
