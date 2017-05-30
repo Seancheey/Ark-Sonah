@@ -74,6 +74,7 @@ class BotEdit : Initializable {
         initModelFlowPanes()
         initEditPane()
         initBotGroup()
+        setEditingRobot(0)
     }
 
     private fun initModelFlowPanes() {
@@ -130,7 +131,6 @@ class BotEdit : Initializable {
         Config.player.robots[selectBotGroupIndex][selectBotModelIndex] = getRobotModel()
         botGroupBox!!.children.clear()
         initBotGroup()
-
     }
 
     fun clearComponents() {

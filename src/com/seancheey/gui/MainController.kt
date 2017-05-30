@@ -7,6 +7,7 @@ package com.seancheey.gui
 
 import com.seancheey.game.Config
 import com.seancheey.game.Player
+import com.seancheey.game.PlayerSavesReader
 import javafx.fxml.FXML
 import javafx.scene.Scene
 import javafx.scene.control.TextField
@@ -20,9 +21,12 @@ class MainController {
 
     fun login() {
         if (username!!.text != "") {
-            // id method will be changed later
-            Config.player = Player("$username/$password".hashCode().toLong(), username!!.text)
+            username!!.text = "guest"
         }
+        // id method will be changed later
+        val id = username!!.text.toHashSet().hashCode().toLong()
+        Config.player = PlayerSavesReader("saves/$id.object").readPlayer() ?: Player(id, username!!.text)
+
         Stages.primaryStage!!.scene = Scene(Scenes.menu, 800.0, 600.0)
     }
 

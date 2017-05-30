@@ -14,7 +14,7 @@ data class Player(val id: Long, var name: String, val robots: ArrayList<RobotMod
 
     constructor(id: Long, name: String) : this(id, name, arrayListOf(RobotModelGroup(arrayListOf())))
 
-    fun saveData(path: String = "dat/player.object") {
+    fun saveData(path: String = "saves/$id.object") {
         val fileo = FileOutputStream(path)
         val objecto = ObjectOutputStream(fileo)
         objecto.writeObject(this)
