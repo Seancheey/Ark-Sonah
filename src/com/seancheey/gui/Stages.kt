@@ -1,5 +1,7 @@
 package com.seancheey.gui
 
+import javafx.scene.Parent
+import javafx.scene.Scene
 import javafx.stage.Stage
 
 /**
@@ -9,4 +11,8 @@ import javafx.stage.Stage
 
 object Stages {
     var primaryStage: Stage? = null
+
+    fun switchScene(root: Parent, width: Double = 800.0, height: Double = 600.0) {
+        primaryStage!!.scene = Scene(root, width, height)
+    }
 }
