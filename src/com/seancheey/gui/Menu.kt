@@ -1,13 +1,33 @@
 package com.seancheey.gui
 
 import com.seancheey.game.Config
+import javafx.fxml.FXML
+import javafx.fxml.Initializable
+import javafx.scene.control.Label
+import javafx.scene.layout.VBox
+import java.net.URL
+import java.util.*
 
 
 /**
  * Created by Seancheey on 29/05/2017.
  * GitHub: https://github.com/Seancheey
  */
-class Menu {
+class Menu : Initializable {
+
+    @FXML
+    var botGroupBox: VBox? = null
+    @FXML
+    var playerLabel: Label? = null
+
+    override fun initialize(location: URL?, resources: ResourceBundle?) {
+        playerLabel!!.text = "${Config.player.name}'s Robots"
+        val group = Config.player.robots[0]
+        for (model in group) {
+            botGroupBox!!.children.add(RobotModelSlot(model))
+        }
+    }
+
     fun startGame() {
         Stages.switchScene(Scenes.bot_battle)
         if (Config.fullScreen)
@@ -23,4 +43,5 @@ class Menu {
     fun settings() {
 
     }
+
 }

@@ -106,7 +106,7 @@ class BotEdit : Initializable {
         val models = Config.player.robots[0]
         for ((i, model) in models.withIndex()) {
             val robotModelSlot = RobotModelSlot(model)
-            robotModelSlot.setOnMouseClicked { setEditingRobot(i) }
+            robotModelSlot.setOnAction { setEditingRobot(i) }
             botGroupBox!!.children.add(robotModelSlot)
         }
     }
