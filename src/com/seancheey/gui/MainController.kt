@@ -34,14 +34,29 @@ class MainController {
                 indicatorLabel!!.text = "password not correct"
             }
         } else {
-            Config.player = reader.newPlayer()
-            indicatorLabel!!.text = "new player created"
-            Stages.switchScene(Scenes.menu, 800.0, 600.0)
+            indicatorLabel!!.text = "username not found, try register"
         }
     }
 
     fun register() {
+        if (username!!.text == "") {
+            indicatorLabel!!.text = "username can't be blank"
+            return
+        }
 
+        // if (password!!.text == "") {
+        //    indicatorLabel!!.text = "password can't be blank"
+        //    return
+        // }
+        val reader = PlayerSavesReader(username!!.text, password!!.text)
+        if (reader.hasSaves) {
+            indicatorLabel!!.text = "username already exists"
+            return
+        } else {
+            Config.player = reader.newPlayer()
+            Config.player.saveData()
+            indicatorLabel!!.text = "new player created"
+        }
     }
 
     fun setting() {
