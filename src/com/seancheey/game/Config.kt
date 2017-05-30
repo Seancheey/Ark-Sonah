@@ -12,9 +12,11 @@ object Config {
     val botGroupNum = 8
     val botWidth
         get() = botGridWidth * 5
-    var player: Player = Player(0L, "guest")
+    var player: Player = Player(0L, "guest", kotlin.ByteArray(0))
         set(value) {
             if (player.name == "guest") field = value
         }
     var fullScreen = false
+    var playerSaveDir = "saves/"
+    fun playerSavePath(name: String) = "$playerSaveDir$name.object"
 }

@@ -7,64 +7,68 @@
             prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.seancheey.gui.MainController">
     <top>
-        <Label fx:id="title" style="-fx-font-size: 25pt;" text="AmaoGame" BorderPane.alignment="CENTER"/>
+        <Label style="-fx-font-size: 25pt;" text="AmaoGame" BorderPane.alignment="CENTER"/>
     </top>
     <bottom>
         <VBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
-            <children>
-                <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#setting" text="Settings"
-                        textAlignment="CENTER"/>
-                <Button mnemonicParsing="false" onAction="#credit" text="Credit" textAlignment="CENTER"/>
-            </children>
             <BorderPane.margin>
                 <Insets/>
             </BorderPane.margin>
+            <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#setting" text="Settings"
+                    textAlignment="CENTER"/>
+            <Button mnemonicParsing="false" onAction="#credit" text="Credit" textAlignment="CENTER"/>
         </VBox>
     </bottom>
     <center>
-        <GridPane alignment="CENTER" prefHeight="325.0" prefWidth="600.0" vgap="10.0" BorderPane.alignment="CENTER">
-            <columnConstraints>
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-            </columnConstraints>
-            <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES"/>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES"/>
-            </rowConstraints>
-            <children>
-                <HBox alignment="BOTTOM_CENTER" prefHeight="100.0" prefWidth="200.0">
-                    <children>
-                        <Label text="Username">
-                            <opaqueInsets>
-                                <Insets/>
-                            </opaqueInsets>
-                        </Label>
-                        <TextField fx:id="username"/>
-                    </children>
-                    <opaqueInsets>
-                        <Insets/>
-                    </opaqueInsets>
-                </HBox>
-                <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1">
-                    <children>
-                        <Label text="Password"/>
-                        <PasswordField fx:id="password"/>
-                    </children>
-                </HBox>
-                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.halignment="CENTER"
-                      GridPane.rowIndex="2">
-                    <children>
-                        <Button mnemonicParsing="false" onAction="#login" text="Login"/>
-                        <Button mnemonicParsing="false" onAction="#register" text="Register"/>
-                    </children>
-                </HBox>
-            </children>
+        <VBox alignment="CENTER">
             <opaqueInsets>
                 <Insets/>
             </opaqueInsets>
-            <BorderPane.margin>
-                <Insets/>
-            </BorderPane.margin>
-        </GridPane>
+            <HBox alignment="BOTTOM_CENTER">
+                <opaqueInsets>
+                    <Insets/>
+                </opaqueInsets>
+                <VBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </VBox.margin>
+                <Label text="Username">
+                    <opaqueInsets>
+                        <Insets/>
+                    </opaqueInsets>
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </padding>
+                </Label>
+                <TextField fx:id="username">
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </padding>
+                </TextField>
+            </HBox>
+            <HBox alignment="TOP_CENTER">
+                <VBox.margin>
+                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                </VBox.margin>
+                <Label text="Password">
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </padding>
+                </Label>
+                <PasswordField fx:id="password">
+                    <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </padding>
+                </PasswordField>
+            </HBox>
+            <Label fx:id="indicatorLabel">
+                <padding>
+                    <Insets bottom="15.0" left="15.0" right="15.0" top="15.0"/>
+                </padding>
+            </Label>
+            <HBox alignment="CENTER">
+                <Button mnemonicParsing="false" onAction="#login" text="Login"/>
+                <Button mnemonicParsing="false" onAction="#register" text="Register"/>
+            </HBox>
+        </VBox>
     </center>
 </BorderPane>
