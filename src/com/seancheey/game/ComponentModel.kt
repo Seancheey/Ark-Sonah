@@ -9,10 +9,10 @@ import java.io.Serializable
  * GitHub: https://github.com/Seancheey
  */
 
-open class ComponentModel(val name: String, imageURL: String, var health: Int, var weight: Int, var width: Int, var height: Int) : Serializable {
+open class ComponentModel(val name: String, imageURL: String, var health: Int, var weight: Int, final override var width: Int, final override var height: Int) : Model, Serializable {
     @Suppress("SENSELESS_COMPARISON")
-    @Transient
-    var image: Image
+    @Transient final
+    override var image: Image
         get() {
             if (field == null) {
                 imageURL = imageURL
