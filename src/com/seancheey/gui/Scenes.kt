@@ -16,6 +16,8 @@ object Scenes {
         get() = load("bot_edit.fxml")
     val bot_battle
         get() = load("bot_battle.fxml")
+    val battle_select
+        get() = load("battle_select.fxml")
 
     fun load(url: String): Parent {
         return FXMLLoader.load(javaClass.getResource(url))
