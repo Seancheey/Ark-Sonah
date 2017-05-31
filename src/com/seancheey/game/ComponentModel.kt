@@ -38,6 +38,6 @@ open class ComponentModel(val name: String, imageURL: String, var health: Int, v
         image = Image(imageURL, width * Config.botGridWidth, height * Config.botGridWidth, false, false)
     }
 
-    constructor() : this("Default", "file:dat/cube.png", 10, 10, 10, 10)
+    constructor() : this("Default", "file:dat/test0.png", 10, 10, 10, 10)
 
 }
