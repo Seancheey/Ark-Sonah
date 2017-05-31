@@ -11,7 +11,7 @@ class BattleField(val players: ArrayList<Player>) : Serializable {
     var name: String = "Default Map"
     val width: Int = 1000
     val height: Int = 600
-    val robots: ArrayList<Robot> = arrayListOf()
+    val nodes: ArrayList<Node> = arrayListOf()
     val commands: ArrayList<Command> = arrayListOf()
 
     fun executeCommands(interval: Int) {
