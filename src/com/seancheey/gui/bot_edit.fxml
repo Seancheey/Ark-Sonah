@@ -97,6 +97,7 @@
         </TabPane>
     </left>
     <bottom>
-        <HBox id="botGroupBox" fx:id="botGroupBox" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER"/>
+        <HBox id="botGroupBox" fx:id="botGroupBox" alignment="CENTER" prefHeight="100.0" prefWidth="200.0"
+              BorderPane.alignment="CENTER"/>
     </bottom>
 </BorderPane>

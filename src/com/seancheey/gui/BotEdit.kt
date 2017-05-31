@@ -51,7 +51,7 @@ class BotEdit : Initializable {
     @FXML
     var nameField: TextField? = null
     /**
-     * Robot selection HBox
+     * RobotNode selection HBox
      */
     @FXML
     var botGroupBox: HBox? = null
