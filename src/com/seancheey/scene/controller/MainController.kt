@@ -58,6 +58,7 @@ class MainController {
             Config.player = reader.newPlayer()
             Config.player.saveData()
             indicatorLabel!!.text = "new player created"
+            login()
         }
     }
 
