@@ -1,7 +1,7 @@
 package com.seancheey.scene.controller
 
 import com.seancheey.game.Config
-import com.seancheey.gui.RobotModelSlot
+import com.seancheey.gui.ModelSlot
 import com.seancheey.scene.Scenes
 import com.seancheey.scene.Stages
 import javafx.fxml.FXML
@@ -27,7 +27,7 @@ class Menu : Initializable {
         playerLabel!!.text = "${Config.player.name}'s Robots"
         val group = Config.player.robots[0]
         for (model in group) {
-            botGroupBox!!.children.add(RobotModelSlot(model))
+            botGroupBox!!.children.add(ModelSlot(model))
         }
     }
 

@@ -14,9 +14,9 @@ import java.io.Serializable
  */
 open class RobotModel(var name: String, val components: List<Component<ComponentModel>>) : Model, Serializable {
     override val width: Double
-        get() = Config.botPixelSize
+        get() = Config.botWidth
     override val height: Double
-        get() = Config.botPixelSize
+        get() = Config.botWidth
     @Suppress("SENSELESS_COMPARISON")
     @Transient final
     override val image: Image

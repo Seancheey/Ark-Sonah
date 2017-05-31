@@ -1,7 +1,7 @@
 package com.seancheey.scene.controller
 
 import com.seancheey.game.*
-import com.seancheey.gui.RobotModelSlot
+import com.seancheey.gui.ModelSlot
 import com.seancheey.gui.modelCopyFormat
 import com.seancheey.scene.Scenes
 import com.seancheey.scene.Stages
@@ -76,7 +76,12 @@ class BotEdit : Initializable {
 
     private fun initModelFlowPanes() {
         for (component in Models.BLOCKS) {
-            blocksPane!!.children.add(ComponentModelSlot(component))
+            val componentSlot = ModelSlot(component)
+            componentSlot.setOnDragDetected { event ->
+                dragComponentStart(component, componentSlot)
+                event.consume()
+            }
+            blocksPane!!.children.add(componentSlot)
         }
     }
 
@@ -85,10 +90,10 @@ class BotEdit : Initializable {
         editPane!!.minWidth = size
         editPane!!.maxWidth = size
         // add grid to edit pane
-        val grids = arrayListOf<ComponentGrid>()
+        val grids = arrayListOf<DragDropGrid>()
         for (y in 0 until Config.botGridNum) {
             for (x in 0 until Config.botGridNum) {
-                val grid = ComponentGrid(x, y)
+                val grid = DragDropGrid(x, y)
                 AnchorPane.setTopAnchor(grid, Config.botGridWidth * y)
                 AnchorPane.setLeftAnchor(grid, Config.botGridWidth * x)
                 grids.add(grid)
@@ -102,7 +107,7 @@ class BotEdit : Initializable {
         // select player's first BotGroup to initialize
         val models = Config.player.robots[0]
         for ((i, model) in models.withIndex()) {
-            val robotModelSlot = RobotModelSlot(model)
+            val robotModelSlot = ModelSlot(model)
             robotModelSlot.setOnAction { setEditingRobot(i) }
             botGroupBox!!.children.add(robotModelSlot)
         }
@@ -176,10 +181,10 @@ class BotEdit : Initializable {
         }
     }
 
-    private fun getComponentGridAt(x: Int, y: Int): ComponentGrid? {
+    private fun getComponentGridAt(x: Int, y: Int): DragDropGrid? {
         if (x < Config.botGridWidth || y < Config.botGridWidth) {
             for (node in editPane!!.children) {
-                if (node is ComponentGrid) {
+                if (node is DragDropGrid) {
                     if (node.x == x && node.y == y) {
                         return node
                     }
@@ -218,6 +223,7 @@ class ComponentView(val componentModel: ComponentModel, val x: Int, val y: Int) 
         setOnDragDetected { event ->
             editController!!.dragComponentStart(componentModel, this)
             editController!!.removeComponent(this)
+            editController!!.updateRobot()
             event.consume()
         }
     }
@@ -231,7 +237,7 @@ class ComponentView(val componentModel: ComponentModel, val x: Int, val y: Int) 
  * A grid on editPane waiting to be filled by a component
  * It is created when BotEdit pane is initialized
  */
-class ComponentGrid(val x: Int, val y: Int, componentModel: ComponentModel? = null) : StackPane() {
+class DragDropGrid(val x: Int, val y: Int, componentModel: ComponentModel? = null) : StackPane() {
 
     var componentModel: ComponentModel? = null
     var enabled = true
@@ -263,22 +269,6 @@ class ComponentGrid(val x: Int, val y: Int, componentModel: ComponentModel? = nu
             editController!!.updateRobot()
 
             event.isDropCompleted = true
-            event.consume()
-        }
-    }
-}
-
-/**
- * A componentModel slot as an option to add to robot
- * It is created when BotEdit pane is initialized
- * ComponentModel slots are initialized according to data files
- */
-class ComponentModelSlot(val componentModel: ComponentModel) : ImageView(componentModel.image) {
-
-    init {
-        // bind mouse location to hoverView
-        setOnDragDetected { event ->
-            editController!!.dragComponentStart(componentModel, this)
             event.consume()
         }
     }

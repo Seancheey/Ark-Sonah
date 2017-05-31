@@ -1,7 +1,7 @@
 package com.seancheey.scene.controller
 
 import com.seancheey.game.Config
-import com.seancheey.gui.RobotModelSlot
+import com.seancheey.gui.ModelSlot
 import com.seancheey.scene.Scenes
 import com.seancheey.scene.Stages
 import javafx.fxml.FXML
@@ -19,7 +19,7 @@ class BotBattle : Initializable {
         // select player's first BotGroup to initialize
         val models = Config.player.robots[0]
         for (model in models) {
-            val robotModelSlot = RobotModelSlot(model)
+            val robotModelSlot = ModelSlot(model)
             botGroupBox!!.children.add(robotModelSlot)
         }
     }
