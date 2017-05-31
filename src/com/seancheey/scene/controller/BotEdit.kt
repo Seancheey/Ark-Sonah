@@ -152,12 +152,12 @@ class BotEdit : Initializable {
         AnchorPane.setLeftAnchor(componentView, x * Config.botGridWidth)
         AnchorPane.setTopAnchor(componentView, y * Config.botGridWidth)
         editPane!!.children.add(componentView)
-        setGridsInRangeIsEnabled(x, y, componentModel.width, componentModel.height, false)
+        setGridsInRangeIsEnabled(x, y, componentModel.gridWidth, componentModel.gridHeight, false)
     }
 
     fun removeComponent(componentView: ComponentView): Boolean {
         if (editPane!!.children.contains(componentView)) {
-            setGridsInRangeIsEnabled(componentView.x, componentView.y, componentView.componentModel.width, componentView.componentModel.height, true)
+            setGridsInRangeIsEnabled(componentView.x, componentView.y, componentView.componentModel.gridWidth, componentView.componentModel.gridHeight, true)
             editPane!!.children.remove(componentView)
             return true
         } else {
@@ -198,8 +198,8 @@ class BotEdit : Initializable {
         db.setContent(clipboard)
         // set mouse holding image and offsets
         db.dragView = componentModel.image
-        db.dragViewOffsetX = (componentModel.width - 1) * componentModel.image.width / componentModel.width / 2
-        db.dragViewOffsetY = -(componentModel.height - 1) * componentModel.image.height / componentModel.height / 2
+        db.dragViewOffsetX = (componentModel.gridWidth - 1) * componentModel.image.width / componentModel.gridWidth / 2
+        db.dragViewOffsetY = -(componentModel.gridHeight - 1) * componentModel.image.height / componentModel.gridHeight / 2
     }
 
     fun menu() {

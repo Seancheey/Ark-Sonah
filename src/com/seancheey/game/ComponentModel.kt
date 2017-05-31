@@ -9,7 +9,11 @@ import java.io.Serializable
  * GitHub: https://github.com/Seancheey
  */
 
-open class ComponentModel(val name: String, imageURL: String, var health: Int, var weight: Int, final override var width: Int, final override var height: Int) : Model, Serializable {
+open class ComponentModel(val name: String, imageURL: String, var health: Int, var weight: Int, var gridWidth: Int, var gridHeight: Int) : Model, Serializable {
+    override val width: Double
+        get() = gridWidth * Config.botGridWidth
+    override val height: Double
+        get() = gridHeight * Config.botGridWidth
     @Suppress("SENSELESS_COMPARISON")
     @Transient final
     override var image: Image
@@ -23,19 +27,19 @@ open class ComponentModel(val name: String, imageURL: String, var health: Int, v
         set(value) {
             field = value
             if (value != "") {
-                image = Image(imageURL, width * Config.botGridWidth, height * Config.botGridWidth, false, false)
+                image = Image(imageURL, gridWidth * Config.botGridWidth, gridHeight * Config.botGridWidth, false, false)
             }
         }
     var size: Dimension2D
-        get() = Dimension2D(width.toDouble(), height.toDouble())
+        get() = Dimension2D(gridWidth.toDouble(), gridHeight.toDouble())
         set(value) {
-            width = value.width.toInt()
-            height = value.height.toInt()
+            gridWidth = value.width.toInt()
+            gridHeight = value.height.toInt()
         }
 
     init {
         this.imageURL = imageURL
-        image = Image(imageURL, width * Config.botGridWidth, height * Config.botGridWidth, false, false)
+        image = Image(imageURL, gridWidth * Config.botGridWidth, gridHeight * Config.botGridWidth, false, false)
     }
 
     constructor() : this("Default", "file:dat/test0.png", 10, 10, 10, 10)

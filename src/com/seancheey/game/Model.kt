@@ -8,6 +8,6 @@ import javafx.scene.image.Image
  */
 interface Model {
     val image: Image
-    val width: Int
-    val height: Int
+    val width: Double
+    val height: Double
 }

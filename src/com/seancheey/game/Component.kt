@@ -12,9 +12,9 @@ data class Component<out T : ComponentModel>(val model: T, var x: Int, var y: In
     val name: String
         get() = model.name
     val width: Int
-        get() = model.width
+        get() = model.gridWidth
     val height: Int
-        get() = model.height
+        get() = model.gridHeight
     val health: Int
         get() = model.health
     val weight: Int

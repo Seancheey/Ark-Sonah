@@ -13,10 +13,10 @@ import java.io.Serializable
  * Designed as an immutable class as robot model
  */
 open class RobotModel(var name: String, val components: List<Component<ComponentModel>>) : Model, Serializable {
-    override val width: Int
-        get() = Config.botPixelSize.toInt()
-    override val height: Int
-        get() = Config.botPixelSize.toInt()
+    override val width: Double
+        get() = Config.botPixelSize
+    override val height: Double
+        get() = Config.botPixelSize
     @Suppress("SENSELESS_COMPARISON")
     @Transient final
     override val image: Image
