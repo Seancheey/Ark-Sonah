@@ -1,5 +1,5 @@
 out/
 .idea
-*.png
+test*.png
 .DS_Store
 *.object
