@@ -6,7 +6,7 @@ import com.seancheey.game.action.Action
  * Created by Seancheey on 30/05/2017.
  * GitHub: https://github.com/Seancheey
  */
-interface Node {
+interface Node : Model {
     var x: Double
     var y: Double
     var orientation: Double
