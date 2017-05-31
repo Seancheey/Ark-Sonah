@@ -10,8 +10,6 @@ import javafx.scene.Parent
 object Scenes {
     val main
         get() = load("main.fxml")
-    val startScene
-        get() = load("main.fxml")
     val menu
         get() = load("menu.fxml")
     val bot_edit
