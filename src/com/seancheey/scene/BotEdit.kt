@@ -1,6 +1,8 @@
-package com.seancheey.gui
+package com.seancheey.scene
 
 import com.seancheey.game.*
+import com.seancheey.gui.RobotModelSlot
+import com.seancheey.gui.modelCopyFormat
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.Node

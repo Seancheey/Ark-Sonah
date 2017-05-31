@@ -3,7 +3,7 @@
     <typedef resource="org/jetbrains/kotlin/ant/antlib.xml" classpath="${env.KOTLIN_LIB}/kotlin-ant.jar"/>
 
     <property name="jar" value="build/BNR.jar"/>
-    <property name="mainclass" value="com.seancheey.gui.MainStage"/>
+    <property name="mainclass" value="com.seancheey.scene.controller.MainStage"/>
 
     <target name="all" depends="compile, jar, run"/>
     <target name="compile">

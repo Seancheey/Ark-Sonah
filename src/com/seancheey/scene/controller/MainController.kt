@@ -1,4 +1,4 @@
-package com.seancheey.gui
+package com.seancheey.scene.controller
 
 /**
  * Created by Seancheey on 27/05/2017.
@@ -7,6 +7,8 @@ package com.seancheey.gui
 
 import com.seancheey.game.Config
 import com.seancheey.game.PlayerSavesReader
+import com.seancheey.scene.Scenes
+import com.seancheey.scene.Stages
 import javafx.fxml.FXML
 import javafx.scene.control.Label
 import javafx.scene.control.TextField

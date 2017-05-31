@@ -1,4 +1,4 @@
-package com.seancheey.gui
+package com.seancheey.scene
 
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
@@ -8,6 +8,8 @@ import javafx.scene.Parent
  * GitHub: https://github.com/Seancheey
  */
 object Scenes {
+    val main
+        get() = load("main.fxml")
     val startScene
         get() = load("main.fxml")
     val menu

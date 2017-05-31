@@ -1,6 +1,9 @@
-package com.seancheey.gui
+package com.seancheey.scene.controller
 
 import com.seancheey.game.Config
+import com.seancheey.gui.RobotModelSlot
+import com.seancheey.scene.Scenes
+import com.seancheey.scene.Stages
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.control.Label

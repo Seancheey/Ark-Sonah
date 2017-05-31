@@ -1,4 +1,4 @@
-package com.seancheey.gui
+package com.seancheey.scene
 
 import javafx.scene.Parent
 import javafx.scene.Scene

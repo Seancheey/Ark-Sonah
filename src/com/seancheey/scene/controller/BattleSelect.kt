@@ -1,4 +1,7 @@
-package com.seancheey.gui
+package com.seancheey.scene.controller
+
+import com.seancheey.scene.Scenes
+import com.seancheey.scene.Stages
 
 /**
  * Created by Seancheey on 31/05/2017.

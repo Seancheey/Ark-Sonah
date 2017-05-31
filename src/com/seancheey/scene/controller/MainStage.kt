@@ -1,8 +1,8 @@
-package com.seancheey.gui
+package com.seancheey.scene.controller
 
+import com.seancheey.scene.Scenes
+import com.seancheey.scene.Stages
 import javafx.application.Application
-import javafx.fxml.FXMLLoader
-import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.stage.Stage
 
@@ -14,11 +14,10 @@ import javafx.stage.Stage
 class MainStage : Application() {
 
     override fun start(primaryStage: Stage) {
-        val root = FXMLLoader.load<Parent>(javaClass.getResource("main.fxml"))
-        primaryStage.title = "Ark Sonah"
-        primaryStage.scene = Scene(root, 800.0, 600.0)
-        primaryStage.show()
         Stages.primaryStage = primaryStage
+        primaryStage.title = "Ark Sonah"
+        primaryStage.scene = Scene(Scenes.main, 800.0, 600.0)
+        primaryStage.show()
     }
 
     companion object {

@@ -17,7 +17,7 @@ sourceSets {
     main.resources.includes = ["**/*.fxml", "**/*.css"]
 }
 
-mainClassName = 'com.seancheey.gui.MainStage'
+mainClassName = 'com.seancheey.scene.controller.MainStage'
 
 defaultTasks 'run'
 
