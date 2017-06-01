@@ -37,6 +37,8 @@ open class ComponentModel(val name: String, imageURL: String, var health: Int, v
             gridHeight = value.height.toInt()
         }
 
+    var modifyRobot: (robot: RobotNode) -> Unit = {}
+
     init {
         this.imageURL = imageURL
         image = Image(imageURL, gridWidth * Config.botGridWidth, gridHeight * Config.botGridWidth, false, false)
