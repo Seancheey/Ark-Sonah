@@ -1,24 +1,9 @@
 package com.seancheey.game
 
-import javafx.scene.image.Image
 import java.io.Serializable
-
 
 /**
  * Created by Seancheey on 23/05/2017.
  * GitHub: https://github.com/Seancheey
  */
-data class Component<out T : ComponentModel>(val model: T, var x: Int, var y: Int, var hostRobot: RobotModel?) : Serializable {
-    val name: String
-        get() = model.name
-    val width: Int
-        get() = model.gridWidth
-    val height: Int
-        get() = model.gridHeight
-    val health: Int
-        get() = model.health
-    val weight: Int
-        get() = model.weight
-    val image: Image
-        get() = model.image
-}
+data class Component<out T : ComponentModel>(val model: T, var x: Int, var y: Int) : ComponentModel(model.name, model.imageURL, model.health, model.weight, model.gridWidth, model.gridHeight), Serializable
