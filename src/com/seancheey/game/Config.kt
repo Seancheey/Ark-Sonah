@@ -10,7 +10,7 @@ object Config {
     val botPixelSize
         get() = botGridNum * botGridSize
     val botGroupNum = 8
-    val botSiz
+    val botSize
         get() = botGridSize * 5
     var player: Player = Player(0L, "guest", kotlin.ByteArray(0))
         set(value) {
