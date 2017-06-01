@@ -22,6 +22,6 @@ class ComponentView(val componentModel: ComponentModel, val x: Int, val y: Int, 
     }
 
     fun toComponent(): Component<ComponentModel> {
-        return Component(componentModel, x, y, null)
+        return Component(componentModel, x, y)
     }
 }
