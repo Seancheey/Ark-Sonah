@@ -1,6 +1,5 @@
 package com.seancheey.game
 
-import com.seancheey.game.action.Action
 
 /**
  * Created by Seancheey on 30/05/2017.
@@ -17,11 +16,7 @@ interface Node : Model {
         get() = Math.sin(orientation) * speed
     val peers: ArrayList<Node>
     val field: BattleField
-    val actions: ArrayList<Action>
 
     fun update() {
-        for (action in actions) {
-            action.perform()
-        }
     }
 }

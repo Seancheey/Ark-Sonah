@@ -14,15 +14,10 @@ class BattleField(val players: ArrayList<Player>) : Serializable {
     val nodes: ArrayList<Node> = arrayListOf()
     val commands: ArrayList<Command> = arrayListOf()
 
-    fun executeCommands(interval: Int) {
-        // remove finished commands
-        val finished = commands.filter { command -> command.finished }
-        for (f in finished) {
-            commands.remove(f)
-        }
-        // execute unfinished ones
+    fun executeCommands() {
         for (command in commands) {
-            command.execute(interval)
+            command.execute()
         }
+        commands.clear()
     }
 }

@@ -6,8 +6,7 @@ import java.io.Serializable
  * Created by Seancheey on 29/05/2017.
  * GitHub: https://github.com/Seancheey
  */
-abstract class Command(val from: Player, val to: RobotNode, val battleField: BattleField) : Serializable {
-    var finished: Boolean = false
+open class Command(val from: Player, val to: Node, val execute: () -> Unit) : Serializable
 
-    abstract fun execute(interval: Int)
-}
+class MoveCommand(from: Player, to: Node) : Command(from, to, {
+})
