@@ -19,10 +19,10 @@ class DragDropGrid(val x: Int, val y: Int, dragComponentEnd: (x: Int, y: Int, mo
     var enabled = true
 
     init {
-        minWidth = Config.botGridWidth
-        minHeight = Config.botGridWidth
-        maxWidth = Config.botGridWidth
-        maxHeight = Config.botGridWidth
+        minWidth = Config.botGridSize
+        minHeight = Config.botGridSize
+        maxWidth = Config.botGridSize
+        maxHeight = Config.botGridSize
 
         setOnDragOver {
             event ->

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<BorderPane stylesheets="@bot_edit_style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.seancheey.scene.controller.BotEdit">
+    <right>
+        <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0"
+                   BorderPane.alignment="CENTER">
+            <items>
+                <TitledPane animated="false" text="Stats">
+                    <content>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                            <children>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                    <children>
+                                        <Label layoutY="14.0" text="Health" AnchorPane.leftAnchor="2.0"
+                                               AnchorPane.topAnchor="2.0"/>
+                                    </children>
+                                </AnchorPane>
+                                <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                    <children>
+                                        <Label layoutX="-3.0" layoutY="14.0" text="Weight" AnchorPane.leftAnchor="2.0"
+                                               AnchorPane.topAnchor="2.0"/>
+                                    </children>
+                                </AnchorPane>
+                            </children>
+                        </VBox>
+                    </content>
+                </TitledPane>
+                <VBox prefHeight="200.0" prefWidth="100.0"/>
+            </items>
+        </SplitPane>
+    </right>
+    <top>
+        <ToolBar BorderPane.alignment="CENTER">
+            <items>
+                <Button mnemonicParsing="false" onAction="#menu" text="Menu"/>
+            </items>
+        </ToolBar>
+    </top>
+    <center>
+        <VBox alignment="CENTER">
+            <padding>
+                <Insets bottom="5.0" left="2.0" right="2.0" top="5.0"/>
+            </padding>
+            <children>
+                <HBox alignment="CENTER">
+                    <children>
+                        <TextField fx:id="nameField" alignment="CENTER" prefWidth="400.0"
+                                   promptText="Enter your robot name"/>
+                    </children>
+                </HBox>
+                <AnchorPane fx:id="editPane" minHeight="400.0" minWidth="400.0"/>
+                <HBox alignment="CENTER">
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#saveRobot" text="Save"/>
+                        <Button mnemonicParsing="false" text="Paint"/>
+                        <Button mnemonicParsing="false" onAction="#clearComponents" text="Clear"/>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </center>
+    <left>
+        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+            <tabs>
+                <Tab text="Blocks">
+                    <content>
+                        <ScrollPane hbarPolicy="NEVER" prefViewportHeight="431.0" prefViewportWidth="200.0">
+                            <content>
+                                <TilePane fx:id="blocksPane" prefHeight="200.0" prefWidth="200.0"/>
+                            </content>
+                        </ScrollPane>
+                    </content>
+                </Tab>
+                <Tab text="Weapons">
+                    <content>
+                        <ScrollPane hbarPolicy="NEVER" prefViewportHeight="431.0" prefViewportWidth="200.0">
+                            <content>
+                                <TilePane fx:id="weaponsPane" prefHeight="200.0" prefWidth="200.0"/>
+                            </content>
+                        </ScrollPane>
+                    </content>
+                </Tab>
+                <Tab text="Movements">
+                    <content>
+                        <ScrollPane hbarPolicy="NEVER" prefViewportHeight="431.0" prefViewportWidth="200.0">
+                            <content>
+                                <TilePane prefHeight="200.0" prefWidth="200.0"/>
+                            </content>
+                        </ScrollPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </left>
+    <bottom>
+        <HBox id="botGroupBox" fx:id="botGroupBox" alignment="CENTER" prefHeight="100.0" prefWidth="200.0"
+              BorderPane.alignment="CENTER"/>
+    </bottom>
+</BorderPane>

@@ -14,9 +14,9 @@ import java.io.Serializable
  */
 open class RobotModel(var name: String, val components: List<Component<ComponentModel>>) : Model, Serializable {
     override val width: Double
-        get() = Config.botWidth
+        get() = Config.botSize
     override val height: Double
-        get() = Config.botWidth
+        get() = Config.botSize
     @Suppress("SENSELESS_COMPARISON")
     @Transient final
     override val image: Image
@@ -47,8 +47,8 @@ open class RobotModel(var name: String, val components: List<Component<Component
             for (readY in 0 until compImage.height.toInt()) {
                 for (readX in 0 until compImage.width.toInt()) {
                     val color = reader.getColor(readX, readY)
-                    val xPos = comp.x * Config.botGridWidth + readX / compImage.width * comp.width
-                    val yPos = comp.y * Config.botGridWidth + readY / compImage.height * comp.height
+                    val xPos = comp.x * Config.botGridSize + readX / compImage.width * comp.width
+                    val yPos = comp.y * Config.botGridSize + readY / compImage.height * comp.height
                     writer.setColor(xPos.toInt(), yPos.toInt(), color)
                 }
             }

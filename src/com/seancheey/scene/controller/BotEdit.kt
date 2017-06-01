@@ -96,7 +96,7 @@ class BotEdit : Initializable {
     }
 
     private fun initEditPane() {
-        val size = Config.botGridNum * Config.botGridWidth
+        val size = Config.botGridNum * Config.botGridSize
         editPane!!.minWidth = size
         editPane!!.maxWidth = size
         // add grid to edit pane
@@ -107,8 +107,8 @@ class BotEdit : Initializable {
                     putComponent(model, x, y)
                     updateRobot()
                 })
-                AnchorPane.setTopAnchor(grid, Config.botGridWidth * y)
-                AnchorPane.setLeftAnchor(grid, Config.botGridWidth * x)
+                AnchorPane.setTopAnchor(grid, Config.botGridSize * y)
+                AnchorPane.setLeftAnchor(grid, Config.botGridSize * x)
                 grids.add(grid)
             }
         }
@@ -171,8 +171,8 @@ class BotEdit : Initializable {
             removeComponent(compView)
             updateRobot()
         })
-        AnchorPane.setLeftAnchor(componentView, x * Config.botGridWidth)
-        AnchorPane.setTopAnchor(componentView, y * Config.botGridWidth)
+        AnchorPane.setLeftAnchor(componentView, x * Config.botGridSize)
+        AnchorPane.setTopAnchor(componentView, y * Config.botGridSize)
         editPane!!.children.add(componentView)
         setGridsInRangeIsEnabled(x, y, componentModel.gridWidth, componentModel.gridHeight, false)
     }
@@ -199,7 +199,7 @@ class BotEdit : Initializable {
     }
 
     private fun getComponentGridAt(x: Int, y: Int): DragDropGrid? {
-        if (x < Config.botGridWidth || y < Config.botGridWidth) {
+        if (x < Config.botGridSize || y < Config.botGridSize) {
             for (node in editPane!!.children) {
                 if (node is DragDropGrid) {
                     if (node.x == x && node.y == y) {

@@ -6,12 +6,12 @@ package com.seancheey.game
  */
 object Config {
     val botGridNum = 20
-    val botGridWidth = 20.0
+    val botGridSize = 20.0
     val botPixelSize
-        get() = botGridNum * botGridWidth
+        get() = botGridNum * botGridSize
     val botGroupNum = 8
-    val botWidth
-        get() = botGridWidth * 5
+    val botSiz
+        get() = botGridSize * 5
     var player: Player = Player(0L, "guest", kotlin.ByteArray(0))
         set(value) {
             if (player.name == "guest") field = value
