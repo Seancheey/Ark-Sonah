@@ -4,9 +4,17 @@ package com.seancheey.game
  * Created by Seancheey on 30/05/2017.
  * GitHub: https://github.com/Seancheey
  */
-abstract class GameDirector(val nodes: ArrayList<Node>) {
+open class GameDirector(val nodes: ArrayList<Node>, var inputs: () -> Unit = {}, var render: (lag: Double) -> Unit = {}) {
     var stop = false
     val MS_PER_UPDATE = Config.updatePerMilisecond
+    val commands: ArrayList<Command> = arrayListOf()
+
+    fun executeCommands() {
+        for (command in commands) {
+            command.execute()
+        }
+        commands.clear()
+    }
 
     fun start() {
         var lastTime: Long = System.currentTimeMillis()
@@ -23,6 +31,7 @@ abstract class GameDirector(val nodes: ArrayList<Node>) {
 
             inputs()
             while (lag > MS_PER_UPDATE) {
+                executeCommands()
                 update()
                 lag -= MS_PER_UPDATE
             }
@@ -30,7 +39,6 @@ abstract class GameDirector(val nodes: ArrayList<Node>) {
         }
     }
 
-    abstract fun inputs()
 
     open fun update() {
         for (node in nodes) {
@@ -38,5 +46,4 @@ abstract class GameDirector(val nodes: ArrayList<Node>) {
         }
     }
 
-    abstract fun render(lag: Double)
 }
