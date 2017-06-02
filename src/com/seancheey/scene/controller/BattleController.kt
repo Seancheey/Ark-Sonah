@@ -6,7 +6,6 @@ import com.seancheey.gui.BattlePane
 import com.seancheey.gui.ModelSlot
 import com.seancheey.scene.Scenes
 import com.seancheey.scene.Stages
-import javafx.concurrent.Task
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.layout.HBox
@@ -60,12 +59,7 @@ class BattleController : Initializable {
     }
 
     fun start() {
-        if (!battlePane!!.gameDirector.started)
-            Thread(object : Task<Unit>() {
-                override fun call() {
-                    battlePane!!.start()
-                }
-            }).start()
+        battlePane!!.start()
     }
 
     fun pause() {

@@ -13,10 +13,14 @@ open class GameDirector(val asyncNodes: ArrayList<Node>, var inputs: () -> Unit 
     val nodes: ArrayList<Node>
         get() = syncNodes
     val syncNodes: ArrayList<Node> = arrayListOf()
-    private var renderFinished: Boolean = true
+    var lastTime: Long = System.currentTimeMillis()
+    var currentTime: Long = System.currentTimeMillis()
+    var elapsed: Int = 0
+    var lag = 0
 
     init {
         syncNodes += asyncNodes
+        updateTime()
     }
 
     fun executeCommands() {
@@ -26,34 +30,28 @@ open class GameDirector(val asyncNodes: ArrayList<Node>, var inputs: () -> Unit 
         commands.clear()
     }
 
-    fun start() {
-        var lastTime: Long = System.currentTimeMillis()
-        var currentTime: Long
-        var elapsed: Int
-        var lag: Int = 0
+    fun updateTime() {
+        currentTime = System.currentTimeMillis()
+        elapsed = (currentTime - lastTime).toInt()
+        lastTime = currentTime
+        lag += elapsed
+    }
 
+    fun start() {
         stop = false
         while (!stop) {
-            currentTime = System.currentTimeMillis()
-            elapsed = (currentTime - lastTime).toInt()
-            lastTime = currentTime
-            lag += elapsed
-
+            updateTime()
+            lag = 0
             inputs()
             if (lag < MS_PER_UPDATE) {
                 Thread.sleep(MS_PER_UPDATE.toLong() - lag)
-                lag += MS_PER_UPDATE - lag
+                updateTime()
             }
             while (lag > MS_PER_UPDATE) {
                 syncNodes()
                 executeCommands()
                 update()
                 lag -= MS_PER_UPDATE
-            }
-            if (renderFinished) {
-                renderFinished = false
-                render(lag.toDouble() / MS_PER_UPDATE)
-                renderFinished = true
             }
         }
     }
