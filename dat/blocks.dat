@@ -1,9 +1,4 @@
 Block
 Builder_Block file:dat/builder_block.png 10 10 2 2
-Cube file:dat/test0.png 1 1 1 1
-Block file:dat/test1.png 1 1 2 1
-Block file:dat/test2.png 1 1 2 2
-Block file:dat/test3.png 1 1 2 2
-Block file:dat/test4.png 1 1 2 1
-Block file:dat/test5.png 1 1 1 2
-Block file:dat/test6.png 1 1 2 2
+Heavy_Block file:dat/rivet_block.png 40 40 2 2
+Heavy_Block file:dat/rivet_block_small.png 10 10 1 1
