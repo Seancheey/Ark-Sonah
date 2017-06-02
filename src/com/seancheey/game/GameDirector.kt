@@ -30,6 +30,10 @@ open class GameDirector(val nodes: ArrayList<Node>, var inputs: () -> Unit = {},
             lag += elapsed
 
             inputs()
+            if (lag < MS_PER_UPDATE) {
+                Thread.sleep(MS_PER_UPDATE.toLong() - lag)
+                lag += MS_PER_UPDATE - lag
+            }
             while (lag > MS_PER_UPDATE) {
                 executeCommands()
                 update()

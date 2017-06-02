@@ -1,6 +1,6 @@
 package com.seancheey.scene.controller
 
-import com.seancheey.game.BattleField
+import com.seancheey.game.ClassicAIBattleField
 import com.seancheey.game.Config
 import com.seancheey.gui.BattlePane
 import com.seancheey.gui.ModelSlot
@@ -9,8 +9,8 @@ import com.seancheey.scene.Stages
 import javafx.concurrent.Task
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
-import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.HBox
+import javafx.scene.layout.StackPane
 import java.net.URL
 import java.util.*
 
@@ -32,9 +32,9 @@ class BattleController : Initializable {
     @FXML
     var botGroupBox: HBox? = null
     @FXML
-    var battleContainer: AnchorPane? = null
+    var battleContainer: StackPane? = null
 
-    var battlePane: BattlePane = BattlePane(BattleField(arrayListOf()), 500.0, 500.0)
+    var battlePane: BattlePane = BattlePane(ClassicAIBattleField(), 400.0, 400.0)
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         battleController = this
