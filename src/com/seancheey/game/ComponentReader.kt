@@ -8,8 +8,7 @@ import java.io.File
  * GitHub: https://github.com/Seancheey
  */
 
-class ComponentReader<out T>(path: String) {
-    private var path = ""
+class ComponentReader<out T>(private var path: String) {
     private var content: List<String>
 
     init {

@@ -16,9 +16,18 @@ class PlayerSavesReader(val name: String, val pass: String) {
     var hasSaves: Boolean = true
     private val player: Player?
 
+    companion object {
+        fun encryptPass(str: String): ByteArray {
+            val md = MessageDigest.getInstance("SHA-256")
+            md.update(str.toByteArray(charset("UTF-8")))
+            return md.digest()
+        }
+    }
+
     init {
         try {
-            objin = ObjectInputStream(FileInputStream("${Config.playerSaveDir}$name.object"))
+            val fin = FileInputStream(Config.playerSavePath(name))
+            objin = ObjectInputStream(fin)
         } catch (e: FileNotFoundException) {
             hasSaves = false
         }
@@ -26,7 +35,7 @@ class PlayerSavesReader(val name: String, val pass: String) {
     }
 
     fun passwordCorrect(): Boolean {
-        return Arrays.equals(player?.pass_SHA, toSHA256(pass))
+        return Arrays.equals(player?.pass_SHA, encryptPass(pass))
     }
 
     fun readPlayer(): Player? {
@@ -36,14 +45,4 @@ class PlayerSavesReader(val name: String, val pass: String) {
             return null
     }
 
-    fun newPlayer(): Player {
-        return Player(name.hashCode().toLong(), name, toSHA256(pass))
-    }
-
-
-    private fun toSHA256(str: String): ByteArray {
-        val md = MessageDigest.getInstance("SHA-256")
-        md.update(str.toByteArray(charset("UTF-8")))
-        return md.digest()
-    }
 }

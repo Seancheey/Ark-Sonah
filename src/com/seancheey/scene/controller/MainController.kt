@@ -7,6 +7,7 @@ package com.seancheey.scene.controller
 
 import com.seancheey.game.Config
 import com.seancheey.game.PlayerSavesReader
+import com.seancheey.game.PlayerSavesWriter
 import com.seancheey.scene.Scenes
 import com.seancheey.scene.Stages
 import javafx.fxml.FXML
@@ -45,7 +46,6 @@ class MainController {
             indicatorLabel!!.text = "username can't be blank"
             return
         }
-
         // if (password!!.text == "") {
         //    indicatorLabel!!.text = "password can't be blank"
         //    return
@@ -55,8 +55,7 @@ class MainController {
             indicatorLabel!!.text = "username already exists"
             return
         } else {
-            Config.player = reader.newPlayer()
-            Config.player.saveData()
+            PlayerSavesWriter.writeNewPlayer(username!!.text, password!!.text)
             indicatorLabel!!.text = "new player created"
             login()
         }
