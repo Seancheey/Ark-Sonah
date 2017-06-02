@@ -7,7 +7,7 @@ package com.seancheey.game
 class ClassicAIBattleField : BattleField(arrayListOf(Config.player)) {
     init {
         name = "Classic AI Battle"
-        val firstRobot = players[0].robots[0][0]
+        val firstRobot = players[0].robotGroups[0][0]
         putRobot(firstRobot, 150.0, 200.0)
     }
 }

@@ -25,7 +25,7 @@ class Menu : Initializable {
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         playerLabel!!.text = "${Config.player.name}'s Robots"
-        val group = Config.player.robots[0]
+        val group = Config.player.robotGroups[0]
         for (model in group) {
             botGroupBox!!.children.add(ModelSlot(model))
         }

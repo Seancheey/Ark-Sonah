@@ -39,7 +39,7 @@ class BattleController : Initializable {
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         battleController = this
         // select player's first BotGroup to initialize
-        val models = Config.player.robots[0]
+        val models = Config.player.robotGroups[0]
         // init selection slots
         for (model in models) {
             val robotModelSlot = ModelSlot(model)

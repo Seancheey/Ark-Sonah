@@ -73,7 +73,7 @@ class BotEdit : Initializable {
     var selectBotGroupIndex: Int = 0
     var selectBotModelIndex: Int = 0
     val editingRobot: RobotModel
-        get() = Config.player.robots[selectBotGroupIndex][selectBotModelIndex]
+        get() = Config.player.robotGroups[selectBotGroupIndex][selectBotModelIndex]
 
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
@@ -118,7 +118,7 @@ class BotEdit : Initializable {
 
     private fun initBotGroup() {
         // select player's first BotGroup to initialize
-        val models = Config.player.robots[0]
+        val models = Config.player.robotGroups[0]
         for ((i, model) in models.withIndex()) {
             val robotModelSlot = ModelSlot(model)
             robotModelSlot.setOnAction { setEditingRobot(i) }
@@ -143,7 +143,7 @@ class BotEdit : Initializable {
     }
 
     fun updateRobot() {
-        Config.player.robots[selectBotGroupIndex][selectBotModelIndex] = getRobotModel()
+        Config.player.robotGroups[selectBotGroupIndex][selectBotModelIndex] = getRobotModel()
         botGroupBox!!.children.clear()
         initBotGroup()
     }
