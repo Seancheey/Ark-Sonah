@@ -9,5 +9,6 @@ class ClassicAIBattleField : BattleField(arrayListOf(Config.player)) {
         name = "Classic AI Battle"
         val firstRobot = players[0].robotGroups[0][0]
         putRobot(firstRobot, 150.0, 200.0)
+        nodes[0].speed = 0.5
     }
 }

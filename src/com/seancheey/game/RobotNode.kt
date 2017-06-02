@@ -11,4 +11,9 @@ class RobotNode(model: RobotModel, override val field: BattleField, override var
 
     init {
     }
+
+    override fun update() {
+        x += vx
+        y += vy
+    }
 }

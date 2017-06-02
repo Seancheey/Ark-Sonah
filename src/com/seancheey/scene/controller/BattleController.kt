@@ -34,7 +34,7 @@ class BattleController : Initializable {
     @FXML
     var battleContainer: StackPane? = null
 
-    var battlePane: BattlePane = BattlePane(ClassicAIBattleField(), 400.0, 400.0)
+    var battlePane: BattlePane? = null
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         battleController = this
@@ -46,6 +46,7 @@ class BattleController : Initializable {
             botGroupBox!!.children.add(robotModelSlot)
         }
         // init battle field
+        battlePane = BattlePane(ClassicAIBattleField(), Stages.primaryStage!!.width, Stages.primaryStage!!.height - 200)
         battleContainer!!.children.add(battlePane)
     }
 
@@ -56,13 +57,13 @@ class BattleController : Initializable {
     fun start() {
         Thread(object : Task<Unit>() {
             override fun call() {
-                battlePane.start()
+                battlePane!!.start()
             }
         }).start()
     }
 
     fun pause() {
-        battlePane.stop()
+        battlePane!!.stop()
     }
 
 }

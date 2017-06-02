@@ -16,6 +16,8 @@ class BattlePane(val battleField: BattleField, width: Double, height: Double) : 
 
     init {
         gameDirector.render = { lag ->
+            gc.clearRect(0.0, 0.0, width, height)
+            gc.fillRect(0.0, 0.0, width, height)
             for (node in battleField.nodes) {
                 gc.drawImage(node.image, node.x + node.vx * lag, node.y + node.vy * lag, Config.botSize, Config.botSize)
             }
