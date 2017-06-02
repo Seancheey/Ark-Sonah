@@ -13,6 +13,7 @@ open class GameDirector(val asyncNodes: ArrayList<Node>, var inputs: () -> Unit 
     val nodes: ArrayList<Node>
         get() = syncNodes
     val syncNodes: ArrayList<Node> = arrayListOf()
+    private var renderFinished: Boolean = true
 
     init {
         syncNodes += asyncNodes
@@ -49,7 +50,11 @@ open class GameDirector(val asyncNodes: ArrayList<Node>, var inputs: () -> Unit 
                 update()
                 lag -= MS_PER_UPDATE
             }
-            render(lag.toDouble() / MS_PER_UPDATE)
+            if (renderFinished) {
+                renderFinished = false
+                render(lag.toDouble() / MS_PER_UPDATE)
+                renderFinished = true
+            }
         }
     }
 

@@ -56,6 +56,7 @@ class BattleController : Initializable {
 
     fun menu() {
         Stages.switchScene(Scenes.menu)
+        battlePane!!.stop()
     }
 
     fun start() {
