@@ -4,10 +4,19 @@ package com.seancheey.game
  * Created by Seancheey on 30/05/2017.
  * GitHub: https://github.com/Seancheey
  */
-open class GameDirector(val nodes: ArrayList<Node>, var inputs: () -> Unit = {}, var render: (lag: Double) -> Unit = {}) {
-    var stop = false
+open class GameDirector(val asyncNodes: ArrayList<Node>, var inputs: () -> Unit = {}, var render: (lag: Double) -> Unit = {}) {
+    var stop = true
+    val started
+        get() = !stop
     val MS_PER_UPDATE = Config.updatePerMilisecond
     val commands: ArrayList<Command> = arrayListOf()
+    val nodes: ArrayList<Node>
+        get() = syncNodes
+    val syncNodes: ArrayList<Node> = arrayListOf()
+
+    init {
+        syncNodes += asyncNodes
+    }
 
     fun executeCommands() {
         for (command in commands) {
@@ -35,6 +44,7 @@ open class GameDirector(val nodes: ArrayList<Node>, var inputs: () -> Unit = {},
                 lag += MS_PER_UPDATE - lag
             }
             while (lag > MS_PER_UPDATE) {
+                syncNodes()
                 executeCommands()
                 update()
                 lag -= MS_PER_UPDATE
@@ -48,6 +58,11 @@ open class GameDirector(val nodes: ArrayList<Node>, var inputs: () -> Unit = {},
         for (node in nodes) {
             node.update()
         }
+    }
+
+    private fun syncNodes() {
+        syncNodes.clear()
+        syncNodes += asyncNodes
     }
 
 }

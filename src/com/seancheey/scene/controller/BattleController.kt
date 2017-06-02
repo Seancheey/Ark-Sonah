@@ -36,18 +36,22 @@ class BattleController : Initializable {
 
     var battlePane: BattlePane? = null
 
+
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         battleController = this
         // select player's first BotGroup to initialize
         val models = Config.player.robotGroups[0]
-        // init selection slots
-        for (model in models) {
-            val robotModelSlot = ModelSlot(model)
-            botGroupBox!!.children.add(robotModelSlot)
-        }
         // init battle field
         battlePane = BattlePane(ClassicAIBattleField(), Stages.primaryStage!!.width, Stages.primaryStage!!.height - 200)
         battleContainer!!.children.add(battlePane)
+        // init selection slots
+        for (model in models) {
+            val robotModelSlot = ModelSlot(model)
+            robotModelSlot.setOnAction {
+                battlePane!!.battleField.putRobot(model, 150.0 + Math.random() * 50, 200.0 + Math.random() * 30, Math.random(), Math.random() * 6)
+            }
+            botGroupBox!!.children.add(robotModelSlot)
+        }
     }
 
     fun menu() {
@@ -55,11 +59,12 @@ class BattleController : Initializable {
     }
 
     fun start() {
-        Thread(object : Task<Unit>() {
-            override fun call() {
-                battlePane!!.start()
-            }
-        }).start()
+        if (!battlePane!!.gameDirector.started)
+            Thread(object : Task<Unit>() {
+                override fun call() {
+                    battlePane!!.start()
+                }
+            }).start()
     }
 
     fun pause() {
