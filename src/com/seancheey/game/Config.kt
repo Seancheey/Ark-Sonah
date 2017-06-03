@@ -17,7 +17,17 @@ object Config {
             if (player.name == "guest") field = value
         }
     var fullScreen = false
-    var playerSaveDir = "src/com/seancheey/resources/saves/"
+    /**
+     * save directory relative to Resources class
+     */
+    var playerSaveDir = "saves/"
+    /**
+     * node update frequency
+     */
     val updatePerMilisecond = 20
-    fun playerSavePath(name: String) = "$playerSaveDir$name.object"
+
+    /**
+     * player's actual save file path
+     */
+    fun playerSavePath(name: String = player.name) = "$playerSaveDir$name.object"
 }

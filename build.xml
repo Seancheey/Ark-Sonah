@@ -14,7 +14,7 @@
     <target name="jar">
         <jar destfile="${jar}">
             <fileset dir="bin"/>
-            <fileset dir="dat"/>
+            <fileset dir="src/com/seancheey/resources/dat"/>
             <fileset dir="src">
                 <include name="**/*.fxml"/>
                 <include name="**/*.css"/>

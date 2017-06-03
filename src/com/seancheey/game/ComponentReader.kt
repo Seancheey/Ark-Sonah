@@ -8,13 +8,8 @@ import java.io.File
  * GitHub: https://github.com/Seancheey
  */
 
-class ComponentReader<out T>(private var path: String) {
-    private var content: List<String>
-
-    init {
-        this.path = path
-        content = File(path).readLines()
-    }
+class ComponentReader<out T>(file: File) {
+    private var content: List<String> = file.readLines()
 
     private fun toComponent(type: String, line: String): T? {
         val args = line.split(" ")
