@@ -1,17 +1,33 @@
 package com.seancheey.resources
 
-import java.io.File
+import java.io.BufferedReader
+import java.io.IOException
 import java.io.InputStream
+import java.io.InputStreamReader
 
 /**
  * Created by Seancheey on 02/06/2017.
  * GitHub: https://github.com/Seancheey
  */
 object Resources {
-    val blocks_dat: File
-        get() = getResourceFile("dat/blocks.dat")
+    val blocks_dat: String
+        get() {
+            return getResourceString("dat/blocks.dat")!!
+        }
 
-    fun playerSaveInputStream(id: String): InputStream? = javaClass.getResourceAsStream("saves/$id.object")
+    fun getResourceString(path: String): String? {
+        try {
+            val buffReader = BufferedReader(InputStreamReader(getResourceInStream(path)))
+            val strBuilder = StringBuilder()
+            while (true) {
+                val line = buffReader.readLine() ?: break
+                strBuilder.append("$line\n")
+            }
+            return strBuilder.toString()
+        } catch (e: IOException) {
+            return null
+        }
+    }
 
-    fun getResourceFile(path: String): File = File(javaClass.getResource(path).file)
+    fun getResourceInStream(path: String): InputStream? = javaClass.getResourceAsStream(path)
 }

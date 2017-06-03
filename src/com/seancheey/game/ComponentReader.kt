@@ -1,15 +1,13 @@
 package com.seancheey.game
 
-import java.io.File
-
 @Suppress("UNCHECKED_CAST")
 /**
  * Created by Seancheey on 20/05/2017.
  * GitHub: https://github.com/Seancheey
  */
 
-class ComponentReader<out T>(file: File) {
-    private var content: List<String> = file.readLines()
+class ComponentReader<out T>(fileString: String) {
+    private var content: List<String> = fileString.split("\n")
 
     private fun toComponent(type: String, line: String): T? {
         val args = line.split(" ")

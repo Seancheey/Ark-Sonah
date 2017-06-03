@@ -1,6 +1,6 @@
 package com.seancheey.game
 
-import javafx.geometry.Dimension2D
+import com.seancheey.resources.Resources
 import javafx.scene.image.Image
 import java.io.Serializable
 
@@ -10,38 +10,50 @@ import java.io.Serializable
  */
 
 open class ComponentModel(val name: String, imageURL: String, var health: Int, var weight: Int, var gridWidth: Int, var gridHeight: Int) : Model, Serializable {
+    /**
+     * pixel width of component
+     */
     override val width: Double
         get() = gridWidth * Config.botGridSize
+    /**
+     * pixel height of component
+     */
     override val height: Double
         get() = gridHeight * Config.botGridSize
+    /**
+     * image of component with size same as width/height specified
+     */
     @Suppress("SENSELESS_COMPARISON")
     @Transient final
     override var image: Image
         get() {
             if (field == null) {
-                imageURL = imageURL
+                field = getCompImage()
             }
             return field
         }
+    /**
+     * path of image for initialization of image, also used to recover lost image after serialization
+     */
     var imageURL = ""
         set(value) {
             field = value
             if (value != "") {
-                image = Image(imageURL, gridWidth * Config.botGridSize, gridHeight * Config.botGridSize, false, false)
+                image = getCompImage()
             }
         }
-    var size: Dimension2D
-        get() = Dimension2D(gridWidth.toDouble(), gridHeight.toDouble())
-        set(value) {
-            gridWidth = value.width.toInt()
-            gridHeight = value.height.toInt()
-        }
-
+    /**
+     * function used to modify stats of robot
+     */
     var modifyRobot: (robot: RobotNode) -> Unit = {}
 
     init {
         this.imageURL = imageURL
-        image = Image(imageURL, gridWidth * Config.botGridSize, gridHeight * Config.botGridSize, false, false)
+        image = getCompImage()
+    }
+
+    private fun getCompImage(): Image {
+        return Image(Resources.getResourceInStream(imageURL), width, height, false, false)
     }
 
     constructor() : this("Default", "file:dat/test0.png", 10, 10, 10, 10)
