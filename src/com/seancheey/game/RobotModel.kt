@@ -1,5 +1,6 @@
 package com.seancheey.game
 
+import com.seancheey.resources.Resources
 import javafx.scene.image.Image
 import javafx.scene.image.WritableImage
 import java.io.Serializable
@@ -36,7 +37,7 @@ open class RobotModel(var name: String, val components: List<Component<Component
 
     private fun updateImage(): Image {
         if (components.isEmpty()) {
-            return Image("file:dat/norobot.png")
+            return Image(Resources.getResourceInStream("dat/norobot.png"))
         }
         val writeImage = WritableImage(Config.botPixelSize.toInt(), Config.botPixelSize.toInt())
 
