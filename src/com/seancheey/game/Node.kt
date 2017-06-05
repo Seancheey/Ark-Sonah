@@ -40,11 +40,15 @@ interface Node : Model {
      * the battleField this node is at
      */
     val field: BattleField
+    /**
+     * the action tree that the node will perform each frame
+     */
+    val actionTree: ActionTree
 
     /**
      * update function is called each frame to make node perform actions
      */
-    fun update(){
-
+    fun update() {
+        actionTree.executeAll()
     }
 }

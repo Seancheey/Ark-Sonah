@@ -3,6 +3,7 @@ package com.seancheey.gui
 import com.seancheey.game.BattleField
 import com.seancheey.game.Config
 import com.seancheey.game.GameDirector
+import com.seancheey.game.GameInspector
 import javafx.animation.AnimationTimer
 import javafx.concurrent.Task
 import javafx.scene.canvas.Canvas
@@ -12,10 +13,18 @@ import javafx.scene.canvas.GraphicsContext
  * Created by Seancheey on 01/06/2017.
  * GitHub: https://github.com/Seancheey
  */
-class BattlePane(val battleField: BattleField, width: Double, height: Double) : Canvas(width, height) {
-    val gameDirector: GameDirector = GameDirector(battleField.nodes)
+class BattlePane(val battleField: BattleField, width: Double, height: Double) : Canvas(width, height), GameInspector {
+    override var transX: Double = 0.0
+    override var transY: Double = 0.0
+    override var scale: Double = 1.0
+    override val guiWidth: Double
+        get() = width
+    override val guiHeight: Double
+        get() = height
+    override val gameDirector: GameDirector = GameDirector(battleField.nodes)
     val gc: GraphicsContext = graphicsContext2D
     val renderTimer: AnimationTimer
+
 
     init {
         gameDirector.render = { lag ->
