@@ -13,4 +13,5 @@ interface GameInspector {
     var transX: Double
     var transY: Double
 
+    var focusedNode: Node?
 }

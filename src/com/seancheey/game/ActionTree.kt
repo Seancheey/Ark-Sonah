@@ -9,12 +9,6 @@ import java.io.Serializable
 class ActionTree(val node: Node) : Serializable {
     private val actions: MutableMap<Int, Action> = mutableMapOf()
 
-    companion object {
-        val CUSTOM_ACTION = 0
-        val MOVE_ACTION = 1
-        val SHOOT_ACTION = 2
-        val ANIMATION_ACTION = 3
-    }
 
     fun putAction(action: Action, type: Int): Unit {
         actions[type] = action
@@ -25,8 +19,16 @@ class ActionTree(val node: Node) : Serializable {
     }
 
     fun executeAll() {
-        for (action in actions.values) {
-            action.execute()
+        val toDelete = arrayListOf<Int>()
+        for ((key, action) in actions.entries) {
+            if (!action.discard) {
+                action.execute()
+            } else {
+                toDelete.add(key)
+            }
+        }
+        for (del in toDelete) {
+            actions.remove(del)
         }
     }
 }

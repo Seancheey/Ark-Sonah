@@ -10,9 +10,12 @@ class RobotNode(model: RobotModel, override val field: Battlefield, override var
     override val actionTree: ActionTree = ActionTree(this)
     override var speed: Double = 0.0
     override var orientation: Double = 0.0
+        set(value) {
+            field = value - 2 * Math.PI * (value / (2 * Math.PI)).toInt()
+        }
     override val peers: ArrayList<Node> = field.nodes
 
     init {
-        actionTree.putAction(Action.moveAction(this), ActionTree.MOVE_ACTION)
+        actionTree.putAction(Action.moveAction(this), Action.MOVE_ACTION)
     }
 }

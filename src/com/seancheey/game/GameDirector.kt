@@ -11,7 +11,7 @@ open class GameDirector(val asyncNodes: ArrayList<Node>, var inputs: () -> Unit 
     val started
         get() = !stop
     val MS_PER_UPDATE = Config.updatePerMilisecond
-    val commands: ArrayList<Command> = arrayListOf()
+    private val commands: ArrayList<Command> = arrayListOf()
     val nodes: ArrayList<Node>
         get() = syncNodes
     val syncNodes: ArrayList<Node> = arrayListOf()
@@ -24,6 +24,15 @@ open class GameDirector(val asyncNodes: ArrayList<Node>, var inputs: () -> Unit 
         syncNodes += asyncNodes
         updateTime()
     }
+
+    fun command(command: Command) {
+        commands.add(command)
+    }
+
+    fun commandTo(node: Node, player: Player, execute: () -> Unit) {
+        commands.add(Command(player, node, execute))
+    }
+
 
     fun executeCommands() {
         for (command in commands) {
@@ -57,7 +66,6 @@ open class GameDirector(val asyncNodes: ArrayList<Node>, var inputs: () -> Unit 
             }
         }
     }
-
 
     open fun update() {
         for (node in nodes) {
