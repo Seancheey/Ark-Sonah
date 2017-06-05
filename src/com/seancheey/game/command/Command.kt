@@ -1,5 +1,7 @@
-package com.seancheey.game
+package com.seancheey.game.command
 
+import com.seancheey.game.Node
+import com.seancheey.game.Player
 import java.io.Serializable
 
 /**
@@ -8,5 +10,3 @@ import java.io.Serializable
  */
 open class Command(val from: Player, val to: Node, val execute: () -> Unit) : Serializable
 
-class MoveCommand(from: Player, to: Node) : Command(from, to, {
-})
