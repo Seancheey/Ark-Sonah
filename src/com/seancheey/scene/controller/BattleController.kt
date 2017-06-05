@@ -1,7 +1,7 @@
 package com.seancheey.scene.controller
 
-import com.seancheey.game.ClassicAIBattleField
 import com.seancheey.game.Config
+import com.seancheey.game.battlefield.TestBattlefield
 import com.seancheey.gui.BattlePane
 import com.seancheey.gui.ModelSlot
 import com.seancheey.scene.Scenes
@@ -41,13 +41,13 @@ class BattleController : Initializable {
         // select player's first BotGroup to initialize
         val models = Config.player.robotGroups[0]
         // init battle field
-        battlePane = BattlePane(ClassicAIBattleField(), Stages.primaryStage!!.width, Stages.primaryStage!!.height - 200)
+        battlePane = BattlePane(TestBattlefield(), Stages.primaryStage!!.width, Stages.primaryStage!!.height - 200)
         battleContainer!!.children.add(battlePane)
         // init selection slots
         for (model in models) {
             val robotModelSlot = ModelSlot(model)
             robotModelSlot.setOnAction {
-                battlePane!!.battleField.putRobot(model, 150.0 + Math.random() * 50, 200.0 + Math.random() * 30, Math.random(), Math.random() * 6)
+                battlePane!!.battlefield.putRobot(model, 150.0 + Math.random() * 50, 200.0 + Math.random() * 30, Math.random(), Math.random() * 6)
             }
             botGroupBox!!.children.add(robotModelSlot)
         }

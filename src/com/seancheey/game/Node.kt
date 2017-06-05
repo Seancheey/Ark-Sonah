@@ -1,5 +1,7 @@
 package com.seancheey.game
 
+import com.seancheey.game.battlefield.Battlefield
+
 
 /**
  * Created by Seancheey on 30/05/2017.
@@ -37,9 +39,9 @@ interface Node : Model {
      */
     val peers: ArrayList<Node>
     /**
-     * the battleField this node is at
+     * the battlefield this node is at
      */
-    val field: BattleField
+    val field: Battlefield
     /**
      * the action tree that the node will perform each frame
      */
