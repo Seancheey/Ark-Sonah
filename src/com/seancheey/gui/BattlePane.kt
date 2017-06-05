@@ -33,6 +33,7 @@ class BattlePane(val battleField: BattleField, width: Double, height: Double) : 
                 gameDirector.render(0.0)
             }
         }
+        start()
     }
 
     fun start() {
