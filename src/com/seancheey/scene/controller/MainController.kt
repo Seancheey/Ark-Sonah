@@ -37,7 +37,7 @@ class MainController {
                 indicatorLabel!!.text = "password not correct"
             }
         } else {
-            indicatorLabel!!.text = "username not found, try register"
+            indicatorLabel!!.text = "file not found/version doesn't match, try register"
         }
     }
 

@@ -13,7 +13,8 @@ import java.util.*
  */
 class PlayerSavesReader(val name: String, val pass: String) {
     var objin: ObjectInputStream? = null
-    var hasSaves: Boolean = true
+    val hasSaves: Boolean
+        get() = player != null
     private val player: Player?
 
     companion object {
@@ -29,9 +30,15 @@ class PlayerSavesReader(val name: String, val pass: String) {
             val fin = FileInputStream(Config.playerSavePath(name))
             objin = ObjectInputStream(fin)
         } catch (e: FileNotFoundException) {
-            hasSaves = false
+
         }
-        player = objin?.readObject() as Player?
+        var player: Player?
+        try {
+            player = objin?.readObject() as Player
+        } catch(e: Exception) {
+            player = null
+        }
+        this.player = player
     }
 
     fun passwordCorrect(): Boolean {
