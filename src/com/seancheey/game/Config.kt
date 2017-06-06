@@ -37,7 +37,11 @@ object Config {
      * node update frequency
      */
     val updatePerMilisecond = 20
-
+    /**
+     * for threads to close automatically when program stops
+     */
+    var programClosed = false
+    
     /**
      * player's actual save file path
      */

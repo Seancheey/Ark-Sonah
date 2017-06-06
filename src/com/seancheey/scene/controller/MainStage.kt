@@ -1,5 +1,6 @@
 package com.seancheey.scene.controller
 
+import com.seancheey.game.Config
 import com.seancheey.scene.Scenes
 import com.seancheey.scene.Stages
 import javafx.application.Application
@@ -18,6 +19,10 @@ class MainStage : Application() {
         primaryStage.title = "Ark Sonah"
         primaryStage.scene = Scene(Scenes.main, 800.0, 600.0)
         primaryStage.show()
+        // when close stage, also close all threads
+        primaryStage.setOnCloseRequest {
+            Config.programClosed = true
+        }
     }
 
     companion object {

@@ -50,7 +50,7 @@ open class GameDirector(val asyncNodes: ArrayList<Node>, var inputs: () -> Unit 
 
     fun start() {
         stop = false
-        while (!stop) {
+        while (!stop && !Config.programClosed) {
             updateTime()
             lag = 0
             inputs()
