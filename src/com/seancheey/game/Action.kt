@@ -36,7 +36,7 @@ class Action(val node: Node, var execute: () -> Unit) : Serializable {
 
         fun gotoTargetAction(node: Node, x: Double, y: Double): Action {
             val action = Action(node, {})
-            val rotateAction = rotateToAngleAction(node, 0.005, Math.atan2((y - node.y), (x - node.x)))
+            val rotateAction = rotateToAngleAction(node, 0.05, Math.atan2((y - node.y), (x - node.x)))
             action.execute = {
                 rotateAction.execute()
                 if (rotateAction.discard) {

@@ -13,5 +13,9 @@ interface GameInspector {
     var transX: Double
     var transY: Double
 
-    var focusedNode: Node?
+    var focusedNodes: ArrayList<Node>
+
+    fun selectFocusingRobotsAt(x: Double, y: Double)
+
+    fun moveFocusedRobotsTo(x: Double, y: Double)
 }

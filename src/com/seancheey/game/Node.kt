@@ -53,4 +53,9 @@ interface Node : Model {
     fun update() {
         actionTree.executeAll()
     }
+
+    fun containsPoint(pointX: Double, pointY: Double): Boolean {
+        if (pointX < x || pointY < y || pointX > x + width || pointY > y + height) return false
+        return true
+    }
 }

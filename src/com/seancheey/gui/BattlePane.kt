@@ -9,7 +9,7 @@ import com.seancheey.game.command.MoveCommand
 import javafx.animation.AnimationTimer
 import javafx.concurrent.Task
 import javafx.scene.canvas.Canvas
-import javafx.scene.canvas.GraphicsContext
+import javafx.scene.input.MouseButton
 import javafx.scene.paint.Color
 import javafx.scene.transform.Rotate
 import javafx.scene.transform.Transform
@@ -19,7 +19,18 @@ import javafx.scene.transform.Transform
  * GitHub: https://github.com/Seancheey
  */
 class BattlePane(val battlefield: Battlefield, width: Double, height: Double) : Canvas(width, height), GameInspector {
-    override var focusedNode: Node? = null
+    override fun selectFocusingRobotsAt(x: Double, y: Double) {
+        focusedNodes.clear()
+        gameDirector.nodes
+                .filter { it.containsPoint(x, y) }
+                .forEach { focusedNodes.add(it) }
+    }
+
+    override fun moveFocusedRobotsTo(x: Double, y: Double) {
+        focusedNodes.forEach { node -> gameDirector.command(MoveCommand(Config.player, node, x, y)) }
+    }
+
+    override var focusedNodes: ArrayList<Node> = arrayListOf()
     override var transX: Double = 0.0
     override var transY: Double = 0.0
     override var scale: Double = 1.0
@@ -28,28 +39,29 @@ class BattlePane(val battlefield: Battlefield, width: Double, height: Double) : 
     override val guiHeight: Double
         get() = height
     override val gameDirector: GameDirector = GameDirector(battlefield.nodes)
-    val gc: GraphicsContext = graphicsContext2D
-    val renderTimer: AnimationTimer
+    private val renderTimer: AnimationTimer = object : AnimationTimer() {
+        override fun handle(now: Long) {
+            gameDirector.render(0.0)
+        }
+    }
 
     init {
+        // set the background of battle field to light gray
+        graphicsContext2D.fill = Color.LIGHTGRAY
+
+        // render method
         gameDirector.render = { lag ->
-            gc.fill = Color.LIGHTGRAY
-            gc.fillRect(0.0, 0.0, width, height)
-            for (node in battlefield.nodes) drawNode(gc, node, lag)
+            graphicsContext2D.fillRect(0.0, 0.0, this.width, this.height)
+            graphicsContext2D.scale(scale, scale)
+            for (node in battlefield.nodes) drawNode(node, lag)
         }
-        style = "-fx-background-color: darkgrey;"
-        renderTimer = object : AnimationTimer() {
-            override fun handle(now: Long) {
-                gameDirector.render(0.0)
-            }
-        }
+
         setOnMouseClicked { event ->
-            // TODO delete this test case
-            if (focusedNode == null && gameDirector.nodes.size != 0) {
-                focusedNode = gameDirector.nodes[0]
+            if (event.button == MouseButton.PRIMARY) {
+                selectFocusingRobotsAt(event.x, event.y)
             }
-            if (focusedNode != null) {
-                gameDirector.command(MoveCommand(Config.player, focusedNode!!, event.x, event.y))
+            if (event.button == MouseButton.SECONDARY) {
+                moveFocusedRobotsTo(event.x, event.y)
             }
         }
         start()
@@ -71,11 +83,11 @@ class BattlePane(val battlefield: Battlefield, width: Double, height: Double) : 
         renderTimer.stop()
     }
 
-    private fun drawNode(gc: GraphicsContext, node: Node, lag: Double) {
+    private fun drawNode(node: Node, lag: Double) {
         val posX = node.x + node.vx * lag
         val posY = node.y + node.vy * lag
         val rotate: Rotate = Transform.rotate(node.orientation * 180 / Math.PI + 90, posX, posY)
-        gc.setTransform(rotate.mxx, rotate.myx, rotate.mxy, rotate.myy, rotate.tx, rotate.ty)
-        gc.drawImage(node.image, posX - Config.botSize / 2, posY - Config.botSize / 2, Config.botSize, Config.botSize)
+        graphicsContext2D.setTransform(rotate.mxx, rotate.myx, rotate.mxy, rotate.myy, rotate.tx, rotate.ty)
+        graphicsContext2D.drawImage(node.image, posX - Config.botSize / 2, posY - Config.botSize / 2, Config.botSize, Config.botSize)
     }
 }
