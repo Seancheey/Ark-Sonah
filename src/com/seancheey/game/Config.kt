@@ -20,7 +20,19 @@ object Config {
     /**
      * save directory relative to Resources class
      */
-    var playerSaveDir = "saves/"
+    var playerSaveDir: String = defaultPlayerSaveDir
+    val defaultPlayerSaveDir: String
+        get() {
+            val osName = System.getProperty("os.name")
+            when (osName) {
+                "Mac OS X" ->
+                    return "${System.getProperty("user.home")}/Library/Application Support/Ark_Sonah/saves/"
+                "Windows" ->
+                    return "${System.getenv("APPDATA")}\\Ark_Sonah\\saves\\"
+                else ->
+                    return "saves/"
+            }
+        }
     /**
      * node update frequency
      */
@@ -29,5 +41,5 @@ object Config {
     /**
      * player's actual save file path
      */
-    fun playerSavePath(name: String = player.name) = "$playerSaveDir$name.object"
+    fun playerSavePath(name: String = player.name) = "$playerSaveDir$name.arksaves"
 }
