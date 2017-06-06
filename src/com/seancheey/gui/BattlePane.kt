@@ -11,6 +11,8 @@ import javafx.concurrent.Task
 import javafx.scene.canvas.Canvas
 import javafx.scene.canvas.GraphicsContext
 import javafx.scene.paint.Color
+import javafx.scene.transform.Rotate
+import javafx.scene.transform.Transform
 
 /**
  * Created by Seancheey on 01/06/2017.
@@ -33,9 +35,7 @@ class BattlePane(val battlefield: Battlefield, width: Double, height: Double) : 
         gameDirector.render = { lag ->
             gc.fill = Color.LIGHTGRAY
             gc.fillRect(0.0, 0.0, width, height)
-            for (node in battlefield.nodes) {
-                gc.drawImage(node.image, node.x + node.vx * lag - Config.botSize / 2, node.y + node.vy * lag - Config.botSize / 2, Config.botSize, Config.botSize)
-            }
+            for (node in battlefield.nodes) drawNode(gc, node, lag)
         }
         style = "-fx-background-color: darkgrey;"
         renderTimer = object : AnimationTimer() {
@@ -69,5 +69,13 @@ class BattlePane(val battlefield: Battlefield, width: Double, height: Double) : 
     fun stop() {
         gameDirector.stop = true
         renderTimer.stop()
+    }
+
+    private fun drawNode(gc: GraphicsContext, node: Node, lag: Double) {
+        val posX = node.x + node.vx * lag
+        val posY = node.y + node.vy * lag
+        val rotate: Rotate = Transform.rotate(node.orientation * 180 / Math.PI + 90, posX, posY)
+        gc.setTransform(rotate.mxx, rotate.myx, rotate.mxy, rotate.myy, rotate.tx, rotate.ty)
+        gc.drawImage(node.image, posX - Config.botSize / 2, posY - Config.botSize / 2, Config.botSize, Config.botSize)
     }
 }
