@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <BorderPane stylesheets="@bot_edit_style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
@@ -37,6 +37,7 @@
         <ToolBar BorderPane.alignment="CENTER">
             <items>
                 <Button mnemonicParsing="false" onAction="#menu" text="Menu"/>
+                <Button mnemonicParsing="false" onAction="#battle" text="Battle"/>
             </items>
         </ToolBar>
     </top>
@@ -51,9 +52,18 @@
                         <TextField fx:id="nameField" alignment="CENTER" prefWidth="400.0"
                                    promptText="Enter your robot name"/>
                     </children>
+                    <opaqueInsets>
+                        <Insets/>
+                    </opaqueInsets>
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </VBox.margin>
                 </HBox>
                 <AnchorPane fx:id="editPane" minHeight="400.0" minWidth="400.0"/>
                 <HBox alignment="CENTER">
+                    <VBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </VBox.margin>
                     <children>
                         <Button mnemonicParsing="false" onAction="#saveRobot" text="Save"/>
                         <Button mnemonicParsing="false" text="Paint"/>
@@ -61,6 +71,9 @@
                     </children>
                 </HBox>
             </children>
+            <opaqueInsets>
+                <Insets/>
+            </opaqueInsets>
         </VBox>
     </center>
     <left>

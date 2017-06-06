@@ -228,5 +228,9 @@ class BotEdit : Initializable {
     fun menu() {
         Stages.switchScene(Scenes.menu)
     }
+
+    fun battle() {
+        Stages.switchScene(Scenes.bot_battle, 1080.0, 670.0)
+    }
 }
 
