@@ -166,9 +166,10 @@ class BotEdit : Initializable {
     }
 
     fun putComponent(componentModel: ComponentModel, x: Int, y: Int) {
-        val componentView = ComponentView(componentModel, x, y, { compView ->
+        val componentView = ComponentView(componentModel, x, y, { event, compView ->
             dragComponentStart(compView.componentModel, compView)
-            removeComponent(compView)
+            if (!event.isShiftDown)
+                removeComponent(compView)
             updateRobot()
         })
         AnchorPane.setLeftAnchor(componentView, x * Config.botGridSize)
