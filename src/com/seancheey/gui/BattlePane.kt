@@ -10,6 +10,7 @@ import javafx.animation.AnimationTimer
 import javafx.concurrent.Task
 import javafx.scene.canvas.Canvas
 import javafx.scene.canvas.GraphicsContext
+import javafx.scene.paint.Color
 
 /**
  * Created by Seancheey on 01/06/2017.
@@ -30,9 +31,10 @@ class BattlePane(val battlefield: Battlefield, width: Double, height: Double) : 
 
     init {
         gameDirector.render = { lag ->
+            gc.fill = Color.LIGHTGRAY
             gc.fillRect(0.0, 0.0, width, height)
             for (node in battlefield.nodes) {
-                gc.drawImage(node.image, node.x + node.vx * lag, node.y + node.vy * lag, Config.botSize, Config.botSize)
+                gc.drawImage(node.image, node.x + node.vx * lag - Config.botSize / 2, node.y + node.vy * lag - Config.botSize / 2, Config.botSize, Config.botSize)
             }
         }
         style = "-fx-background-color: darkgrey;"
@@ -47,7 +49,7 @@ class BattlePane(val battlefield: Battlefield, width: Double, height: Double) : 
                 focusedNode = gameDirector.nodes[0]
             }
             if (focusedNode != null) {
-                gameDirector.command(MoveCommand(Config.player, focusedNode!!, event.x - 50, event.y - 50))
+                gameDirector.command(MoveCommand(Config.player, focusedNode!!, event.x, event.y))
             }
         }
         start()
