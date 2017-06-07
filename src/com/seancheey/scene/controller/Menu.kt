@@ -2,11 +2,14 @@ package com.seancheey.scene.controller
 
 import com.seancheey.game.Config
 import com.seancheey.gui.ModelSlot
+import com.seancheey.resources.Resources
 import com.seancheey.scene.Scenes
 import com.seancheey.scene.Stages
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.control.Label
+import javafx.scene.image.Image
+import javafx.scene.image.ImageView
 import javafx.scene.layout.VBox
 import java.net.URL
 import java.util.*
@@ -22,6 +25,9 @@ class Menu : Initializable {
     var botGroupBox: VBox? = null
     @FXML
     var playerLabel: Label? = null
+    @FXML
+    var titleImageView: ImageView? = null
+
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         playerLabel!!.text = "${Config.player.name}'s Robots"
@@ -29,6 +35,7 @@ class Menu : Initializable {
         for (model in group) {
             botGroupBox!!.children.add(ModelSlot(model))
         }
+        titleImageView!!.image = Image(Resources.getResourceInStream("dat/test_title.png"))
     }
 
     fun startGame() {
