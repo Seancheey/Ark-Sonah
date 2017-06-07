@@ -6,7 +6,9 @@ import com.seancheey.game.battlefield.Battlefield
  * Created by Seancheey on 29/05/2017.
  * GitHub: https://github.com/Seancheey
  */
-class RobotNode(model: RobotModel, override val field: Battlefield, override var x: Double, override var y: Double) : RobotModel(model.name, model.components), Node {
+class RobotNode(model: RobotModel, override val field: Battlefield, override var x: Double, override var y: Double) : RobotModel(model.name, model.components), MovableNode {
+    override var maxSpeed: Double = 0.0
+    override var turnSpeed: Double = 0.0
     override val actionTree: ActionTree = ActionTree(this)
     override var speed: Double = 0.0
     override var orientation: Double = 0.0
