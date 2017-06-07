@@ -1,4 +1,6 @@
 out/
+build/
+.gradle/
 .idea
 test*.png
 .DS_Store
