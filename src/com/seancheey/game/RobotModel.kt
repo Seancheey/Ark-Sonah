@@ -13,7 +13,7 @@ import java.io.Serializable
 /**
  * Designed as an immutable class as robot model
  */
-open class RobotModel(var name: String, val components: List<Component<ComponentModel>>) : Model, Serializable {
+open class RobotModel(var name: String, val components: List<Component>) : Model, Serializable {
     override val width: Double
         get() = Config.botSize
     override val height: Double

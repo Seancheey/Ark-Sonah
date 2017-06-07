@@ -22,7 +22,7 @@ class ComponentView(val componentModel: ComponentModel, val x: Int, val y: Int, 
         }
     }
 
-    fun toComponent(): Component<ComponentModel> {
+    fun toComponent(): Component {
         return Component(componentModel, x, y)
     }
 }

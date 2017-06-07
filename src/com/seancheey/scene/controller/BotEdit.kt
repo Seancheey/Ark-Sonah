@@ -1,6 +1,9 @@
 package com.seancheey.scene.controller
 
-import com.seancheey.game.*
+import com.seancheey.game.Component
+import com.seancheey.game.ComponentModel
+import com.seancheey.game.Config
+import com.seancheey.game.RobotModel
 import com.seancheey.gui.ComponentView
 import com.seancheey.gui.DragDropGrid
 import com.seancheey.gui.ModelSlot
@@ -157,7 +160,7 @@ class BotEdit : Initializable {
     }
 
     fun getRobotModel(): RobotModel {
-        val components = arrayListOf<Component<ComponentModel>>()
+        val components = arrayListOf<Component>()
         for (node in editPane!!.children) {
             if (node is ComponentView)
                 components.add(node.toComponent())
