@@ -49,7 +49,7 @@ class Action(val node: Node, var execute: () -> Unit) : Serializable {
 
         fun rotateToAngleAction(node: Node, rotateSpeed: Double, targetOrientation: Double): Action {
             val action = Action(node, {})
-            var diff = Node.minAngleDifferenct(targetOrientation, node.orientation)
+            var diff = Node.minAngleDifference(targetOrientation, node.orientation)
             action.execute = {
                 if (Math.abs(diff) < rotateSpeed) {
                     action.discard = true

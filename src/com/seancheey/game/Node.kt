@@ -18,7 +18,7 @@ interface Node : Model {
             return arc
         }
 
-        fun minAngleDifferenct(arc1: Double, arc2: Double): Double {
+        fun minAngleDifference(arc1: Double, arc2: Double): Double {
             val diff0 = arc1 - arc2
             val diff1 = diff0 + 2 * Math.PI
             val diff2 = diff0 - 2 * Math.PI
