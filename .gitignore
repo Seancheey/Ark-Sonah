@@ -1,7 +1,25 @@
-out/
-build/
-.gradle/
-.idea
-test*.png
-.DS_Store
+# test files
 *.object
+test*.png
+
+# mac os
+.DS_Store
+
+# Gradle.
+.gradle/
+build/
+
+# Maven.
+target/
+
+# IntelliJ.
+out/
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Eclipse
+.settings/
+.project
+.classpath
