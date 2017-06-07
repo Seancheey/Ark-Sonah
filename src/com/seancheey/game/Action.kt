@@ -26,11 +26,7 @@ class Action(val node: Node, var execute: () -> Unit) : Serializable {
         fun rotateAction(node: Node, speed: Double): Action {
             return Action(node, {
                 node.orientation += speed
-                if (node.orientation > Math.PI * 2) {
-                    node.orientation -= Math.PI * 2
-                } else if (node.orientation < 0) {
-                    node.orientation += Math.PI * 2
-                }
+                node.correctOrientation()
             })
         }
 
@@ -53,14 +49,17 @@ class Action(val node: Node, var execute: () -> Unit) : Serializable {
 
         fun rotateToAngleAction(node: Node, rotateSpeed: Double, targetOrientation: Double): Action {
             val action = Action(node, {})
+            var diff = Node.minAngleDifferenct(targetOrientation, node.orientation)
             action.execute = {
-                if (Math.abs(node.orientation - targetOrientation) < rotateSpeed) {
+                if (Math.abs(diff) < rotateSpeed) {
                     action.discard = true
                 } else {
-                    if (node.orientation > targetOrientation) {
-                        node.orientation -= rotateSpeed
-                    } else {
+                    if (diff > 0) {
                         node.orientation += rotateSpeed
+                        diff -= rotateSpeed
+                    } else {
+                        node.orientation -= rotateSpeed
+                        diff += rotateSpeed
                     }
                 }
             }

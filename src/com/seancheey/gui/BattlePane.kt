@@ -50,10 +50,12 @@ class BattlePane(val battlefield: Battlefield, width: Double, height: Double) : 
         graphicsContext2D.fill = Color.LIGHTGRAY
 
         // render method
-        gameDirector.render = { lag ->
+        gameDirector.render = {
             graphicsContext2D.fillRect(0.0, 0.0, this.width, this.height)
+            graphicsContext2D.save()
             graphicsContext2D.scale(scale, scale)
-            for (node in battlefield.nodes) drawNode(node, lag)
+            for (node in battlefield.nodes) drawNode(node)
+            graphicsContext2D.restore()
         }
 
         setOnMouseClicked { event ->
@@ -83,11 +85,12 @@ class BattlePane(val battlefield: Battlefield, width: Double, height: Double) : 
         renderTimer.stop()
     }
 
-    private fun drawNode(node: Node, lag: Double) {
-        val posX = node.x + node.vx * lag
-        val posY = node.y + node.vy * lag
-        val rotate: Rotate = Transform.rotate(node.orientation * 180 / Math.PI + 90, posX, posY)
+    private fun drawNode(node: Node) {
+        val rotate: Rotate = Transform.rotate(node.orientation * 180 / Math.PI + 90, node.x, node.y)
         graphicsContext2D.setTransform(rotate.mxx, rotate.myx, rotate.mxy, rotate.myy, rotate.tx, rotate.ty)
-        graphicsContext2D.drawImage(node.image, posX - Config.botSize / 2, posY - Config.botSize / 2, Config.botSize, Config.botSize)
+        graphicsContext2D.drawImage(node.image, node.x - node.width / 2, node.y - node.height / 2, node.width, node.height)
+        if (focusedNodes.contains(node)) {
+            graphicsContext2D.strokeOval(node.x - node.width / 2, node.y - node.height / 2, node.width, node.height)
+        }
     }
 }

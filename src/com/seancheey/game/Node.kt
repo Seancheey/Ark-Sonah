@@ -8,16 +8,44 @@ import com.seancheey.game.battlefield.Battlefield
  * GitHub: https://github.com/Seancheey
  */
 interface Node : Model {
+    companion object {
+        fun correctArcAngle(arc: Double): Double {
+            if (arc > Math.PI * 2) {
+                return correctArcAngle(arc - 2 * Math.PI)
+            } else if (arc < 0) {
+                return correctArcAngle(arc + 2 * Math.PI)
+            }
+            return arc
+        }
+
+        fun minAngleDifferenct(arc1: Double, arc2: Double): Double {
+            val diff0 = arc1 - arc2
+            val diff1 = diff0 + 2 * Math.PI
+            val diff2 = diff0 - 2 * Math.PI
+            val min = minOf(Math.abs(diff0), Math.abs(diff1), Math.abs(diff2))
+            when (min) {
+                Math.abs(diff0) ->
+                    return diff0
+                Math.abs(diff1) ->
+                    return diff1
+                Math.abs(diff2) ->
+                    return diff2
+                else ->
+                    return diff0
+            }
+        }
+    }
+
     /**
-     * position x
+     * center position x
      */
     var x: Double
     /**
-     * position y
+     * center position y
      */
     var y: Double
     /**
-     * orientation in arc
+     * orientation in arc, 0 <= orientation <= 2*PI
      */
     var orientation: Double
     /**
@@ -55,7 +83,11 @@ interface Node : Model {
     }
 
     fun containsPoint(pointX: Double, pointY: Double): Boolean {
-        if (pointX < x || pointY < y || pointX > x + width || pointY > y + height) return false
+        if (pointX < x - width / 2 || pointY < y - height / 2 || pointX > x + width / 2 || pointY > y + height / 2) return false
         return true
+    }
+
+    fun correctOrientation() {
+        orientation = Node.correctArcAngle(orientation)
     }
 }
