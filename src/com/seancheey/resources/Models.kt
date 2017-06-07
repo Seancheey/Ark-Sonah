@@ -1,6 +1,7 @@
-package com.seancheey.game
+package com.seancheey.resources
 
-import com.seancheey.resources.Resources
+import com.seancheey.game.ComponentModel
+import com.seancheey.game.ComponentReader
 
 
 /**

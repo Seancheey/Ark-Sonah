@@ -5,6 +5,7 @@ import com.seancheey.gui.ComponentView
 import com.seancheey.gui.DragDropGrid
 import com.seancheey.gui.ModelSlot
 import com.seancheey.gui.modelCopyFormat
+import com.seancheey.resources.Models
 import com.seancheey.scene.Scenes
 import com.seancheey.scene.Stages
 import javafx.fxml.FXML
