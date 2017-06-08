@@ -1,8 +1,8 @@
 package com.seancheey.scene.controller
 
-import com.seancheey.game.Component
 import com.seancheey.game.ComponentModel
 import com.seancheey.game.Config
+import com.seancheey.game.DefaultComponent
 import com.seancheey.game.RobotModel
 import com.seancheey.gui.ComponentView
 import com.seancheey.gui.DragDropGrid
@@ -49,7 +49,7 @@ class BotEdit : Initializable {
         }
 
     /**
-     * Component panes for player to select component models
+     * DefaultComponent panes for player to select component models
      */
     @FXML
     var blocksPane: TilePane? = null
@@ -136,8 +136,8 @@ class BotEdit : Initializable {
         editController!!.nameField!!.text = editingRobot.name
         // change components on grid
         editController!!.clearComponents()
-        for ((model, x, y) in editingRobot.components) {
-            editController!!.putComponent(model, x, y)
+        for (component in editingRobot.components) {
+            editController!!.putComponent(component.model, component.x, component.y)
         }
         setGridsInRangeIsEnabled(0, 0, Config.botGridNum, Config.botGridNum, true)
     }
@@ -160,7 +160,7 @@ class BotEdit : Initializable {
     }
 
     fun getRobotModel(): RobotModel {
-        val components = arrayListOf<Component>()
+        val components = arrayListOf<DefaultComponent>()
         for (node in editPane!!.children) {
             if (node is ComponentView)
                 components.add(node.toComponent())
