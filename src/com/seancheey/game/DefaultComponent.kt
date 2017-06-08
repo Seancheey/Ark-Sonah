@@ -1,27 +1,20 @@
 package com.seancheey.game
 
+import com.seancheey.game.battlefield.Battlefield
+import com.seancheey.game.battlefield.EmptyBattlefield
 import java.io.Serializable
 
 /**
  * Created by Seancheey on 23/05/2017.
  * GitHub: https://github.com/Seancheey
  */
-open class DefaultComponent(val model: ComponentModel, var x: Int, var y: Int) : Model by model, Serializable {
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (other !is DefaultComponent) return false
-
-        if (model != other.model) return false
-        if (x != other.x) return false
-        if (y != other.y) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = model.hashCode()
-        result = 31 * result + x
-        result = 31 * result + y
-        return result
-    }
+open class DefaultComponent(val model: ComponentModel, val gridX: Int, val gridY: Int) : Model by model, Node, Serializable {
+    override final var x: Double = gridX * Config.botGridSize
+    override final var y: Double = gridY * Config.botGridSize
+    override final var orientation: Double = 0.0
+    override final val peers: ArrayList<Node> = arrayListOf()
+    override final val children: ArrayList<Node> = arrayListOf()
+    override final var field: Battlefield = EmptyBattlefield()
+    override final val actionTree: ActionTree
+        get() = ActionTree(this)
 }

@@ -137,7 +137,7 @@ class BotEdit : Initializable {
         // change components on grid
         editController!!.clearComponents()
         for (component in editingRobot.components) {
-            editController!!.putComponent(component.model, component.x, component.y)
+            editController!!.putComponent(component.model, component.gridX, component.gridY)
         }
         setGridsInRangeIsEnabled(0, 0, Config.botGridNum, Config.botGridNum, true)
     }

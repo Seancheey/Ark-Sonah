@@ -59,7 +59,7 @@ interface Node : Model {
     /**
      * the battlefield this node is at
      */
-    val field: Battlefield
+    var field: Battlefield
     /**
      * the action tree that the node will perform each frame
      */
