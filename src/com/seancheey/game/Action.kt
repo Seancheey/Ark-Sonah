@@ -36,7 +36,7 @@ class Action(val node: Node, var execute: () -> Unit) : Serializable {
             action.execute = {
                 rotateAction.execute()
                 if (rotateAction.discard) {
-                    if (Math.abs(node.x - x) < 1 && Math.abs(node.y - y) < 1) {
+                    if (Math.abs(node.x - x) <= node.vx || Math.abs(node.y - y) <= node.vy) {
                         node.speed = 0.0
                         action.discard = true
                     } else {
