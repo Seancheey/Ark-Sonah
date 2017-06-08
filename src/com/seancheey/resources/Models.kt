@@ -1,7 +1,6 @@
 package com.seancheey.resources
 
 import com.seancheey.game.ComponentModel
-import com.seancheey.game.ComponentReader
 
 
 /**
@@ -9,5 +8,5 @@ import com.seancheey.game.ComponentReader
  * GitHub: https://github.com/Seancheey
  */
 object Models {
-    val BLOCKS: List<ComponentModel> = ComponentReader<ComponentModel>(Resources.blocks_dat).readAll()
+    val BLOCKS: List<ComponentModel> = ModelReader<ComponentModel>(Resources.blocks_dat).readAll()
 }

@@ -1,4 +1,4 @@
-package com.seancheey.game
+package com.seancheey.resources
 
 @Suppress("UNCHECKED_CAST")
 /**
@@ -6,7 +6,7 @@ package com.seancheey.game
  * GitHub: https://github.com/Seancheey
  */
 
-class ComponentReader<out T>(fileString: String) {
+class ModelReader<out T>(fileString: String) {
     private var content: List<String> = fileString.split("\n")
 
     private fun toComponent(type: String, line: String): T? {
