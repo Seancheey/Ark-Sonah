@@ -67,6 +67,10 @@ interface Node : Model {
      */
     val peers: ArrayList<Node>
     /**
+     * children node list
+     */
+    val children: ArrayList<Node>
+    /**
      * the battlefield this node is at
      */
     val field: Battlefield
