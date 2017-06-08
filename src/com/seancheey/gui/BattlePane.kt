@@ -1,9 +1,6 @@
 package com.seancheey.gui
 
-import com.seancheey.game.Config
-import com.seancheey.game.GameDirector
-import com.seancheey.game.GameInspector
-import com.seancheey.game.Node
+import com.seancheey.game.*
 import com.seancheey.game.battlefield.Battlefield
 import com.seancheey.game.command.MoveCommand
 import javafx.animation.AnimationTimer
@@ -27,7 +24,7 @@ class BattlePane(val battlefield: Battlefield, width: Double, height: Double) : 
     }
 
     override fun moveFocusedRobotsTo(x: Double, y: Double) {
-        focusedNodes.forEach { node -> gameDirector.command(MoveCommand(Config.player, node, x, y)) }
+        focusedNodes.forEach { node -> if (node is MovableNode) gameDirector.command(MoveCommand(Config.player, node, x, y)) }
     }
 
     override var focusedNodes: ArrayList<Node> = arrayListOf()

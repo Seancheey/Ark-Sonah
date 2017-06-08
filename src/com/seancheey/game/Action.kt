@@ -16,10 +16,15 @@ class Action(val node: Node, var execute: () -> Unit) : Serializable {
         val MOVE_ACTION = 1
         val SHOOT_ACTION = 2
         val ANIMATION_ACTION = 3
-        fun moveAction(node: Node): Action {
+        fun moveAction(node: MovableNode): Action {
             return Action(node, {
                 node.x += node.vx
                 node.y += node.vy
+                if (node.speed < node.maxSpeed) {
+                    node.speed += node.acceleration
+                } else {
+                    node.speed = node.maxSpeed
+                }
             })
         }
 
@@ -30,7 +35,7 @@ class Action(val node: Node, var execute: () -> Unit) : Serializable {
             })
         }
 
-        fun gotoTargetAction(node: Node, x: Double, y: Double): Action {
+        fun gotoTargetAction(node: MovableNode, x: Double, y: Double): Action {
             val action = Action(node, {})
             val rotateAction = rotateToAngleAction(node, 0.05, Math.atan2((y - node.y), (x - node.x)))
             action.execute = {

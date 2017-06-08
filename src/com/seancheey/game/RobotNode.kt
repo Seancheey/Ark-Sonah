@@ -7,8 +7,9 @@ import com.seancheey.game.battlefield.Battlefield
  * GitHub: https://github.com/Seancheey
  */
 class RobotNode(model: RobotModel, override val field: Battlefield, override var x: Double, override var y: Double) : RobotModel(model.name, model.components), MovableNode {
+    override var acceleration: Double = 0.0
     override val children: ArrayList<Node> = arrayListOf()
-    override var maxSpeed: Double = 0.0
+    override var maxSpeed: Double = 1.0
     override var turnSpeed: Double = 0.0
     override val actionTree: ActionTree = ActionTree(this)
     override var speed: Double = 0.0
