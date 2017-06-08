@@ -41,7 +41,19 @@ object Config {
      * for threads to close automatically when program stops
      */
     var programClosed = false
-    
+
+    /**
+     * each scroll set scale *= (1 + or - scrollSpeedDelta)
+     */
+    var scrollSpeedDelta = 0.05
+        set(value) {
+            if (value > 0.5) {
+                field = 0.5
+            } else {
+                field = value
+            }
+        }
+
     /**
      * player's actual save file path
      */

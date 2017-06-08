@@ -8,7 +8,6 @@ import javafx.concurrent.Task
 import javafx.scene.canvas.Canvas
 import javafx.scene.input.MouseButton
 import javafx.scene.paint.Color
-import javafx.scene.transform.Rotate
 import javafx.scene.transform.Transform
 
 /**
@@ -31,6 +30,12 @@ class BattlePane(val battlefield: Battlefield, width: Double, height: Double) : 
     override var transX: Double = 0.0
     override var transY: Double = 0.0
     override var scale: Double = 1.0
+        set(value) {
+            scaleX = value
+            scaleY = value
+            scaleZ = value
+            field = value
+        }
     override val guiWidth: Double
         get() = width
     override val guiHeight: Double
@@ -63,6 +68,15 @@ class BattlePane(val battlefield: Battlefield, width: Double, height: Double) : 
                 moveFocusedRobotsTo(event.x, event.y)
             }
         }
+
+        setOnScroll { event ->
+            if (event.deltaY > 0) {
+                scale *= 1 - Config.scrollSpeedDelta
+            } else if (event.deltaY < 0) {
+                scale *= 1 + Config.scrollSpeedDelta
+            }
+        }
+
         start()
     }
 
@@ -83,7 +97,7 @@ class BattlePane(val battlefield: Battlefield, width: Double, height: Double) : 
     }
 
     private fun drawNode(node: Node) {
-        val rotate: Rotate = Transform.rotate(node.orientation * 180 / Math.PI + 90, node.x, node.y)
+        val rotate: Transform = Transform.rotate(node.orientation * 180 / Math.PI + 90, node.x, node.y)
         graphicsContext2D.setTransform(rotate.mxx, rotate.myx, rotate.mxy, rotate.myy, rotate.tx, rotate.ty)
         graphicsContext2D.drawImage(node.image, node.x - node.width / 2, node.y - node.height / 2, node.width, node.height)
         if (focusedNodes.contains(node)) {
