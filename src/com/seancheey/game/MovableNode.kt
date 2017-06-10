@@ -5,9 +5,22 @@ package com.seancheey.game
  * GitHub: https://github.com/Seancheey
  */
 interface MovableNode : Node {
+    /**
+     * maximum speed
+     */
     var maxSpeed: Double
+    /**
+     * maximum turning speed
+     */
     var turnSpeed: Double
+    /**
+     * current acceleration
+     */
     var acceleration: Double
+    /**
+     * maximum acceleration
+     */
+    var maxAcceleration: Double
     /**
      * absolute speed
      */
@@ -22,4 +35,13 @@ interface MovableNode : Node {
      */
     val vy: Double
         get() = Math.sin(orientation) * speed
+
+    fun stop() {
+        acceleration = 0.0
+        speed = 0.0
+    }
+
+    fun move() {
+        acceleration = maxAcceleration
+    }
 }

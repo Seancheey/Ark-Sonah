@@ -37,12 +37,12 @@ class Action(val node: Node, var execute: () -> Unit) : Serializable {
 
         fun gotoTargetAction(node: MovableNode, x: Double, y: Double): Action {
             val action = Action(node, {})
-            val rotateAction = rotateToAngleAction(node, 0.05, Math.atan2((y - node.y), (x - node.x)))
+            val rotateAction = rotateToAngleAction(node, node.turnSpeed, Math.atan2((y - node.y), (x - node.x)))
             action.execute = {
                 rotateAction.execute()
                 if (rotateAction.discard) {
                     if (Math.abs(node.x - x) <= node.vx || Math.abs(node.y - y) <= node.vy) {
-                        node.speed = 0.0
+                        node.stop()
                         action.discard = true
                     } else {
                         node.orientation = Math.atan2((y - node.y), (x - node.x))

@@ -9,5 +9,6 @@ import com.seancheey.game.Player
  * GitHub: https://github.com/Seancheey
  */
 class MoveCommand(from: Player, to: MovableNode, toX: Double, toY: Double) : Command(from, to, {
+    to.move()
     to.actionTree.putAction(Action.gotoTargetAction(to, toX, toY), Action.CUSTOM_ACTION)
 })
