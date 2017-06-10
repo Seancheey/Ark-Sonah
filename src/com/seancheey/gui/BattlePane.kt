@@ -15,11 +15,20 @@ import javafx.scene.transform.Transform
  * GitHub: https://github.com/Seancheey
  */
 class BattlePane(val battlefield: Battlefield, width: Double, height: Double) : Canvas(width, height), GameInspector {
+    override fun selectAllRobotsWithSameType(robotModel: RobotModel) {
+        focusedNodes.clear()
+        for (node in battlefield.nodes) {
+            if (node is RobotNode) {
+                if (node.model == robotModel) {
+                    focusedNodes.add(node)
+                }
+            }
+        }
+    }
+
     override fun selectFocusingRobotsAt(x: Double, y: Double) {
         focusedNodes.clear()
-        gameDirector.nodes
-                .filter { it.containsPoint(x, y) }
-                .forEach { focusedNodes.add(it) }
+        nodesContainPoint(x, y).forEach { focusedNodes.add(it) }
     }
 
     override fun moveFocusedRobotsTo(x: Double, y: Double) {
@@ -67,6 +76,13 @@ class BattlePane(val battlefield: Battlefield, width: Double, height: Double) : 
             if (event.button == MouseButton.SECONDARY) {
                 moveFocusedRobotsTo(event.x, event.y)
             }
+            if (event.button == MouseButton.MIDDLE) {
+                val nodes = nodesContainPoint(event.x, event.y).filter { it is RobotModel }
+                if (nodes.isNotEmpty()) {
+                    val firstNode: RobotModel = nodes[0] as RobotModel
+                    selectAllRobotsWithSameType(firstNode)
+                }
+            }
         }
 
         setOnScroll { event ->
@@ -78,6 +94,10 @@ class BattlePane(val battlefield: Battlefield, width: Double, height: Double) : 
         }
 
         start()
+    }
+
+    private fun nodesContainPoint(x: Double, y: Double): List<Node> {
+        return gameDirector.nodes.filter { it.containsPoint(x, y) }
     }
 
     fun start() {

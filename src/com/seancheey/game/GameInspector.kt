@@ -18,4 +18,6 @@ interface GameInspector {
     fun selectFocusingRobotsAt(x: Double, y: Double)
 
     fun moveFocusedRobotsTo(x: Double, y: Double)
+
+    fun selectAllRobotsWithSameType(robotModel: RobotModel)
 }
