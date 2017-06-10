@@ -8,19 +8,19 @@ interface MovableNode : Node {
     /**
      * maximum speed
      */
-    var maxSpeed: Double
+    val maxSpeed: Double
     /**
      * maximum turning speed
      */
-    var turnSpeed: Double
+    val turnSpeed: Double
+    /**
+     * maximum acceleration
+     */
+    val maxAcceleration: Double
     /**
      * current acceleration
      */
     var acceleration: Double
-    /**
-     * maximum acceleration
-     */
-    var maxAcceleration: Double
     /**
      * absolute speed
      */

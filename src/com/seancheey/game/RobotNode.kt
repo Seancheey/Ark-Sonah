@@ -7,11 +7,8 @@ import com.seancheey.game.battlefield.Battlefield
  * GitHub: https://github.com/Seancheey
  */
 class RobotNode(val model: RobotModel, override var field: Battlefield, override var x: Double, override var y: Double) : RobotModel(model.name, model.components), MovableNode {
-    override var maxAcceleration: Double = 0.05
     override var acceleration: Double = 0.0
     override val children: ArrayList<Node> = arrayListOf()
-    override var maxSpeed: Double = 0.5
-    override var turnSpeed: Double = 0.05
     override val actionTree: ActionTree = ActionTree(this)
     override var speed: Double = 0.0
     override var orientation: Double = 0.0
@@ -20,6 +17,14 @@ class RobotNode(val model: RobotModel, override var field: Battlefield, override
         }
     override val peers: ArrayList<Node> = field.nodes
 
+    /***
+    override val maxAcceleration: Double
+    get() = super.maxAcceleration
+    override val maxSpeed: Double
+    get() = super.maxSpeed
+    override val turnSpeed: Double
+    get() = super.turnSpeed
+     **/
     init {
         actionTree.putAction(Action.moveAction(this), Action.MOVE_ACTION)
     }
