@@ -1,7 +1,6 @@
 package com.seancheey.gui
 
-import com.seancheey.game.ComponentModel
-import com.seancheey.game.DefaultComponent
+import com.seancheey.game.*
 import javafx.scene.image.ImageView
 import javafx.scene.input.MouseEvent
 
@@ -23,6 +22,10 @@ class ComponentView(val componentModel: ComponentModel, val x: Int, val y: Int, 
     }
 
     fun toComponent(): DefaultComponent {
+        if (componentModel is MovementModel)
+            return MovementComponent(componentModel, x, y)
+        if (componentModel is WeaponModel)
+            return WeaponComponent(componentModel, x, y)
         return DefaultComponent(componentModel, x, y)
     }
 }

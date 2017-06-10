@@ -1,6 +1,8 @@
 package com.seancheey.resources
 
 import com.seancheey.game.ComponentModel
+import com.seancheey.game.MovementModel
+import com.seancheey.game.WeaponModel
 import java.io.StringReader
 import javax.json.Json
 import javax.json.JsonObject
@@ -12,6 +14,8 @@ import javax.json.JsonObject
  */
 object Models {
     val BLOCKS: List<ComponentModel> = readBlocks(Resources.components_json)
+    val MOVEMENTS: List<MovementModel> = readMovements(Resources.components_json)
+    val WEAPONS: List<WeaponModel> = listOf()
 
     fun readData(data: String): JsonObject = Json.createReader((StringReader(data))).readObject()
 
@@ -22,5 +26,14 @@ object Models {
             block_list.add(ComponentModel.create(o.asJsonObject())!!)
         }
         return block_list.toList()
+    }
+
+    private fun readMovements(data: String): List<MovementModel> {
+        val move_list = arrayListOf<MovementModel>()
+        val obj = readData(data)
+        for (o in obj.getJsonArray("movements")) {
+            move_list.add(MovementModel.create(o.asJsonObject())!!)
+        }
+        return move_list.toList()
     }
 }

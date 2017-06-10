@@ -101,7 +101,7 @@
                     <content>
                         <ScrollPane hbarPolicy="NEVER" prefViewportHeight="431.0" prefViewportWidth="200.0">
                             <content>
-                                <TilePane prefHeight="200.0" prefWidth="200.0"/>
+                                <TilePane fx:id="movementsPane" prefHeight="200.0" prefWidth="200.0"/>
                             </content>
                         </ScrollPane>
                     </content>

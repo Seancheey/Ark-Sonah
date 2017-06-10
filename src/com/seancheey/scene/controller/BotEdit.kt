@@ -55,6 +55,8 @@ class BotEdit : Initializable {
     var blocksPane: TilePane? = null
     @FXML
     var weaponsPane: TilePane? = null
+    @FXML
+    var movementsPane: TilePane? = null
     /**
      * Pane for player to edit their ships
      */
@@ -82,20 +84,22 @@ class BotEdit : Initializable {
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         editController = this
-        initModelFlowPanes()
+        initModelFlowPanes(blocksPane!!, Models.BLOCKS)
+        initModelFlowPanes(weaponsPane!!, Models.WEAPONS)
+        initModelFlowPanes(movementsPane!!, Models.MOVEMENTS)
         initEditPane()
         initBotGroup()
         setEditingRobot(0)
     }
 
-    private fun initModelFlowPanes() {
-        for (component in Models.BLOCKS) {
+    private fun initModelFlowPanes(pane: TilePane, modelList: List<ComponentModel>) {
+        for (component in modelList) {
             val componentSlot = ModelSlot(component)
             componentSlot.setOnDragDetected { event ->
                 dragComponentStart(component, componentSlot)
                 event.consume()
             }
-            blocksPane!!.children.add(componentSlot)
+            pane.children.add(componentSlot)
         }
     }
 
@@ -165,7 +169,6 @@ class BotEdit : Initializable {
             if (node is ComponentView)
                 components.add(node.toComponent())
         }
-
         return RobotModel(nameField!!.text, components)
     }
 
