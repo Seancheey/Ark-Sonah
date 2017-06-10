@@ -54,4 +54,8 @@ class Menu : Initializable {
 
     }
 
+    fun exit() {
+        Stages.primaryStage!!.close()
+    }
+
 }
