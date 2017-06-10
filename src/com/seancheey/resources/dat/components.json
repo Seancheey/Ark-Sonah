@@ -1,0 +1,40 @@
+{
+  "blocks": [
+    {
+      "name": "block 1x1",
+      "imageURL": "dat/rivet_block_small.png",
+      "health": 10,
+      "weight": 10,
+      "gridWidth": 1,
+      "gridHeight": 1
+    },
+    {
+      "name": "block 2x2",
+      "imageURL": "dat/rivet_block.png",
+      "health": 40,
+      "weight": 40,
+      "gridWidth": 2,
+      "gridHeight": 2
+    },
+    {
+      "name": "builder block",
+      "imageURL": "dat/builder_block.png",
+      "health": 10,
+      "weight": 20,
+      "gridWidth": 2,
+      "gridHeight": 2
+    }
+  ],
+  "movements": [
+    {
+      "name": "jet engine",
+      "imageURL": "dat/jet_engine.png",
+      "health": 5,
+      "weight": 20,
+      "gridWidth": 1,
+      "gridHeight": 2
+    }
+  ],
+  "weapons": [
+  ]
+}

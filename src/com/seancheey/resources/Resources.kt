@@ -11,6 +11,8 @@ object Resources {
         get() {
             return getResourceString("dat/blocks.dat")!!
         }
+    val components_json: String
+        get() = getResourceString("dat/components.json")!!
 
     fun getResourceString(path: String): String? {
         try {

@@ -3,6 +3,9 @@ package com.seancheey.game
 import com.seancheey.resources.Resources
 import javafx.scene.image.Image
 import java.io.Serializable
+import javax.json.Json
+import javax.json.JsonObject
+import javax.json.JsonObjectBuilder
 
 /**
  * Created by Seancheey on 20/05/2017.
@@ -47,6 +50,15 @@ open class ComponentModel(val name: String, imageURL: String, var health: Int, v
      */
     var modifyRobot: (robot: RobotNode) -> Unit = {}
 
+    companion object {
+        private val varList = listOf("name", "imageURL", "health", "weight", "gridWidth", "gridHeight")
+        fun create(j: JsonObject): ComponentModel? {
+            if (!varList.any { j.isNull(it) })
+                return ComponentModel(j.getString(varList[0]), j.getString(varList[1]), j.getInt(varList[2]), j.getInt(varList[3]), j.getInt(varList[4]), j.getInt(varList[5]))
+            return null
+        }
+    }
+
     init {
         this.imageURL = imageURL
         image = getCompImage()
@@ -54,6 +66,17 @@ open class ComponentModel(val name: String, imageURL: String, var health: Int, v
 
     private fun getCompImage(): Image {
         return Image(Resources.getResourceInStream(imageURL), width, height, false, false)
+    }
+
+    fun createJsonObject(): JsonObject = createJsonBuilder().build()
+
+    open protected fun createJsonBuilder(): JsonObjectBuilder {
+        return Json.createObjectBuilder().add("name", name)
+                .add("imageURL", imageURL)
+                .add("health", health)
+                .add("weight", weight)
+                .add("gridWidth", gridWidth)
+                .add("gridHeight", gridHeight)
     }
 
     constructor() : this("Default", "file:dat/test0.png", 10, 10, 10, 10)
