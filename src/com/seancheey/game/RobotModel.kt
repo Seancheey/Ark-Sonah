@@ -30,19 +30,27 @@ open class RobotModel(var name: String, val components: List<DefaultComponent>) 
     val maxSpeed: Double
     val maxAcceleration: Double
     val turnSpeed: Double
+    val health: Int
+    val weight: Int
 
     init {
         image = updateImage()
         var forceSum = 0.0
         var turnSum = 0.0
+        var healthSum = 0
+        var weightSum = 0
         for (comp in components.filter { it is MovementComponent }) {
             val component = (comp as MovementComponent)
             forceSum += component.model.force
             turnSum += component.model.turn
+            healthSum += component.model.health
+            weightSum += component.model.weight
         }
         maxSpeed = forceSum
         maxAcceleration = forceSum / 20
         turnSpeed = turnSum
+        health = healthSum
+        weight = weightSum
     }
 
     constructor() : this("", arrayListOf())
