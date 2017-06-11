@@ -35,7 +35,9 @@ class Menu : Initializable {
         for (model in group) {
             botGroupBox!!.children.add(ModelSlot(model))
         }
-        titleImageView!!.image = Image(Resources.getResourceInStream("dat/test_title.png"))
+        val imageInputStream = Resources.getResourceInStream("dat/title.png")
+        if (imageInputStream != null)
+            titleImageView!!.image = Image(imageInputStream)
     }
 
     fun startGame() {
