@@ -13,7 +13,7 @@ object Scenes {
     val menu
         get() = load("menu.fxml")
     val bot_edit
-        get() = load("bot_edit.fxml")
+        get() = load("edit.fxml")
     val bot_battle
         get() = load("bot_battle.fxml")
     val battle_select

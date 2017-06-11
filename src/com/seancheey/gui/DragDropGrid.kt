@@ -12,7 +12,7 @@ import javafx.scene.layout.StackPane
 
 /**
  * A grid on editPane waiting to be filled by a component
- * It is created when BotEdit pane is initialized
+ * It is created when EditController pane is initialized
  */
 class DragDropGrid(val x: Int, val y: Int, dragComponentEnd: (x: Int, y: Int, model: ComponentModel) -> Unit) : StackPane() {
 
