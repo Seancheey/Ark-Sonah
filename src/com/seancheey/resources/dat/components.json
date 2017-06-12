@@ -2,7 +2,7 @@
   "blocks": [
     {
       "name": "block 1x1",
-      "imageURL": "dat/(1x2)block.png",
+      "imageURL": "dat/(1x1)block.png",
       "health": 10,
       "weight": 10,
       "gridWidth": 1,
