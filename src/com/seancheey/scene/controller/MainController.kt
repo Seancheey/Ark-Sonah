@@ -6,8 +6,8 @@ package com.seancheey.scene.controller
  */
 
 import com.seancheey.game.Config
-import com.seancheey.game.PlayerSavesReader
-import com.seancheey.game.PlayerSavesWriter
+import com.seancheey.io.PlayerSavesReader
+import com.seancheey.io.PlayerSavesWriter
 import com.seancheey.scene.Scenes
 import com.seancheey.scene.Stages
 import javafx.fxml.FXML

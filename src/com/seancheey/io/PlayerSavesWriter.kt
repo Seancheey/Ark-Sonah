@@ -1,5 +1,8 @@
-package com.seancheey.game
+package com.seancheey.io
 
+import com.seancheey.game.Config
+import com.seancheey.game.Player
+import com.seancheey.io.PlayerSavesReader
 import java.io.File
 import java.io.FileOutputStream
 import java.io.ObjectOutputStream

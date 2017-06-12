@@ -1,5 +1,7 @@
-package com.seancheey.game
+package com.seancheey.io
 
+import com.seancheey.game.Config
+import com.seancheey.game.Player
 import java.io.FileInputStream
 import java.io.FileNotFoundException
 import java.io.ObjectInputStream
