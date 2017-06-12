@@ -7,7 +7,7 @@ import com.seancheey.scene.Stages
  * Created by Seancheey on 31/05/2017.
  * GitHub: https://github.com/Seancheey
  */
-class BattleSelect {
+class BattleSelectController {
 
     fun menu(): Unit {
         Stages.switchScene(Scenes.menu)

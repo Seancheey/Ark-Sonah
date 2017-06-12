@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
             prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.seancheey.scene.controller.Menu">
+            fx:controller="com.seancheey.scene.controller.MenuController">
     <center>
         <VBox alignment="CENTER" focusTraversable="true" prefHeight="200.0" prefWidth="100.0"
               BorderPane.alignment="CENTER">
@@ -16,7 +16,6 @@
             <BorderPane.margin>
                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
             </BorderPane.margin>
-            <children>
                 <ImageView fx:id="titleImageView" fitHeight="108.0" fitWidth="227.0" pickOnBounds="true"
                            preserveRatio="true"/>
                 <Button mnemonicParsing="false" onAction="#startGame" text="Start Game">
@@ -39,7 +38,6 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
                     </VBox.margin>
                 </Button>
-            </children>
         </VBox>
     </center>
     <right>
@@ -49,10 +47,8 @@
             </top>
             <center>
                 <ScrollPane hbarPolicy="NEVER" prefViewportHeight="383.0" prefViewportWidth="200.0">
-                    <content>
-                        <VBox fx:id="botGroupBox" alignment="CENTER" prefHeight="350.0" prefWidth="100.0"
-                              BorderPane.alignment="CENTER"/>
-                    </content>
+                    <VBox fx:id="botGroupBox" alignment="CENTER" prefHeight="350.0" prefWidth="100.0"
+                          BorderPane.alignment="CENTER"/>
                 </ScrollPane>
             </center>
         </BorderPane>

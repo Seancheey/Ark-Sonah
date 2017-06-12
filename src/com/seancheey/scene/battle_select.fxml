@@ -5,15 +5,11 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.*?>
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.seancheey.scene.controller.BattleSelect">
-    <children>
-        <ToolBar prefHeight="40.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-                 AnchorPane.topAnchor="0.0">
-            <items>
-                <Button mnemonicParsing="false" text="Menu"/>
-            </items>
-        </ToolBar>
-        <TilePane layoutY="40.0" prefHeight="360.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0"
-                  AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0"/>
-    </children>
+            fx:controller="com.seancheey.scene.controller.BattleSelectController">
+    <ToolBar prefHeight="40.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+             AnchorPane.topAnchor="0.0">
+        <Button mnemonicParsing="false" text="Menu"/>
+    </ToolBar>
+    <TilePane layoutY="40.0" prefHeight="360.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0"
+              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="40.0"/>
 </AnchorPane>

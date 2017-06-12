@@ -19,7 +19,7 @@ import java.util.*
  * Created by Seancheey on 29/05/2017.
  * GitHub: https://github.com/Seancheey
  */
-class Menu : Initializable {
+class MenuController : Initializable {
 
     @FXML
     var botGroupBox: VBox? = null
