@@ -47,7 +47,9 @@ class BattleController : Initializable {
         for (model in models) {
             val robotModelSlot = ModelSlot(model)
             robotModelSlot.setOnAction {
-                battlePane!!.battlefield.putRobot(model, 150.0 + Math.random() * 50, 200.0 + Math.random() * 30, Math.random(), Math.random() * 6)
+                if (!model.empty) {
+                    battlePane!!.battlefield.putRobot(model, 150.0 + Math.random() * 50, 200.0 + Math.random() * 30, Math.random(), Math.random() * 6)
+                }
             }
             botGroupBox!!.children.add(robotModelSlot)
         }
