@@ -2,7 +2,7 @@
   "blocks": [
     {
       "name": "block 1x1",
-      "imageURL": "dat/rivet_block_small.png",
+      "imageURL": "dat/(1x2)block.png",
       "health": 10,
       "weight": 10,
       "gridWidth": 1,
@@ -10,11 +10,19 @@
     },
     {
       "name": "block 2x2",
-      "imageURL": "dat/rivet_block.png",
+      "imageURL": "dat/(2x2)block.png",
       "health": 40,
       "weight": 40,
       "gridWidth": 2,
       "gridHeight": 2
+    },
+    {
+      "name": "block 2x1",
+      "imageURL": "dat/(2x1)block.png",
+      "health": 20,
+      "weight": 20,
+      "gridWidth": 2,
+      "gridHeight": 1
     },
     {
       "name": "builder block",
