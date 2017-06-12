@@ -7,12 +7,10 @@ import java.io.*
  * GitHub: https://github.com/Seancheey
  */
 object Resources {
-    val blocks_dat: String
-        get() {
-            return getResourceString("dat/blocks.dat")!!
-        }
     val components_json: String
         get() = getResourceString("dat/components.json")!!
+    val errorImageInStream: InputStream
+        get() = getResourceInStream("dat/error.png")!!
 
     fun getResourceString(path: String): String? {
         try {

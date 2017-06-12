@@ -41,14 +41,12 @@ open class ComponentModel(val name: String, imageURL: String, var health: Int, v
     var imageURL = ""
         set(value) {
             field = value
-            if (value != "") {
-                image = getCompImage()
-            }
+            image = getCompImage()
         }
     /**
      * function used to modify stats of robot
      */
-    var modifyRobot: (robot: RobotNode) -> Unit = {}
+    open var modifyRobot: (robot: RobotNode) -> Unit = {}
 
     companion object {
         private val varList = listOf("name", "imageURL", "health", "weight", "gridWidth", "gridHeight")
@@ -65,10 +63,13 @@ open class ComponentModel(val name: String, imageURL: String, var health: Int, v
     }
 
     private fun getCompImage(): Image {
-        return Image(Resources.getResourceInStream(imageURL), width, height, false, false)
+        val resInStream = Resources.getResourceInStream(imageURL)
+        if (resInStream != null) {
+            return Image(resInStream, width, height, false, false)
+        } else {
+            return Image(Resources.errorImageInStream, width, height, false, false)
+        }
     }
-
-    fun createJsonObject(): JsonObject = createJsonBuilder().build()
 
     open protected fun createJsonBuilder(): JsonObjectBuilder {
         return Json.createObjectBuilder().add("name", name)
@@ -78,7 +79,4 @@ open class ComponentModel(val name: String, imageURL: String, var health: Int, v
                 .add("gridWidth", gridWidth)
                 .add("gridHeight", gridHeight)
     }
-
-    constructor() : this("Default", "file:dat/test0.png", 10, 10, 10, 10)
-
 }

@@ -86,22 +86,22 @@ class EditController : Initializable {
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         editController = this
-        initModelFlowPanes(blocksPane!!, Models.BLOCKS)
-        initModelFlowPanes(weaponsPane!!, Models.WEAPONS)
-        initModelFlowPanes(movementsPane!!, Models.MOVEMENTS)
+        initModelSlotTab(blocksPane!!, Models.BLOCKS)
+        initModelSlotTab(weaponsPane!!, Models.WEAPONS)
+        initModelSlotTab(movementsPane!!, Models.MOVEMENTS)
         initEditPane()
         initBotGroup()
         setEditingRobot(0)
     }
 
-    private fun initModelFlowPanes(pane: TilePane, modelList: List<ComponentModel>) {
-        for (component in modelList) {
-            val componentSlot = ModelSlot(component)
-            componentSlot.setOnDragDetected { event ->
-                dragComponentStart(component, componentSlot)
+    private fun initModelSlotTab(pane: TilePane, modelList: List<ComponentModel>) {
+        for (model in modelList) {
+            val modelSlot = ModelSlot(model)
+            modelSlot.setOnDragDetected { event ->
+                dragComponentStart(model, modelSlot)
                 event.consume()
             }
-            pane.children.add(componentSlot)
+            pane.children.add(modelSlot)
         }
     }
 
