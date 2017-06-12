@@ -44,7 +44,7 @@
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </VBox.margin>
                     <children>
-                        <Button mnemonicParsing="false" onAction="#saveRobot" text="Save" />
+                        <Button mnemonicParsing="false" onAction="#savePlayerData" text="Save" />
                         <Button mnemonicParsing="false" text="Paint" />
                         <Button mnemonicParsing="false" onAction="#clearComponents" text="Clear" />
                     </children>

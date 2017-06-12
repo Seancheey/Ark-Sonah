@@ -10,6 +10,10 @@ import javafx.scene.image.ImageView
  */
 class ModelSlot(model: Model) : Button("") {
     init {
+        updateModel(model)
+    }
+
+    fun updateModel(model: Model) {
         //set image size
         val botView = ImageView(model.image)
         botView.fitWidth = model.width
