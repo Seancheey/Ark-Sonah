@@ -1,10 +1,18 @@
-#editPane * {
+DragDropGrid {
     -fx-border-width: 1;
     -fx-border-color: lightgray;
 }
 
-#botGroupBox * {
+ModelSlot {
     -fx-background-color: whitesmoke;
+}
+
+#botGroupBox ModelSlot {
     -fx-border-width: 1;
     -fx-border-color: darkgrey;
+}
+
+.tab-pane {
+    -fx-border-width: 3;
+    -fx-border-color: dimgray;
 }

@@ -3,57 +3,55 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<BorderPane stylesheets="@bot_edit_style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.seancheey.scene.controller.EditController">
+
+<BorderPane id="rootPane" stylesheets="@bot_edit_style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.seancheey.scene.controller.EditController">
     <right>
-        <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0"
-                   BorderPane.alignment="CENTER">
+        <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
             <items>
-                <TilePane fx:id="statsPane" prefHeight="200.0" prefWidth="200.0"/>
-                <VBox prefHeight="200.0" prefWidth="100.0"/>
+                <TilePane fx:id="statsPane" prefHeight="200.0" prefWidth="200.0" />
+                <VBox prefHeight="200.0" prefWidth="100.0" />
             </items>
         </SplitPane>
     </right>
     <top>
         <ToolBar BorderPane.alignment="CENTER">
             <items>
-                <Button mnemonicParsing="false" onAction="#menu" text="Menu"/>
-                <Button mnemonicParsing="false" onAction="#battle" text="Battle"/>
+                <Button mnemonicParsing="false" onAction="#menu" text="Menu" />
+                <Button mnemonicParsing="false" onAction="#battle" text="Battle" />
             </items>
         </ToolBar>
     </top>
     <center>
         <VBox alignment="CENTER">
             <padding>
-                <Insets bottom="5.0" left="2.0" right="2.0" top="5.0"/>
+                <Insets bottom="5.0" left="2.0" right="2.0" top="5.0" />
             </padding>
             <children>
                 <HBox alignment="CENTER">
                     <children>
-                        <TextField fx:id="nameField" alignment="CENTER" prefWidth="400.0"
-                                   promptText="Enter your robot name"/>
+                        <TextField fx:id="nameField" alignment="CENTER" prefWidth="400.0" promptText="Enter your robot name" />
                     </children>
                     <opaqueInsets>
-                        <Insets/>
+                        <Insets />
                     </opaqueInsets>
                     <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </VBox.margin>
                 </HBox>
-                <AnchorPane fx:id="editPane" minHeight="400.0" minWidth="400.0"/>
+                <AnchorPane fx:id="editPane" minHeight="400.0" minWidth="400.0" />
                 <HBox alignment="CENTER">
                     <VBox.margin>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                     </VBox.margin>
                     <children>
-                        <Button mnemonicParsing="false" onAction="#saveRobot" text="Save"/>
-                        <Button mnemonicParsing="false" text="Paint"/>
-                        <Button mnemonicParsing="false" onAction="#clearComponents" text="Clear"/>
+                        <Button mnemonicParsing="false" onAction="#saveRobot" text="Save" />
+                        <Button mnemonicParsing="false" text="Paint" />
+                        <Button mnemonicParsing="false" onAction="#clearComponents" text="Clear" />
                     </children>
                 </HBox>
             </children>
             <opaqueInsets>
-                <Insets/>
+                <Insets />
             </opaqueInsets>
         </VBox>
     </center>
@@ -64,7 +62,7 @@
                     <content>
                         <ScrollPane hbarPolicy="NEVER" prefViewportHeight="431.0" prefViewportWidth="200.0">
                             <content>
-                                <TilePane fx:id="blocksPane" prefHeight="200.0" prefWidth="200.0"/>
+                                <TilePane fx:id="blocksPane" prefHeight="200.0" prefWidth="200.0" />
                             </content>
                         </ScrollPane>
                     </content>
@@ -73,7 +71,7 @@
                     <content>
                         <ScrollPane hbarPolicy="NEVER" prefViewportHeight="431.0" prefViewportWidth="200.0">
                             <content>
-                                <TilePane fx:id="weaponsPane" prefHeight="200.0" prefWidth="200.0"/>
+                                <TilePane fx:id="weaponsPane" prefHeight="200.0" prefWidth="200.0" />
                             </content>
                         </ScrollPane>
                     </content>
@@ -82,7 +80,7 @@
                     <content>
                         <ScrollPane hbarPolicy="NEVER" prefViewportHeight="431.0" prefViewportWidth="200.0">
                             <content>
-                                <TilePane fx:id="movementsPane" prefHeight="200.0" prefWidth="200.0"/>
+                                <TilePane fx:id="movementsPane" prefHeight="200.0" prefWidth="200.0" />
                             </content>
                         </ScrollPane>
                     </content>
@@ -91,7 +89,6 @@
         </TabPane>
     </left>
     <bottom>
-        <HBox id="botGroupBox" fx:id="botGroupBox" alignment="CENTER" prefHeight="100.0" prefWidth="200.0"
-              BorderPane.alignment="CENTER"/>
+        <HBox id="botGroupBox" fx:id="botGroupBox" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
     </bottom>
 </BorderPane>

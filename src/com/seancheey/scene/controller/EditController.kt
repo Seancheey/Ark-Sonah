@@ -9,12 +9,15 @@ import com.seancheey.gui.DragDropGrid
 import com.seancheey.gui.ModelSlot
 import com.seancheey.gui.modelCopyFormat
 import com.seancheey.resources.Models
+import com.seancheey.resources.Resources
 import com.seancheey.scene.Scenes
 import com.seancheey.scene.Stages
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.Node
 import javafx.scene.control.TextField
+import javafx.scene.image.Image
+import javafx.scene.image.ImageView
 import javafx.scene.input.ClipboardContent
 import javafx.scene.input.TransferMode
 import javafx.scene.layout.AnchorPane
@@ -106,9 +109,16 @@ class EditController : Initializable {
     }
 
     private fun initEditPane() {
-        val size = Config.botGridNum * Config.botGridSize
+        val size = Config.botPixelSize
         editPane!!.minWidth = size
         editPane!!.maxWidth = size
+        // add background arrow
+        val backgroundArrow = ImageView(Image(Resources.arrowImageInStream, Config.botPixelSize, Config.botPixelSize, false, false))
+        AnchorPane.setTopAnchor(backgroundArrow, 0.0)
+        AnchorPane.setBottomAnchor(backgroundArrow, 0.0)
+        AnchorPane.setLeftAnchor(backgroundArrow, 0.0)
+        AnchorPane.setRightAnchor(backgroundArrow, 0.0)
+        editPane!!.children.add(backgroundArrow)
         // add grid to edit pane
         val grids = arrayListOf<DragDropGrid>()
         for (y in 0 until Config.botGridNum) {
