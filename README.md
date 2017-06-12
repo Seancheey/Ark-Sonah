@@ -6,7 +6,7 @@ Simply go to the root directory of the project and run following command
 
 Make sure you have already installed gradle
     
-    cd <protect root path>
+    cd <project root path>
     gradle shadowJar
     
 After that, gradle will generate a folder under root path
