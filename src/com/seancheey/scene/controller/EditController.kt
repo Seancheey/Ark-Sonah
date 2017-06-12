@@ -155,7 +155,13 @@ class EditController : Initializable {
         for (component in editingRobot.components) {
             editController!!.putComponent(component.model, component.gridX, component.gridY)
         }
+        // clear disabled grids
         setGridsInRangeIsEnabled(0, 0, Config.botGridNum, Config.botGridNum, true)
+        // set id for css
+        for (node in botGroupBox!!.children) {
+            node.id = ""
+        }
+        botGroupBox!!.children[index].id = "selectedRobotModel"
     }
 
     fun saveRobot() {

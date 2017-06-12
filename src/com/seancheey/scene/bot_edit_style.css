@@ -16,3 +16,8 @@ ModelSlot {
     -fx-border-width: 3;
     -fx-border-color: dimgray;
 }
+
+#selectedRobotModel {
+    -fx-border-width: 4;
+    -fx-border-color: deepskyblue;
+}
