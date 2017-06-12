@@ -45,9 +45,26 @@ interface Node : Model {
      */
     var y: Double
     /**
+     * position of the node's four edge points
+     */
+    val leftX: Double
+        get() = x - width / 2
+    val upperY: Double
+        get() = y - height / 2
+    val rightX: Double
+        get() = x + width / 2
+    val buttonY: Double
+        get() = y + height / 2
+    /**
      * orientation in arc, 0 <= orientation <= 2*PI
+     * node with 0 arc orientation is heading towards right (positive x-axis)
      */
     var orientation: Double
+    /**
+     * orientation in degree
+     */
+    val degreeOrientation: Double
+        get() = orientation * 180 / Math.PI
     /**
      * peer nodes that this node may affect
      */

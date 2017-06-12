@@ -117,11 +117,11 @@ class BattlePane(val battlefield: Battlefield, width: Double, height: Double) : 
     }
 
     private fun drawNode(node: Node) {
-        val rotate: Transform = Transform.rotate(node.orientation * 180 / Math.PI + 90, node.x, node.y)
+        val rotate: Transform = Transform.rotate(node.degreeOrientation + 90.0, node.x, node.y)
         graphicsContext2D.setTransform(rotate.mxx, rotate.myx, rotate.mxy, rotate.myy, rotate.tx, rotate.ty)
-        graphicsContext2D.drawImage(node.image, node.x - node.width / 2, node.y - node.height / 2, node.width, node.height)
+        graphicsContext2D.drawImage(node.image, node.leftX, node.upperY, node.width, node.height)
         if (focusedNodes.contains(node)) {
-            graphicsContext2D.strokeOval(node.x - node.width / 2, node.y - node.height / 2, node.width, node.height)
+            graphicsContext2D.strokeOval(node.leftX, node.upperY, node.width, node.height)
         }
     }
 }
