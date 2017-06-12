@@ -11,6 +11,8 @@ object Resources {
         get() = getResourceString("dat/components.json")!!
     val errorImageInStream: InputStream
         get() = getResourceInStream("dat/error.png")!!
+    val noRobotImageInStream: InputStream
+        get() = getResourceInStream("dat/norobot.png")!!
 
     fun getResourceString(path: String): String? {
         try {

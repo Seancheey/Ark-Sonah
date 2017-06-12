@@ -32,6 +32,8 @@ open class RobotModel(var name: String, val components: List<DefaultComponent>) 
     val turnSpeed: Double
     val health: Int
     val weight: Int
+    val empty: Boolean
+        get() = components.isEmpty()
 
     init {
         image = updateImage()
@@ -58,7 +60,7 @@ open class RobotModel(var name: String, val components: List<DefaultComponent>) 
 
     private fun updateImage(): Image {
         if (components.isEmpty()) {
-            return Image(Resources.getResourceInStream("dat/norobot.png"))
+            return Image(Resources.noRobotImageInStream)
         }
         val writeImage = WritableImage(Config.botPixelSize.toInt(), Config.botPixelSize.toInt())
 
