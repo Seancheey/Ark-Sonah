@@ -70,9 +70,11 @@ open class RobotModel(var name: String, val components: List<DefaultComponent>) 
             for (readY in 0 until compImage.height.toInt()) {
                 for (readX in 0 until compImage.width.toInt()) {
                     val color = reader.getColor(readX, readY)
-                    val xPos = comp.x + readX / compImage.width * comp.width
-                    val yPos = comp.y + readY / compImage.height * comp.height
-                    writer.setColor(xPos.toInt(), yPos.toInt(), color)
+                    if (color.isOpaque) {
+                        val xPos = comp.x + readX / compImage.width * comp.width
+                        val yPos = comp.y + readY / compImage.height * comp.height
+                        writer.setColor(xPos.toInt(), yPos.toInt(), color)
+                    }
                 }
             }
         }
