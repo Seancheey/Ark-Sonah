@@ -94,6 +94,12 @@ interface Node : Model {
         return true
     }
 
+    fun distanceTo(pointX: Double, pointY: Double): Double {
+        val dx = pointX - x
+        val dy = pointY - y
+        return Math.sqrt(dx * dx + dy * dy)
+    }
+
     fun correctOrientation() {
         orientation = Node.correctArcAngle(orientation)
     }

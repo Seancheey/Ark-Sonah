@@ -15,7 +15,7 @@ interface GameInspector {
 
     var focusedNodes: ArrayList<Node>
 
-    fun selectFocusingRobotsAt(x: Double, y: Double)
+    fun selectRobotBeside(x: Double, y: Double)
 
     fun moveFocusedRobotsTo(x: Double, y: Double)
 

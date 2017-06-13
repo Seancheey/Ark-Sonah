@@ -26,9 +26,13 @@ class BattlePane(val battlefield: Battlefield, width: Double, height: Double) : 
         }
     }
 
-    override fun selectFocusingRobotsAt(x: Double, y: Double) {
+    override fun selectRobotBeside(x: Double, y: Double) {
         focusedNodes.clear()
-        nodesContainPoint(x, y).forEach { focusedNodes.add(it) }
+        val minDistanceNode = nodesContainPoint(x, y).minBy { it.distanceTo(x, y) }
+        if (minDistanceNode != null) {
+            focusedNodes.add(minDistanceNode)
+        }else{
+        }
     }
 
     override fun moveFocusedRobotsTo(x: Double, y: Double) {
@@ -71,7 +75,7 @@ class BattlePane(val battlefield: Battlefield, width: Double, height: Double) : 
 
         setOnMouseClicked { event ->
             if (event.button == MouseButton.PRIMARY) {
-                selectFocusingRobotsAt(event.x, event.y)
+                selectRobotBeside(event.x, event.y)
             }
             if (event.button == MouseButton.SECONDARY) {
                 moveFocusedRobotsTo(event.x, event.y)
