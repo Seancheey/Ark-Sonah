@@ -55,5 +55,16 @@
     }
   ],
   "weapons": [
+    {
+      "name": "machine gun",
+      "imageURL": "dat/(2x4)machine_gun.png",
+      "health": 5,
+      "weight": 30,
+      "gridWidth": 2,
+      "gridHeight": 4,
+      "damage": 20,
+      "range": 200,
+      "frequency": 2
+    }
   ]
 }

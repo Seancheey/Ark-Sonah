@@ -15,7 +15,7 @@ import javax.json.JsonObject
 object Models {
     val BLOCKS: List<ComponentModel> = readBlocks(Resources.components_json)
     val MOVEMENTS: List<MovementModel> = readMovements(Resources.components_json)
-    val WEAPONS: List<WeaponModel> = listOf()
+    val WEAPONS: List<WeaponModel> = readWeapons(Resources.components_json)
 
     fun readData(data: String): JsonObject = Json.createReader((StringReader(data))).readObject()
 
@@ -33,6 +33,15 @@ object Models {
         val obj = readData(data)
         for (o in obj.getJsonArray("movements")) {
             move_list.add(MovementModel.create(o.asJsonObject())!!)
+        }
+        return move_list.toList()
+    }
+
+    private fun readWeapons(data: String): List<WeaponModel> {
+        val move_list = arrayListOf<WeaponModel>()
+        val obj = readData(data)
+        for (o in obj.getJsonArray("weapons")) {
+            move_list.add(WeaponModel.create(o.asJsonObject())!!)
         }
         return move_list.toList()
     }
