@@ -2,6 +2,7 @@ package com.seancheey.game
 
 import com.seancheey.resources.Resources
 import javafx.scene.image.Image
+import javafx.scene.image.PixelWriter
 import javafx.scene.image.WritableImage
 
 
@@ -22,7 +23,7 @@ open class RobotModel(var name: String, val components: List<DefaultComponent>) 
     override val image: Image
         get() {
             if (field == null) {
-                field = updateImage()
+                field = idleImage()
             }
             return field
         }
@@ -33,9 +34,18 @@ open class RobotModel(var name: String, val components: List<DefaultComponent>) 
     val weight: Int
     val empty: Boolean
         get() = components.isEmpty()
+    val immutableImage: Image
+        get() {
+            if (_immutableImage == null) {
+                _immutableImage = immutableImage()
+            }
+            return _immutableImage!!
+        }
+    @Transient
+    private var _immutableImage: Image? = null
 
     init {
-        image = updateImage()
+        image = idleImage()
         var forceSum = 0.0
         var turnSum = 0.0
         var healthSum = 0
@@ -56,29 +66,43 @@ open class RobotModel(var name: String, val components: List<DefaultComponent>) 
 
     constructor() : this("", arrayListOf())
 
-
-    private fun updateImage(): Image {
-        if (components.isEmpty()) {
-            return Image(Resources.noRobotImageInStream)
-        }
+    private fun immutableImage(): WritableImage {
         val writeImage = WritableImage(Config.botPixelSize.toInt(), Config.botPixelSize.toInt())
-
         val writer = writeImage.pixelWriter
-        for (comp in components.map { component -> component }) {
-            val compImage = comp.image
-            val reader = compImage.pixelReader
-            for (readY in 0 until compImage.height.toInt()) {
-                for (readX in 0 until compImage.width.toInt()) {
-                    val color = reader.getColor(readX, readY)
-                    if (color.isOpaque) {
-                        val xPos = comp.x + readX / compImage.width * comp.width
-                        val yPos = comp.y + readY / compImage.height * comp.height
-                        writer.setColor(xPos.toInt(), yPos.toInt(), color)
-                    }
+        components
+                .filter { it !is WeaponComponent }
+                .forEach { writer.setPixels(it.x.toInt(), it.y.toInt(), it.image) }
+        return writeImage
+    }
+
+    /**
+     * write a image to pixel writer
+     */
+    private fun PixelWriter.setPixels(x: Int, y: Int, image: Image) {
+        val reader = image.pixelReader
+        for (readY in 0 until image.height.toInt()) {
+            for (readX in 0 until image.width.toInt()) {
+                val color = reader.getColor(readX, readY)
+                if (color.isOpaque) {
+                    val xPos = x + readX
+                    val yPos = y + readY
+                    setColor(xPos, yPos, color)
                 }
             }
         }
-        return writeImage
+    }
+
+    private fun idleImage(): Image {
+        // return "no robot" image if there is no components in robot
+        if (components.isEmpty()) {
+            return Image(Resources.noRobotImageInStream)
+        }
+        // add all moving nodes to immutableImage
+        val writableImage = immutableImage()
+        val writer = writableImage.pixelWriter
+        components.filter { it is WeaponComponent }.forEach { writer.setPixels(it.x.toInt(), it.y.toInt(), it.image) }
+
+        return writableImage
     }
 
     override fun equals(other: Any?): Boolean {
