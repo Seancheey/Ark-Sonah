@@ -53,6 +53,10 @@ object Config {
                 field = value
             }
         }
+    /**
+     * attribute string separator
+     */
+    val attrSeparator = "|"
 
     /**
      * player's actual save file path

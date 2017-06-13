@@ -48,12 +48,28 @@ open class ComponentModel(val name: String, imageURL: String, var health: Int, v
      */
     open var modifyRobot: (robot: RobotNode) -> Unit = {}
 
+    /**
+     * special attributes of a component
+     */
+    val attributes: ArrayList<Attribute> = arrayListOf()
+
+
     companion object {
-        private val varList = listOf("name", "imageURL", "health", "weight", "gridWidth", "gridHeight")
+        private val requiredKeys = listOf("name", "imageURL", "health", "weight", "gridWidth", "gridHeight")
+        private val specialKey = "special"
         fun create(j: JsonObject): ComponentModel? {
-            if (!varList.any { j.isNull(it) })
-                return ComponentModel(j.getString(varList[0]), j.getString(varList[1]), j.getInt(varList[2]), j.getInt(varList[3]), j.getInt(varList[4]), j.getInt(varList[5]))
-            return null
+            if (requiredKeys.any { it !in j.keys })
+                return null
+            val model = ComponentModel(j.getString(requiredKeys[0]), j.getString(requiredKeys[1]), j.getInt(requiredKeys[2]), j.getInt(requiredKeys[3]), j.getInt(requiredKeys[4]), j.getInt(requiredKeys[5]))
+            if (specialKey in j.keys) {
+                // deal with special attributes
+                val attrString:String = j.getJsonString(specialKey).string
+                attrString.split(Config.attrSeparator)
+                        .mapNotNull { Attribute.getAttribute(it) }
+                        .forEach { model.attributes.add(it) }
+            }else{
+            }
+            return model
         }
     }
 
@@ -78,5 +94,6 @@ open class ComponentModel(val name: String, imageURL: String, var health: Int, v
                 .add("weight", weight)
                 .add("gridWidth", gridWidth)
                 .add("gridHeight", gridHeight)
+                .add("special", attributes.joinToString(separator = Config.attrSeparator))
     }
 }
