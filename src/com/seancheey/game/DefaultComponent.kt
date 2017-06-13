@@ -8,7 +8,7 @@ import java.io.Serializable
  * Created by Seancheey on 23/05/2017.
  * GitHub: https://github.com/Seancheey
  */
-open class DefaultComponent(open val model: ComponentModel, val gridX: Int, val gridY: Int) : Model by model, Node, Serializable {
+open class DefaultComponent(open val model: ComponentModel, val gridX: Int, val gridY: Int) : Model by model, Node{
     override final var x: Double = gridX * Config.botGridSize
     override final var y: Double = gridY * Config.botGridSize
     override final var orientation: Double = 0.0

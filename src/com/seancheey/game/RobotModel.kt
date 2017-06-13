@@ -3,7 +3,6 @@ package com.seancheey.game
 import com.seancheey.resources.Resources
 import javafx.scene.image.Image
 import javafx.scene.image.WritableImage
-import java.io.Serializable
 
 
 /**
@@ -13,7 +12,7 @@ import java.io.Serializable
 /**
  * Designed as an immutable class as robot model
  */
-open class RobotModel(var name: String, val components: List<DefaultComponent>) : Model, Serializable {
+open class RobotModel(var name: String, val components: List<DefaultComponent>) : Model {
     override val width: Double
         get() = Config.botSize
     override val height: Double
@@ -86,6 +85,11 @@ open class RobotModel(var name: String, val components: List<DefaultComponent>) 
 
         if (name != other.name) return false
         if (components != other.components) return false
+        if (maxSpeed != other.maxSpeed) return false
+        if (maxAcceleration != other.maxAcceleration) return false
+        if (turnSpeed != other.turnSpeed) return false
+        if (health != other.health) return false
+        if (weight != other.weight) return false
 
         return true
     }
@@ -93,6 +97,11 @@ open class RobotModel(var name: String, val components: List<DefaultComponent>) 
     override fun hashCode(): Int {
         var result = name.hashCode()
         result = 31 * result + components.hashCode()
+        result = 31 * result + maxSpeed.hashCode()
+        result = 31 * result + maxAcceleration.hashCode()
+        result = 31 * result + turnSpeed.hashCode()
+        result = 31 * result + health
+        result = 31 * result + weight
         return result
     }
 
