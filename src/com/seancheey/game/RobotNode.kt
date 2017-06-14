@@ -8,25 +8,18 @@ import com.seancheey.game.battlefield.Battlefield
  */
 class RobotNode(val model: RobotModel, override var field: Battlefield, override var x: Double, override var y: Double) : RobotModel(model.name, model.components), MovableNode {
     override var acceleration: Double = 0.0
-    override val children: ArrayList<Node> = arrayListOf()
-    override val actionTree: ActionTree = ActionTree(this)
     override var speed: Double = 0.0
     override var orientation: Double = 0.0
         set(value) {
             field = value - 2 * Math.PI * (value / (2 * Math.PI)).toInt()
         }
+    override val children: ArrayList<Node> = arrayListOf()
+    override val actionTree: ActionTree = ActionTree(this)
     override val peers: ArrayList<Node> = field.nodes
 
-    /***
-    override val maxAcceleration: Double
-    get() = super.maxAcceleration
-    override val maxSpeed: Double
-    get() = super.maxSpeed
-    override val turnSpeed: Double
-    get() = super.turnSpeed
-     **/
     init {
         actionTree.putAction(Action.moveAction(this), Action.MOVE_ACTION)
+        model.components.filterIsInstance<WeaponComponent>().forEach { children.add(it) }
     }
 
     override fun equals(other: Any?): Boolean {

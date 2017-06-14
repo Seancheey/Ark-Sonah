@@ -2,7 +2,6 @@ package com.seancheey.gui
 
 import com.seancheey.game.*
 import com.seancheey.game.battlefield.Battlefield
-import com.seancheey.game.command.MoveCommand
 import javafx.animation.AnimationTimer
 import javafx.concurrent.Task
 import javafx.scene.canvas.Canvas
@@ -14,30 +13,7 @@ import javafx.scene.transform.Transform
  * Created by Seancheey on 01/06/2017.
  * GitHub: https://github.com/Seancheey
  */
-class BattlePane(val battlefield: Battlefield, width: Double, height: Double) : Canvas(width, height), GameInspector {
-    override fun selectAllRobotsWithSameType(robotModel: RobotModel) {
-        focusedNodes.clear()
-        for (node in battlefield.nodes) {
-            if (node is RobotNode) {
-                if (node.model == robotModel) {
-                    focusedNodes.add(node)
-                }
-            }
-        }
-    }
-
-    override fun selectRobotBeside(x: Double, y: Double) {
-        focusedNodes.clear()
-        val minDistanceNode = nodesContainPoint(x, y).minBy { it.distanceTo(x, y) }
-        if (minDistanceNode != null) {
-            focusedNodes.add(minDistanceNode)
-        }else{
-        }
-    }
-
-    override fun moveFocusedRobotsTo(x: Double, y: Double) {
-        focusedNodes.forEach { node -> if (node is MovableNode) gameDirector.command(MoveCommand(Config.player, node, x, y)) }
-    }
+class BattlePane(override val battlefield: Battlefield, width: Double, height: Double) : Canvas(width, height), GameInspector {
 
     override var focusedNodes: ArrayList<Node> = arrayListOf()
     override var transX: Double = 0.0
@@ -81,9 +57,9 @@ class BattlePane(val battlefield: Battlefield, width: Double, height: Double) : 
                 moveFocusedRobotsTo(event.x, event.y)
             }
             if (event.button == MouseButton.MIDDLE) {
-                val nodes = nodesContainPoint(event.x, event.y).filter { it is RobotModel }
+                val nodes = gameDirector.nodes.filter { it.containsPoint(event.x, event.y)}.filterIsInstance<RobotModel>()
                 if (nodes.isNotEmpty()) {
-                    val firstNode: RobotModel = nodes[0] as RobotModel
+                    val firstNode: RobotModel = nodes[0]
                     selectAllRobotsWithSameType(firstNode)
                 }
             }
@@ -98,10 +74,6 @@ class BattlePane(val battlefield: Battlefield, width: Double, height: Double) : 
         }
 
         start()
-    }
-
-    private fun nodesContainPoint(x: Double, y: Double): List<Node> {
-        return gameDirector.nodes.filter { it.containsPoint(x, y) }
     }
 
     fun start() {
