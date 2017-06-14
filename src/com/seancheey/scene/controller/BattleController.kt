@@ -45,7 +45,7 @@ class BattleController : Initializable {
         battleContainer!!.children.add(battlePane)
         // init selection slots
         for (model in models) {
-            val robotModelSlot = ModelSlot(model)
+            val robotModelSlot = ModelSlot(model, Config.botDisplaySize, Config.botDisplaySize)
             robotModelSlot.setOnAction {
                 if (!model.empty) {
                     battlePane!!.battlefield.putRobot(model, 150.0 + Math.random() * 50, 200.0 + Math.random() * 30, Math.random(), Math.random() * 6)

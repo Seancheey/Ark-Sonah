@@ -33,7 +33,7 @@ class MenuController : Initializable {
         playerLabel!!.text = "${Config.player.name}'s Robots"
         val group = Config.player.robotGroups[0]
         for (model in group) {
-            botGroupBox!!.children.add(ModelSlot(model))
+            botGroupBox!!.children.add(ModelSlot(model, Config.botDisplaySize, Config.botDisplaySize))
         }
         val imageInputStream = Resources.getResourceInStream("dat/title.png")
         if (imageInputStream != null)

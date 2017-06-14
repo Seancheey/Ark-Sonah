@@ -7,7 +7,7 @@ import javafx.concurrent.Task
 import javafx.scene.canvas.Canvas
 import javafx.scene.input.MouseButton
 import javafx.scene.paint.Color
-import javafx.scene.transform.Transform
+import javafx.scene.transform.Affine
 
 /**
  * Created by Seancheey on 01/06/2017.
@@ -57,7 +57,7 @@ class BattlePane(override val battlefield: Battlefield, width: Double, height: D
                 moveFocusedRobotsTo(event.x, event.y)
             }
             if (event.button == MouseButton.MIDDLE) {
-                val nodes = gameDirector.nodes.filter { it.containsPoint(event.x, event.y)}.filterIsInstance<RobotModel>()
+                val nodes = gameDirector.nodes.filter { it.containsPoint(event.x, event.y) }.filterIsInstance<RobotModel>()
                 if (nodes.isNotEmpty()) {
                     val firstNode: RobotModel = nodes[0]
                     selectAllRobotsWithSameType(firstNode)
@@ -92,12 +92,29 @@ class BattlePane(override val battlefield: Battlefield, width: Double, height: D
         renderTimer.stop()
     }
 
-    private fun drawNode(node: Node) {
-        val rotate: Transform = Transform.rotate(node.degreeOrientation + 90.0, node.x, node.y)
-        graphicsContext2D.setTransform(rotate.mxx, rotate.myx, rotate.mxy, rotate.myy, rotate.tx, rotate.ty)
-        graphicsContext2D.drawImage(node.image, node.leftX, node.upperY, node.width, node.height)
-        if (focusedNodes.contains(node)) {
-            graphicsContext2D.strokeOval(node.leftX, node.upperY, node.width, node.height)
+
+    private fun nodeTranslation(node: Node): Affine {
+        return Affine(Affine.translate(node.leftX, node.upperY))
+    }
+
+    private fun nodeRotation(node: Node): Affine {
+        if (node is RobotNode) {
+            return Affine(Affine.rotate(node.degreeOrientation + 90.0, node.width / 2, node.height / 2))
+        } else {
+            return Affine(Affine.rotate(node.degreeOrientation, node.width / 2, node.height / 2))
         }
+    }
+
+    private fun drawNode(node: Node, transform: Affine = Affine()) {
+        val newTrans: Affine = transform
+        newTrans.append(nodeTranslation(node))
+        newTrans.append(nodeRotation(node))
+        graphicsContext2D.transform = newTrans
+        graphicsContext2D.drawImage(node.image, 0.0, 0.0, node.width, node.height)
+        if (focusedNodes.contains(node)) {
+            graphicsContext2D.strokeOval(0.0, 0.0, node.width, node.height)
+        }
+        // recursively draw its children
+        node.children.forEach { drawNode(it, newTrans) }
     }
 }

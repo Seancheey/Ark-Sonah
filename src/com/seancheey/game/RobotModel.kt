@@ -15,9 +15,9 @@ import javafx.scene.image.WritableImage
  */
 open class RobotModel(var name: String, val components: List<DefaultComponent>) : Model {
     override val width: Double
-        get() = Config.botSize
+        get() = Config.botPixelSize
     override val height: Double
-        get() = Config.botSize
+        get() = Config.botPixelSize
     @Suppress("SENSELESS_COMPARISON")
     @Transient final
     override val image: Image
@@ -71,7 +71,7 @@ open class RobotModel(var name: String, val components: List<DefaultComponent>) 
         val writer = writeImage.pixelWriter
         components
                 .filter { it !is WeaponComponent }
-                .forEach { writer.setPixels(it.x.toInt(), it.y.toInt(), it.image) }
+                .forEach { writer.setPixels(it.leftX.toInt(), it.upperY.toInt(), it.image) }
         return writeImage
     }
 
@@ -100,7 +100,7 @@ open class RobotModel(var name: String, val components: List<DefaultComponent>) 
         // add all moving nodes to immutableImage
         val writableImage = immutableImage()
         val writer = writableImage.pixelWriter
-        components.filter { it is WeaponComponent }.forEach { writer.setPixels(it.x.toInt(), it.y.toInt(), it.image) }
+        components.filter { it is WeaponComponent }.forEach { writer.setPixels(it.leftX.toInt(), it.upperY.toInt(), it.image) }
 
         return writableImage
     }

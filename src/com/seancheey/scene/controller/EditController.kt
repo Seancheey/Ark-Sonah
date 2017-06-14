@@ -196,7 +196,7 @@ class EditController : Initializable, RobotEditInterface {
         // select player's first BotGroup to initialize
         val models = Config.player.robotGroups[0]
         for ((i, model) in models.withIndex()) {
-            val robotModelSlot = ModelSlot(model)
+            val robotModelSlot = ModelSlot(model, Config.botDisplaySize, Config.botDisplaySize)
             robotModelSlot.setOnAction { setEditingRobot(i) }
             botGroupBox!!.children.add(robotModelSlot)
         }
@@ -244,8 +244,8 @@ class EditController : Initializable, RobotEditInterface {
             if (!event.isShiftDown)
                 removeComponentAt(component.gridX, component.gridY)
         })
-        AnchorPane.setLeftAnchor(componentView, component.x)
-        AnchorPane.setTopAnchor(componentView, component.y)
+        AnchorPane.setLeftAnchor(componentView, component.leftX)
+        AnchorPane.setTopAnchor(componentView, component.upperY)
         editPane!!.children.add(componentView)
         setGridsInRangeIsEnabled(component.gridX, component.gridY, component.model.gridWidth, component.model.gridHeight, false)
     }

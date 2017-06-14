@@ -1,5 +1,6 @@
-package com.seancheey.game
+package com.seancheey.gui
 
+import com.seancheey.game.*
 import com.seancheey.game.battlefield.Battlefield
 import com.seancheey.game.command.MoveCommand
 

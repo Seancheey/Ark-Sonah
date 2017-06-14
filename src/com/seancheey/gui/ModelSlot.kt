@@ -8,21 +8,21 @@ import javafx.scene.image.ImageView
  * Created by Seancheey on 27/05/2017.
  * GitHub: https://github.com/Seancheey
  */
-class ModelSlot(model: Model) : Button("") {
+class ModelSlot(model: Model, val requestWidth: Double = model.width, val requestHeight: Double = model.height) : Button("") {
     init {
-        updateModel(model)
+        updateModel(model, requestWidth, requestHeight)
     }
 
-    fun updateModel(model: Model) {
+    fun updateModel(model: Model, w: Double = requestWidth, h: Double = requestHeight) {
         //set image size
         val botView = ImageView(model.image)
-        botView.fitWidth = model.width
-        botView.fitHeight = model.height
+        botView.fitWidth = w
+        botView.fitHeight = h
         graphic = botView
         // set self size
-        maxWidth = model.width
-        maxHeight = model.height
-        minWidth = model.width
-        minHeight = model.height
+        maxWidth = w
+        maxHeight = h
+        minWidth = w
+        minHeight = h
     }
 }

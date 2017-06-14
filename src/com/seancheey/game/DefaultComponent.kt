@@ -8,8 +8,8 @@ import com.seancheey.game.battlefield.EmptyBattlefield
  * GitHub: https://github.com/Seancheey
  */
 open class DefaultComponent protected constructor(open val model: ComponentModel, val gridX: Int, val gridY: Int) : Model by model, Node {
-    override final var x: Double = gridX * Config.botGridSize
-    override final var y: Double = gridY * Config.botGridSize
+    override final var x: Double = gridX * Config.botGridSize + width / 2
+    override final var y: Double = gridY * Config.botGridSize + height / 2
     override final var orientation: Double = 0.0
     override final val peers: ArrayList<Node> = arrayListOf()
     override final val children: ArrayList<Node> = arrayListOf()
