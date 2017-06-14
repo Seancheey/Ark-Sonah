@@ -7,6 +7,7 @@ import javafx.concurrent.Task
 import javafx.scene.canvas.Canvas
 import javafx.scene.input.MouseButton
 import javafx.scene.paint.Color
+import javafx.scene.shape.Rectangle
 import javafx.scene.transform.Affine
 
 /**
@@ -72,8 +73,10 @@ class BattlePane(override val battlefield: Battlefield, width: Double, height: D
             } else if (event.deltaY < 0) {
                 scale *= 1 + Config.scrollSpeedDelta
             }
+            //ensure the canvas doesn't come out
+            val clipRect = Rectangle((width - width / scale) / 2, (height - height / scale) / 2, width / scale, height / scale)
+            clip = clipRect
         }
-
         start()
     }
 
