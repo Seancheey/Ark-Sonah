@@ -10,6 +10,7 @@ import com.seancheey.game.RobotModel
  */
 interface RobotEditInterface {
     var editingRobot: RobotModel
+    var editRobotModelStack: ArrayList<RobotModel>
 
     fun addComponentAt(x: Int, y: Int, model: ComponentModel) {
         addComponent(DefaultComponent.create(model, x, y))
@@ -35,15 +36,27 @@ interface RobotEditInterface {
         updateRobotModel()
     }
 
-    fun resetAllComponents(model: RobotModel) {
-        clearComponents()
-        addAllComponents(model)
+    fun resetRobotModel(model: RobotModel) {
+        editingRobot = RobotModel(model.name, model.components)
+        updateRobotModel()
+        // flush editing stack
+        editRobotModelStack.clear()
     }
 
     fun moveAllComponents(dx: Int, dy: Int) {
         val newComps = editingRobot.components.map { DefaultComponent.create(it.model, it.gridX + dx, it.gridY + dy) }
         editingRobot = RobotModel(editingRobot.name, newComps)
         updateRobotModel()
+    }
+
+    fun undoRobotModel() {
+        if (editRobotModelStack.size > 0) {
+            editingRobot = editRobotModelStack.last()
+            // editingRobot assignment add one change, so remove twice
+            editRobotModelStack.remove(editRobotModelStack.last())
+            editRobotModelStack.remove(editRobotModelStack.last())
+            updateRobotModel()
+        }
     }
 
     fun updateRobotModel()
