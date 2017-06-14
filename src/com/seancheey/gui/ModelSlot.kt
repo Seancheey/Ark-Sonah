@@ -8,7 +8,7 @@ import javafx.scene.image.ImageView
  * Created by Seancheey on 27/05/2017.
  * GitHub: https://github.com/Seancheey
  */
-class ModelSlot(model: Model, val requestWidth: Double = model.width, val requestHeight: Double = model.height) : Button("") {
+open class ModelSlot(val model: Model, val requestWidth: Double = model.width, val requestHeight: Double = model.height) : Button("") {
     init {
         updateModel(model, requestWidth, requestHeight)
     }
