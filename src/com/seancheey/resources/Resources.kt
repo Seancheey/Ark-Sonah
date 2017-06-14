@@ -15,6 +15,8 @@ object Resources {
         get() = getResourceInStream("dat/norobot.png")!!
     val arrowImageInStream: InputStream
         get() = getResourceInStream("dat/arrow.png")!!
+    val titleImageInStream: InputStream
+        get() = getResourceInStream("dat/title.png")!!
 
     fun getResourceString(path: String): String? {
         try {

@@ -1,7 +1,7 @@
 package com.seancheey.scene.controller
 
 import com.seancheey.game.Config
-import com.seancheey.gui.ModelSlot
+import com.seancheey.gui.RobotModelSlot
 import com.seancheey.resources.Resources
 import com.seancheey.scene.Scenes
 import com.seancheey.scene.Stages
@@ -30,14 +30,14 @@ class MenuController : Initializable {
 
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
+        // set player label
         playerLabel!!.text = "${Config.player.name}'s Robots"
-        val group = Config.player.robotGroups[0]
-        for (model in group) {
-            botGroupBox!!.children.add(ModelSlot(model, Config.botDisplaySize, Config.botDisplaySize))
-        }
-        val imageInputStream = Resources.getResourceInStream("dat/title.png")
-        if (imageInputStream != null)
-            titleImageView!!.image = Image(imageInputStream)
+
+        // add player's first robot group
+        RobotModelSlot.allAllTo(botGroupBox!!.children, Config.player.robotGroups[0])
+
+        // put title image
+        titleImageView!!.image = Image(Resources.titleImageInStream)
     }
 
     fun startGame() {
