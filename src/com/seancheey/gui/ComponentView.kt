@@ -14,6 +14,9 @@ import javafx.scene.input.MouseEvent
  * It is created when a player drags component componentModel from a ComponentModelSlot to any grid
  */
 class ComponentView(val componentModel: ComponentModel, val x: Int, val y: Int, val dragStart: (event: MouseEvent, compView: ComponentView) -> Unit) : ImageView(componentModel.image) {
+    val component: DefaultComponent
+        get() = toComponent()
+
     init {
         setOnDragDetected { event ->
             dragStart(event, this)
