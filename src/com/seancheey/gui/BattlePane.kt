@@ -45,7 +45,8 @@ class BattlePane(override val battlefield: Battlefield, width: Double, height: D
             graphicsContext2D.fillRect(0.0, 0.0, this.width, this.height)
             graphicsContext2D.save()
             graphicsContext2D.scale(scale, scale)
-            for (node in battlefield.nodes) drawNode(node)
+            battlefield.nodes.forEach { drawNode(it) }
+            focusedNodes.forEach { drawFocus(it) }
             graphicsContext2D.restore()
         }
 
@@ -92,7 +93,6 @@ class BattlePane(override val battlefield: Battlefield, width: Double, height: D
         renderTimer.stop()
     }
 
-
     private fun nodeTranslation(node: Node): Affine {
         return Affine(Affine.translate(node.leftX, node.upperY))
     }
@@ -111,10 +111,12 @@ class BattlePane(override val battlefield: Battlefield, width: Double, height: D
         newTrans.append(nodeRotation(node))
         graphicsContext2D.transform = newTrans
         graphicsContext2D.drawImage(node.image, 0.0, 0.0, node.width, node.height)
-        if (focusedNodes.contains(node)) {
-            graphicsContext2D.strokeOval(0.0, 0.0, node.width, node.height)
-        }
         // recursively draw its children
         node.children.forEach { drawNode(it, newTrans) }
+    }
+
+    private fun drawFocus(node: Node) {
+        graphicsContext2D.transform = Affine()
+        graphicsContext2D.strokeOval(node.leftX, node.upperY, node.width, node.height)
     }
 }
