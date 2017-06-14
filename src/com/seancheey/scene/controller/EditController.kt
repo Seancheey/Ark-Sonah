@@ -12,6 +12,7 @@ import com.seancheey.scene.Stages
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.Node
+import javafx.scene.control.Button
 import javafx.scene.control.TextField
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
@@ -60,7 +61,7 @@ class EditController : Initializable, RobotEditInterface {
         // sync with robot slot image
         (botGroupBox!!.children[selectBotModelIndex] as ModelSlot).updateModel(editingRobot)
         // save player's data
-        savePlayerData()
+        Config.player.saveData()
     }
 
     /**
@@ -114,6 +115,26 @@ class EditController : Initializable, RobotEditInterface {
     var botGroupBox: HBox? = null
     @FXML
     var statsPane: TilePane? = null
+    /**
+     * buttons of four directions
+     */
+    @FXML
+    var upButton: Button? = null
+    /**
+     * buttons of four directions
+     */
+    @FXML
+    var downButton: Button? = null
+    /**
+     * buttons of four directions
+     */
+    @FXML
+    var leftButton: Button? = null
+    /**
+     * buttons of four directions
+     */
+    @FXML
+    var rightButton: Button? = null
 
     /**
      * Index of player's selected index of bot group and model
@@ -129,6 +150,7 @@ class EditController : Initializable, RobotEditInterface {
         initModelSlotTab(movementsPane!!, Models.MOVEMENTS)
         initEditPane()
         initBotGroup()
+        initMovingButtons()
         setEditingRobot(0)
     }
 
@@ -180,6 +202,22 @@ class EditController : Initializable, RobotEditInterface {
         }
     }
 
+    private fun initMovingButtons() {
+        val size = 25.0
+        val upImage = ImageView(Image(Resources.arrowImageInStream, size, size, false, false))
+        upImage.rotate = 0.0
+        val downImage = ImageView(Image(Resources.arrowImageInStream, size, size, false, false))
+        downImage.rotate = 180.0
+        val rightImage = ImageView(Image(Resources.arrowImageInStream, size, size, false, false))
+        rightImage.rotate = 90.0
+        val leftImage = ImageView(Image(Resources.arrowImageInStream, size, size, false, false))
+        leftImage.rotate = 270.0
+        upButton!!.graphic = upImage
+        downButton!!.graphic = downImage
+        rightButton!!.graphic = rightImage
+        leftButton!!.graphic = leftImage
+    }
+
     /**
      * set the current editing robot
      * @param index the index of editing robot
@@ -195,13 +233,6 @@ class EditController : Initializable, RobotEditInterface {
         botGroupBox!!.children[index].id = "selectedRobotModel"
     }
 
-
-    /**
-     * save player's data
-     */
-    fun savePlayerData() {
-        Config.player.saveData()
-    }
 
     private fun addComponentView(component: DefaultComponent) {
         // prevent overlapped component
@@ -253,6 +284,14 @@ class EditController : Initializable, RobotEditInterface {
         db.dragView = componentModel.image
         db.dragViewOffsetX = (componentModel.gridWidth - 1) * componentModel.image.width / componentModel.gridWidth / 2
         db.dragViewOffsetY = -(componentModel.gridHeight - 1) * componentModel.image.height / componentModel.gridHeight / 2
+    }
+
+    fun nameFieldSyncName() {
+        editingRobot.name = nameField!!.text
+    }
+
+    fun saveButtonPressed() {
+        Config.player.saveData()
     }
 
     fun menuButtonPressed() {

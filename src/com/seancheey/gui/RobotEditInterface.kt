@@ -59,6 +59,11 @@ interface RobotEditInterface {
         }
     }
 
+    fun setRobotModelName(name: String) {
+        editingRobot = RobotModel(name, editingRobot.components)
+        updateRobotModel()
+    }
+
     fun updateRobotModel()
 
 }
