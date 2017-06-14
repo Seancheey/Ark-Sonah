@@ -12,7 +12,7 @@ interface RobotEditInterface {
     var editingRobot: RobotModel
 
     fun addComponentAt(x: Int, y: Int, model: ComponentModel) {
-        addComponent(DefaultComponent(model, x, y))
+        addComponent(DefaultComponent.create(model, x, y))
     }
 
     fun addComponent(component: DefaultComponent) {
@@ -38,6 +38,12 @@ interface RobotEditInterface {
     fun resetAllComponents(model: RobotModel) {
         clearComponents()
         addAllComponents(model)
+    }
+
+    fun moveAllComponents(dx: Int, dy: Int) {
+        val newComps = editingRobot.components.map { DefaultComponent.create(it.model, it.gridX + dx, it.gridY + dy) }
+        editingRobot = RobotModel(editingRobot.name, newComps)
+        updateRobotModel()
     }
 
     fun updateRobotModel()
