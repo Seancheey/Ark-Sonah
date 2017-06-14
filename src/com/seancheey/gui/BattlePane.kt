@@ -6,6 +6,7 @@ import javafx.animation.AnimationTimer
 import javafx.concurrent.Task
 import javafx.scene.canvas.Canvas
 import javafx.scene.input.MouseButton
+import javafx.scene.layout.Region
 import javafx.scene.paint.Color
 import javafx.scene.shape.Rectangle
 import javafx.scene.transform.Affine
@@ -74,10 +75,28 @@ class BattlePane(override val battlefield: Battlefield, width: Double, height: D
                 scale *= 1 + Config.scrollSpeedDelta
             }
             //ensure the canvas doesn't come out
-            val clipRect = Rectangle((width - width / scale) / 2, (height - height / scale) / 2, width / scale, height / scale)
+            val maxWidth = maxAllowedWidth()
+            val maxHeight = maxAllowedHeight()
+            val clipRect = Rectangle((width - maxWidth / scale) / 2, (height - maxHeight / scale) / 2, maxWidth / scale, maxHeight / scale)
             clip = clipRect
         }
         start()
+    }
+
+    private fun maxAllowedWidth(): Double {
+        if (parent is Region) {
+            return (parent as Region).width
+        } else {
+            return width
+        }
+    }
+
+    private fun maxAllowedHeight(): Double {
+        if (parent is Region) {
+            return (parent as Region).height
+        } else {
+            return height
+        }
     }
 
     fun start() {
