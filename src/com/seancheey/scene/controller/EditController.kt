@@ -243,12 +243,28 @@ class EditController : Initializable, RobotEditInterface {
         db.dragViewOffsetY = -(componentModel.gridHeight - 1) * componentModel.image.height / componentModel.gridHeight / 2
     }
 
-    fun menu() {
+    fun menuButtonPressed() {
         Stages.switchScene(Scenes.menu)
     }
 
-    fun battle() {
+    fun battleButtonPressed() {
         Stages.switchScene(Scenes.bot_battle, 1080.0, 670.0)
+    }
+
+    fun moveUpButtonPressed() {
+        moveAllComponents(0, -1)
+    }
+
+    fun moveDownButtonPressed() {
+        moveAllComponents(0, 1)
+    }
+
+    fun moveRightButtonPressed() {
+        moveAllComponents(1, 0)
+    }
+
+    fun moveLeftButtonPressed() {
+        moveAllComponents(-1, 0)
     }
 }
 
