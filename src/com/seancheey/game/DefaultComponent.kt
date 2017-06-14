@@ -17,13 +17,29 @@ open class DefaultComponent protected constructor(open val model: ComponentModel
     override final val actionTree: ActionTree
         get() = ActionTree(this)
 
+    /**
+     * create() is used as a factory of DefaultComponent
+     */
     companion object {
         fun create(componentModel: ComponentModel, gridX: Int, gridY: Int): DefaultComponent {
+            // limit out bound position
+            var x = gridX
+            var y = gridY
+            val limit = Config.botGridNum
+            if (x > limit - componentModel.gridWidth)
+                x = limit - componentModel.gridWidth
+            if (x < 0)
+                x = 0
+            if (y > limit - componentModel.gridHeight)
+                y = limit - componentModel.gridHeight
+            if (y < 0)
+                y = 0
+            // create component according to type of model
             if (componentModel is MovementModel)
-                return MovementComponent(componentModel, gridX, gridY)
+                return MovementComponent(componentModel, x, y)
             if (componentModel is WeaponModel)
-                return WeaponComponent(componentModel, gridX, gridY)
-            return DefaultComponent(componentModel, gridX, gridY)
+                return WeaponComponent(componentModel, x, y)
+            return DefaultComponent(componentModel, x, y)
         }
     }
 }
