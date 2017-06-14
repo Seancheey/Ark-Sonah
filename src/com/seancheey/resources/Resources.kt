@@ -12,11 +12,11 @@ object Resources {
     val errorImageInStream: InputStream
         get() = getResourceInStream("dat/error.png")!!
     val noRobotImageInStream: InputStream
-        get() = getResourceInStream("dat/norobot.png")!!
+        get() = getResourceInStream("dat/norobot.png") ?: errorImageInStream
     val arrowImageInStream: InputStream
-        get() = getResourceInStream("dat/arrow.png")!!
+        get() = getResourceInStream("dat/arrow.png") ?: errorImageInStream
     val titleImageInStream: InputStream
-        get() = getResourceInStream("dat/title.png")!!
+        get() = getResourceInStream("dat/title.png") ?: errorImageInStream
 
     fun getResourceString(path: String): String? {
         try {
