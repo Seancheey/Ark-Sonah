@@ -15,7 +15,7 @@ import javafx.scene.transform.Affine
  * Created by Seancheey on 01/06/2017.
  * GitHub: https://github.com/Seancheey
  */
-class BattlePane(override val battlefield: Battlefield, width: Double, height: Double, startScale: Double = 1.0) : Canvas(width, height), GameInspector {
+class BattlePane(override val battlefield: Battlefield) : Canvas(battlefield.width, battlefield.height), GameInspector {
     override fun clickRobot(model: RobotModel) {
         if (!model.empty) {
             battlefield.putRobot(model, 150.0 + Math.random() * 50, 200.0 + Math.random() * 30, Math.random(), Math.random() * 6)
@@ -39,6 +39,11 @@ class BattlePane(override val battlefield: Battlefield, width: Double, height: D
             scaleY = value
             scaleZ = value
             field = value
+            //ensure the canvas doesn't come out
+            val maxWidth = maxAllowedWidth()
+            val maxHeight = maxAllowedHeight()
+            val clipRect = Rectangle((width - maxWidth / cameraScale) / 2, (height - maxHeight / cameraScale) / 2, maxWidth / cameraScale, maxHeight / cameraScale)
+            clip = clipRect
         }
     override val guiWidth: Double
         get() = width
@@ -87,11 +92,6 @@ class BattlePane(override val battlefield: Battlefield, width: Double, height: D
             } else if (event.deltaY < 0) {
                 cameraScale *= 1 + Config.scrollSpeedDelta
             }
-            //ensure the canvas doesn't come out
-            val maxWidth = maxAllowedWidth()
-            val maxHeight = maxAllowedHeight()
-            val clipRect = Rectangle((width - maxWidth / cameraScale) / 2, (height - maxHeight / cameraScale) / 2, maxWidth / cameraScale, maxHeight / cameraScale)
-            clip = clipRect
         }
         start()
     }

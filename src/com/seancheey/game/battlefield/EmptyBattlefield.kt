@@ -1,7 +1,11 @@
 package com.seancheey.game.battlefield
 
 /**
- * Created by Seancheey on 08/06/2017.
+ * Created by Seancheey on 15/06/2017.
  * GitHub: https://github.com/Seancheey
  */
-class EmptyBattlefield : Battlefield(arrayListOf())
+class EmptyBattlefield : DefaultBattlefield(arrayListOf()) {
+    override var name: String = "Empty"
+    override val width: Double = 1000.0
+    override val height: Double = 1000.0
+}
