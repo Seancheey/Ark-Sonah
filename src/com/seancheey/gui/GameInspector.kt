@@ -9,38 +9,60 @@ import com.seancheey.game.command.MoveCommand
  * GitHub: https://github.com/Seancheey
  */
 interface GameInspector {
+    /**
+     * initiate gameDirector to start
+     */
     val gameDirector: GameDirector
+    /**
+     * used for painting battlefield
+     */
     val battlefield: Battlefield
+    /**
+     * player's selected nodes
+     */
+    val focusedNodes: ArrayList<Node>
+
+    /**
+     * pixel width of interface
+     */
     val guiWidth: Double
+    /**
+     * pixel height of interface
+     */
     val guiHeight: Double
+    /**
+     * for graphic scaling and scrolling
+     */
+    var cameraScale: Double
+    /**
+     * for camera to move around the battlefield
+     */
+    var cameraTransX: Double
+    /**
+     * for camera to move around the battlefield
+     */
+    var cameraTransY: Double
 
-    var scale: Double
-    var transX: Double
-    var transY: Double
+    /**
+     * activated when player clicked a RobotModelSlot
+     */
+    fun clickRobot(model: RobotModel)
 
-    var focusedNodes: ArrayList<Node>
 
     fun selectRobotBeside(x: Double, y: Double) {
         focusedNodes.clear()
-        val minDistanceNode = gameDirector.nodes.filter { it.containsPoint(x, y) }.minBy { it.distanceTo(x, y) }
+        val minDistanceNode = gameDirector.nodes.filter { it is RobotNode && it.containsPoint(x, y) }.minBy { it.distanceTo(x, y) }
         if (minDistanceNode != null) {
             focusedNodes.add(minDistanceNode)
-        } else {
         }
     }
 
     fun moveFocusedRobotsTo(x: Double, y: Double) {
-        focusedNodes.forEach { node -> if (node is MovableNode) gameDirector.command(MoveCommand(Config.player, node, x, y)) }
+        focusedNodes.filterIsInstance<MovableNode>().forEach { gameDirector.command(MoveCommand(Config.player, it, x, y)) }
     }
 
     fun selectAllRobotsWithSameType(robotModel: RobotModel) {
         focusedNodes.clear()
-        for (node in battlefield.nodes) {
-            if (node is RobotNode) {
-                if (node.model == robotModel) {
-                    focusedNodes.add(node)
-                }
-            }
-        }
+        battlefield.nodes.filter { it is RobotNode && it.model == robotModel }.forEach { focusedNodes.add(it) }
     }
 }

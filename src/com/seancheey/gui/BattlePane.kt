@@ -15,12 +15,25 @@ import javafx.scene.transform.Affine
  * Created by Seancheey on 01/06/2017.
  * GitHub: https://github.com/Seancheey
  */
-class BattlePane(override val battlefield: Battlefield, width: Double, height: Double) : Canvas(width, height), GameInspector {
+class BattlePane(override val battlefield: Battlefield, width: Double, height: Double, startScale: Double = 1.0) : Canvas(width, height), GameInspector {
+    override fun clickRobot(model: RobotModel) {
+        if (!model.empty) {
+            battlefield.putRobot(model, 150.0 + Math.random() * 50, 200.0 + Math.random() * 30, Math.random(), Math.random() * 6)
+        }
+    }
 
-    override var focusedNodes: ArrayList<Node> = arrayListOf()
-    override var transX: Double = 0.0
-    override var transY: Double = 0.0
-    override var scale: Double = 1.0
+    override val focusedNodes: ArrayList<Node> = arrayListOf()
+    override var cameraTransX: Double = 0.0
+        set(value) {
+            field = value
+            translateX = value
+        }
+    override var cameraTransY: Double = 0.0
+        set(value) {
+            field = value
+            translateY = value
+        }
+    override var cameraScale: Double = 1.0
         set(value) {
             scaleX = value
             scaleY = value
@@ -46,7 +59,7 @@ class BattlePane(override val battlefield: Battlefield, width: Double, height: D
         gameDirector.render = {
             graphicsContext2D.fillRect(0.0, 0.0, this.width, this.height)
             graphicsContext2D.save()
-            graphicsContext2D.scale(scale, scale)
+            graphicsContext2D.scale(cameraScale, cameraScale)
             battlefield.nodes.forEach { drawNode(it) }
             focusedNodes.forEach { drawFocus(it) }
             graphicsContext2D.restore()
@@ -70,14 +83,14 @@ class BattlePane(override val battlefield: Battlefield, width: Double, height: D
 
         setOnScroll { event ->
             if (event.deltaY > 0) {
-                scale *= 1 - Config.scrollSpeedDelta
+                cameraScale *= 1 - Config.scrollSpeedDelta
             } else if (event.deltaY < 0) {
-                scale *= 1 + Config.scrollSpeedDelta
+                cameraScale *= 1 + Config.scrollSpeedDelta
             }
             //ensure the canvas doesn't come out
             val maxWidth = maxAllowedWidth()
             val maxHeight = maxAllowedHeight()
-            val clipRect = Rectangle((width - maxWidth / scale) / 2, (height - maxHeight / scale) / 2, maxWidth / scale, maxHeight / scale)
+            val clipRect = Rectangle((width - maxWidth / cameraScale) / 2, (height - maxHeight / cameraScale) / 2, maxWidth / cameraScale, maxHeight / cameraScale)
             clip = clipRect
         }
         start()
@@ -97,6 +110,11 @@ class BattlePane(override val battlefield: Battlefield, width: Double, height: D
         } else {
             return height
         }
+    }
+
+    fun moveCamera(x: Int, y: Int) {
+        cameraTransX += x
+        cameraTransY += y
     }
 
     fun start() {

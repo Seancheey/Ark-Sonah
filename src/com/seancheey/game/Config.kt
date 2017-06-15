@@ -43,7 +43,7 @@ object Config {
     var programClosed = false
 
     /**
-     * each scroll set scale *= (1 + or - scrollSpeedDelta)
+     * each scroll set cameraScale *= (1 + or - scrollSpeedDelta)
      */
     var scrollSpeedDelta = 0.05
         set(value) {

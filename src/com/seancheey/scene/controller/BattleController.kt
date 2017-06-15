@@ -3,7 +3,7 @@ package com.seancheey.scene.controller
 import com.seancheey.game.Config
 import com.seancheey.game.battlefield.TestBattlefield
 import com.seancheey.gui.BattlePane
-import com.seancheey.gui.ModelSlot
+import com.seancheey.gui.RobotModelSlot
 import com.seancheey.scene.Scenes
 import com.seancheey.scene.Stages
 import javafx.fxml.FXML
@@ -44,15 +44,7 @@ class BattleController : Initializable {
         battlePane = BattlePane(TestBattlefield(), Stages.primaryStage!!.width, Stages.primaryStage!!.height - 200)
         battleContainer!!.children.add(battlePane)
         // init selection slots
-        for (model in models) {
-            val robotModelSlot = ModelSlot(model, Config.botDisplaySize, Config.botDisplaySize)
-            robotModelSlot.setOnAction {
-                if (!model.empty) {
-                    battlePane!!.battlefield.putRobot(model, 150.0 + Math.random() * 50, 200.0 + Math.random() * 30, Math.random(), Math.random() * 6)
-                }
-            }
-            botGroupBox!!.children.add(robotModelSlot)
-        }
+        RobotModelSlot.allAllTo(botGroupBox!!.children, models, { battlePane!!.clickRobot(it) })
     }
 
     fun menu() {
