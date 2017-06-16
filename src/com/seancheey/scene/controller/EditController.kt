@@ -195,11 +195,7 @@ class EditController : Initializable, RobotEditInterface {
     private fun initBotGroup() {
         // select player's first BotGroup to initialize
         val models = Config.player.robotGroups[0]
-        for ((i, model) in models.withIndex()) {
-            val robotModelSlot = ModelSlot(model, Config.botDisplaySize, Config.botDisplaySize)
-            robotModelSlot.setOnAction { setEditingRobot(i) }
-            botGroupBox!!.children.add(robotModelSlot)
-        }
+        models.mapIndexed { i, model -> RobotModelSlot(model, { setEditingRobot(i) }) }.forEach { botGroupBox!!.children.add(it) }
     }
 
     private fun initMovingButtons() {
