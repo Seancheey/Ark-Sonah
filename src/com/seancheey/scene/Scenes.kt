@@ -15,7 +15,7 @@ object Scenes {
     val bot_edit
         get() = load("edit.fxml")
     val bot_battle
-        get() = load("bot_battle.fxml")
+        get() = load("battle.fxml")
     val battle_select
         get() = load("battle_select.fxml")
 
