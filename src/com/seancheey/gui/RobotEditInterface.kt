@@ -21,6 +21,11 @@ interface RobotEditInterface {
         updateRobotModel()
     }
 
+    fun removeComponent(component: ComponentNode) {
+        editingRobot = RobotModel(editingRobot.name, editingRobot.components.filterNot { it == component })
+        updateRobotModel()
+    }
+
     fun removeComponentAt(x: Int, y: Int) {
         editingRobot = RobotModel(editingRobot.name, editingRobot.components.filterNot { it.gridX == x && it.gridY == y })
         updateRobotModel()

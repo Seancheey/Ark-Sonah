@@ -1,9 +1,6 @@
 package com.seancheey.scene.controller
 
-import com.seancheey.game.ComponentModel
-import com.seancheey.game.Config
-import com.seancheey.game.ComponentNode
-import com.seancheey.game.RobotModel
+import com.seancheey.game.*
 import com.seancheey.gui.*
 import com.seancheey.resources.Models
 import com.seancheey.resources.Resources
@@ -45,17 +42,13 @@ class EditController : Initializable, RobotEditInterface {
      */
     override fun updateRobotModel() {
         // sync name field
-        editController!!.nameField!!.text = editingRobot.name
-        // remove not synced views
-        editPane!!.children.filterIsInstance<ComponentView>()
-                .filter { it.component !in editingRobot.components }
-                .forEach {
-                    removeComponentView(it.x, it.y)
-                }
-        // add not synced views
-        for (comp in editingRobot.components) {
-            addComponentView(comp)
+        if (nameField!!.text != editingRobot.name) {
+            nameField!!.text = editingRobot.name
         }
+        // remove not synced views and add not synced views
+        val componentViewNodes = editPane!!.children.filterIsInstance<ComponentView>().map { it.component }
+        componentViewNodes.filterNot { it in editingRobot.components }.forEach { removeComponentView(it) }
+        editingRobot.components.filterNot { it in componentViewNodes }.forEach { addComponentView(it) }
         // sync with player's editing model
         Config.player.robotGroups[selectBotGroupIndex][selectBotModelIndex] = editingRobot
         // sync with robot slot image
@@ -79,15 +72,6 @@ class EditController : Initializable, RobotEditInterface {
         var editController: EditController? = null
         val NONE = -1
     }
-
-    /**
-     * backing field for companion object
-     */
-    var editController: EditController?
-        get() = Companion.editController
-        set(value) {
-            EditController.editController = value
-        }
 
     /**
      * ComponentNode panes for player to select component models
@@ -182,6 +166,7 @@ class EditController : Initializable, RobotEditInterface {
             for (x in 0 until Config.botGridNum) {
                 val grid = DragDropGrid(x, y, { x, y, model ->
                     addComponentAt(x, y, model)
+                    setAllMountComponentTransparent(false)
                 })
                 AnchorPane.setTopAnchor(grid, Config.botGridSize * y)
                 AnchorPane.setLeftAnchor(grid, Config.botGridSize * x)
@@ -229,44 +214,26 @@ class EditController : Initializable, RobotEditInterface {
         botGroupBox!!.children[index].id = "selectedRobotModel"
     }
 
-
     private fun addComponentView(component: ComponentNode) {
-        // prevent overlapped component
-        if (editPane!!.children.filterIsInstance<ComponentView>().any { it.x == component.gridX && it.y == component.gridY }) {
+        // prevent overlapped component with same type
+        if (editPane!!.children.filterIsInstance<ComponentView>().any { it.componentModel == component }) {
             return
         }
         val componentView = ComponentView(component.model, component.gridX, component.gridY, { event, compView ->
             dragComponentStart(compView.componentModel, compView)
-            if (!event.isShiftDown)
-                removeComponentAt(component.gridX, component.gridY)
+            if (!event.isShiftDown) {
+                removeComponent(component)
+            }
         })
         AnchorPane.setLeftAnchor(componentView, component.leftX)
         AnchorPane.setTopAnchor(componentView, component.upperY)
         editPane!!.children.add(componentView)
-        setGridsInRangeIsEnabled(component.gridX, component.gridY, component.model.gridWidth, component.model.gridHeight, false)
     }
 
-    private fun removeComponentView(x: Int, y: Int) {
-        val toRemove = editPane!!.children.filterIsInstance<ComponentView>().firstOrNull { it.x == x && it.y == y }
-        if (toRemove != null) {
-            editPane!!.children.remove(toRemove)
-            setGridsInRangeIsEnabled(x, y, toRemove.componentModel.gridWidth, toRemove.componentModel.gridHeight, true)
-        }
-    }
-
-    private fun setGridsInRangeIsEnabled(x: Int, y: Int, width: Int, height: Int, value: Boolean) {
-        for (y2 in y until y + height) {
-            for (x2 in x until x + width) {
-                val compGrid = getComponentGridAt(x2, y2)
-                if (compGrid != null) {
-                    compGrid.enabled = value
-                }
-            }
-        }
-    }
-
-    private fun getComponentGridAt(x: Int, y: Int): DragDropGrid? {
-        return editPane!!.children.filterIsInstance<DragDropGrid>().firstOrNull { it.x == x && it.y == y }
+    private fun removeComponentView(node: ComponentNode) {
+        editPane!!.children.removeAll(
+                editPane!!.children.filterIsInstance<ComponentView>().firstOrNull { it.component == node }
+        )
     }
 
     fun dragComponentStart(componentModel: ComponentModel, node: Node): Unit {
@@ -280,10 +247,19 @@ class EditController : Initializable, RobotEditInterface {
         db.dragView = componentModel.image
         db.dragViewOffsetX = (componentModel.gridWidth - 1) * componentModel.image.width / componentModel.gridWidth / 2
         db.dragViewOffsetY = -(componentModel.gridHeight - 1) * componentModel.image.height / componentModel.gridHeight / 2
+        setAllMountComponentTransparent(true)
+    }
+
+    fun setAllMountComponentTransparent(value: Boolean) {
+        editPane!!.children.filterIsInstance<ComponentView>().
+                filter { Attribute.weapon_mount in it.componentModel.attributes }.
+                forEach {
+                    it.isMouseTransparent = value
+                }
     }
 
     fun nameFieldSyncName() {
-        editingRobot.name = nameField!!.text
+        setRobotModelName(nameField!!.text)
     }
 
     fun saveButtonPressed() {
