@@ -12,11 +12,11 @@ object Scenes {
         get() = load("main.fxml")
     val menu
         get() = load("menu.fxml")
-    val bot_edit
+    val edit
         get() = load("edit.fxml")
-    val bot_battle
+    val battle
         get() = load("battle.fxml")
-    val battle_select
+    val select
         get() = load("battle_select.fxml")
 
     fun load(url: String): Parent {

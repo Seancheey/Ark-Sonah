@@ -41,13 +41,13 @@ class MenuController : Initializable {
     }
 
     fun startGameButtonPressed() {
-        Stages.switchScene(Scenes.bot_battle)
+        Stages.switchScene(Scenes.battle)
         if (Config.fullScreen)
             Stages.primaryStage!!.isFullScreen = true
     }
 
     fun editRobotsButtonPressed() {
-        Stages.switchScene(Scenes.bot_edit, 1080.0, 670.0)
+        Stages.switchScene(Scenes.edit, 1080.0, 670.0)
         if (Config.fullScreen)
             Stages.primaryStage!!.isFullScreen = true
     }

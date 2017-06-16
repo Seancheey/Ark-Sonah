@@ -271,7 +271,7 @@ class EditController : Initializable, RobotEditInterface {
     }
 
     fun battleButtonPressed() {
-        Stages.switchScene(Scenes.bot_battle, 1080.0, 670.0)
+        Stages.switchScene(Scenes.battle, 1080.0, 670.0)
     }
 
     fun moveUpButtonPressed() {
