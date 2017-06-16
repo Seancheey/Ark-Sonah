@@ -1,7 +1,7 @@
 package com.seancheey.gui
 
 import com.seancheey.game.ComponentModel
-import com.seancheey.game.Component
+import com.seancheey.game.ComponentNode
 import javafx.scene.image.ImageView
 import javafx.scene.input.MouseEvent
 
@@ -15,8 +15,8 @@ import javafx.scene.input.MouseEvent
  * It is created when a player drags component componentModel from a ComponentModelSlot to any grid
  */
 class ComponentView(val componentModel: ComponentModel, val x: Int, val y: Int, val dragStart: (event: MouseEvent, compView: ComponentView) -> Unit) : ImageView(componentModel.image) {
-    val component: Component
-        get() = Component.create(componentModel, x, y)
+    val component: ComponentNode
+        get() = ComponentNode.create(componentModel, x, y)
 
     init {
         setOnDragDetected { event ->

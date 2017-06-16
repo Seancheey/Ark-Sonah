@@ -13,7 +13,7 @@ import javafx.scene.image.WritableImage
 /**
  * Designed as an immutable class as robot model
  */
-open class RobotModel(var name: String, val components: List<Component>) : Model {
+open class RobotModel(var name: String, val components: List<ComponentNode>) : Model {
     override val width: Double
         get() = Config.botPixelSize
     override val height: Double
@@ -148,7 +148,7 @@ open class RobotModel(var name: String, val components: List<Component>) : Model
             // verify overlap
             verifyList.add {
                 val overlapPoints: ArrayList<Point> = arrayListOf()
-                val pointMap: HashMap<Point, Component> = hashMapOf()
+                val pointMap: HashMap<Point, ComponentNode> = hashMapOf()
                 for (comp in components) {
                     val point = Point(comp.gridX, comp.gridY)
                     if (pointMap.containsKey(point)) {

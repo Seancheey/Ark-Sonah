@@ -1,7 +1,7 @@
 package com.seancheey.gui
 
 import com.seancheey.game.ComponentModel
-import com.seancheey.game.Component
+import com.seancheey.game.ComponentNode
 import com.seancheey.game.RobotModel
 
 /**
@@ -13,10 +13,10 @@ interface RobotEditInterface {
     var editRobotModelStack: ArrayList<RobotModel>
 
     fun addComponentAt(x: Int, y: Int, model: ComponentModel) {
-        addComponent(Component.create(model, x, y))
+        addComponent(ComponentNode.create(model, x, y))
     }
 
-    fun addComponent(component: Component) {
+    fun addComponent(component: ComponentNode) {
         editingRobot = RobotModel(editingRobot.name, editingRobot.components + component)
         updateRobotModel()
     }
@@ -44,7 +44,7 @@ interface RobotEditInterface {
     }
 
     fun moveAllComponents(dx: Int, dy: Int) {
-        val newComps = editingRobot.components.map { Component.create(it.model, it.gridX + dx, it.gridY + dy) }
+        val newComps = editingRobot.components.map { ComponentNode.create(it.model, it.gridX + dx, it.gridY + dy) }
         editingRobot = RobotModel(editingRobot.name, newComps)
         updateRobotModel()
     }

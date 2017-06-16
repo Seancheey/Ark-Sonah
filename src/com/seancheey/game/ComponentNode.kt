@@ -7,7 +7,7 @@ import com.seancheey.game.battlefield.EmptyBattlefield
  * Created by Seancheey on 23/05/2017.
  * GitHub: https://github.com/Seancheey
  */
-open class Component protected constructor(open val model: ComponentModel, val gridX: Int, val gridY: Int, val type: ComponentType) : Model by model, Node {
+open class ComponentNode protected constructor(open val model: ComponentModel, val gridX: Int, val gridY: Int, val type: ComponentType) : Model by model, Node {
     override final var x: Double = 0.0
         get() = gridX * Config.botGridSize + width / 2
     override final var y: Double = 0.0
@@ -20,10 +20,10 @@ open class Component protected constructor(open val model: ComponentModel, val g
         get() = ActionTree(this)
 
     /**
-     * create() is used as a factory of Component
+     * create() is used as a factory of ComponentNode
      */
     companion object {
-        fun create(componentModel: ComponentModel, gridX: Int, gridY: Int): Component {
+        fun create(componentModel: ComponentModel, gridX: Int, gridY: Int): ComponentNode {
             // limit out bound position
             var x = gridX
             var y = gridY
@@ -38,10 +38,10 @@ open class Component protected constructor(open val model: ComponentModel, val g
                 y = 0
             // create component according to type of model
             if (componentModel is MovementModel)
-                return Component(componentModel, x, y, ComponentType.movement)
+                return ComponentNode(componentModel, x, y, ComponentType.movement)
             if (componentModel is WeaponModel)
-                return Component(componentModel, x, y, ComponentType.weapon)
-            return Component(componentModel, x, y, ComponentType.default)
+                return ComponentNode(componentModel, x, y, ComponentType.weapon)
+            return ComponentNode(componentModel, x, y, ComponentType.default)
         }
     }
 
