@@ -19,7 +19,7 @@ class RobotNode(val model: RobotModel, override var field: Battlefield, override
 
     init {
         actionTree.putAction(Action.moveAction(this), Action.MOVE_ACTION)
-        model.components.filterIsInstance<WeaponComponent>().forEach { children.add(it) }
+        model.components.filter { it.type == ComponentType.weapon }.forEach { children.add(it) }
     }
 
     override fun equals(other: Any?): Boolean {

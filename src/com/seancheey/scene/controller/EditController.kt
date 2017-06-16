@@ -2,7 +2,7 @@ package com.seancheey.scene.controller
 
 import com.seancheey.game.ComponentModel
 import com.seancheey.game.Config
-import com.seancheey.game.DefaultComponent
+import com.seancheey.game.Component
 import com.seancheey.game.RobotModel
 import com.seancheey.gui.*
 import com.seancheey.resources.Models
@@ -90,7 +90,7 @@ class EditController : Initializable, RobotEditInterface {
         }
 
     /**
-     * DefaultComponent panes for player to select component models
+     * Component panes for player to select component models
      */
     @FXML
     var blocksPane: TilePane? = null
@@ -230,7 +230,7 @@ class EditController : Initializable, RobotEditInterface {
     }
 
 
-    private fun addComponentView(component: DefaultComponent) {
+    private fun addComponentView(component: Component) {
         // prevent overlapped component
         if (editPane!!.children.filterIsInstance<ComponentView>().any { it.x == component.gridX && it.y == component.gridY }) {
             return

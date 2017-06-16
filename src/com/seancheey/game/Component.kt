@@ -7,9 +7,11 @@ import com.seancheey.game.battlefield.EmptyBattlefield
  * Created by Seancheey on 23/05/2017.
  * GitHub: https://github.com/Seancheey
  */
-open class DefaultComponent protected constructor(open val model: ComponentModel, val gridX: Int, val gridY: Int) : Model by model, Node {
-    override final var x: Double = gridX * Config.botGridSize + width / 2
-    override final var y: Double = gridY * Config.botGridSize + height / 2
+open class Component protected constructor(open val model: ComponentModel, val gridX: Int, val gridY: Int, val type: ComponentType) : Model by model, Node {
+    override final var x: Double = 0.0
+        get() = gridX * Config.botGridSize + width / 2
+    override final var y: Double = 0.0
+        get() = gridY * Config.botGridSize + height / 2
     override final var orientation: Double = 0.0
     override final val peers: ArrayList<Node> = arrayListOf()
     override final val children: ArrayList<Node> = arrayListOf()
@@ -18,10 +20,10 @@ open class DefaultComponent protected constructor(open val model: ComponentModel
         get() = ActionTree(this)
 
     /**
-     * create() is used as a factory of DefaultComponent
+     * create() is used as a factory of Component
      */
     companion object {
-        fun create(componentModel: ComponentModel, gridX: Int, gridY: Int): DefaultComponent {
+        fun create(componentModel: ComponentModel, gridX: Int, gridY: Int): Component {
             // limit out bound position
             var x = gridX
             var y = gridY
@@ -36,10 +38,21 @@ open class DefaultComponent protected constructor(open val model: ComponentModel
                 y = 0
             // create component according to type of model
             if (componentModel is MovementModel)
-                return MovementComponent(componentModel, x, y)
+                return Component(componentModel, x, y, ComponentType.movement)
             if (componentModel is WeaponModel)
-                return WeaponComponent(componentModel, x, y)
-            return DefaultComponent(componentModel, x, y)
+                return Component(componentModel, x, y, ComponentType.weapon)
+            return Component(componentModel, x, y, ComponentType.default)
+        }
+    }
+
+    fun <T> getModel(): T? {
+        try {
+            @Suppress("UNCHECKED_CAST")
+            val mod = model as T
+            return mod
+        } catch (e: java.lang.ClassCastException) {
+            return null
         }
     }
 }
+

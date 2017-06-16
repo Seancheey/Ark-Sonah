@@ -13,7 +13,7 @@ import javafx.scene.image.WritableImage
 /**
  * Designed as an immutable class as robot model
  */
-open class RobotModel(var name: String, val components: List<DefaultComponent>) : Model {
+open class RobotModel(var name: String, val components: List<Component>) : Model {
     override val width: Double
         get() = Config.botPixelSize
     override val height: Double
@@ -49,12 +49,12 @@ open class RobotModel(var name: String, val components: List<DefaultComponent>) 
         var turnSum = 0.0
         var healthSum = 0
         var weightSum = 0
-        for (comp in components.filter { it is MovementComponent }) {
-            val component = (comp as MovementComponent)
-            forceSum += component.model.force
-            turnSum += component.model.turn
-            healthSum += component.model.health
-            weightSum += component.model.weight
+        for (comp in components.filter { it.type == ComponentType.movement }) {
+            val model = comp.getModel<MovementModel>()!!
+            forceSum += model.force
+            turnSum += model.turn
+            healthSum += model.health
+            weightSum += model.weight
         }
         maxSpeed = forceSum
         maxAcceleration = forceSum / 20
@@ -69,7 +69,7 @@ open class RobotModel(var name: String, val components: List<DefaultComponent>) 
         val writeImage = WritableImage(Config.botPixelSize.toInt(), Config.botPixelSize.toInt())
         val writer = writeImage.pixelWriter
         components
-                .filter { it !is WeaponComponent }
+                .filter { it.type != ComponentType.weapon }
                 .forEach { writer.setPixels(it.leftX.toInt(), it.upperY.toInt(), it.image) }
         return writeImage
     }
@@ -99,7 +99,7 @@ open class RobotModel(var name: String, val components: List<DefaultComponent>) 
         // add all moving nodes to immutableImage
         val writableImage = immutableImage()
         val writer = writableImage.pixelWriter
-        components.filter { it is WeaponComponent }.forEach { writer.setPixels(it.leftX.toInt(), it.upperY.toInt(), it.image) }
+        components.filter { it.type != ComponentType.weapon }.forEach { writer.setPixels(it.leftX.toInt(), it.upperY.toInt(), it.image) }
 
         return writableImage
     }
@@ -143,12 +143,12 @@ open class RobotModel(var name: String, val components: List<DefaultComponent>) 
         init {
             // verify movable
             verifyList.add {
-                if (components.any { it is MovementComponent }) null else WrongMessage("The robot can't move! put some movement components")
+                if (components.any { it.type == ComponentType.movement }) null else WrongMessage("The robot can't move! put some movement components")
             }
             // verify overlap
             verifyList.add {
                 val overlapPoints: ArrayList<Point> = arrayListOf()
-                val pointMap: HashMap<Point, DefaultComponent> = hashMapOf()
+                val pointMap: HashMap<Point, Component> = hashMapOf()
                 for (comp in components) {
                     val point = Point(comp.gridX, comp.gridY)
                     if (pointMap.containsKey(point)) {
