@@ -148,7 +148,6 @@ class BattlePane(override val battlefield: Battlefield, val clipWidth: Double, v
         graphicsContext2D.drawImage(node.image, 0.0, 0.0, node.width, node.height)
         // recursively draw its children
         node.children.forEach {
-            graphicsContext2D.transform = newTrans
             drawNode(it, newTrans.clone())
         }
     }

@@ -20,7 +20,16 @@ open class RobotModel(var name: String, val components: List<DefaultComponent>) 
         get() = Config.botPixelSize
     @Suppress("SENSELESS_COMPARISON")
     @Transient final
-    override val image: Image
+    override val image: Image = immutableImage()
+        get() {
+            if (field == null) {
+                field = immutableImage()
+            }
+            return field
+        }
+    @Suppress("SENSELESS_COMPARISON")
+    @Transient
+    val idleImage: Image = idleImage()
         get() {
             if (field == null) {
                 field = idleImage()
@@ -34,18 +43,8 @@ open class RobotModel(var name: String, val components: List<DefaultComponent>) 
     val weight: Int
     val empty: Boolean
         get() = components.isEmpty()
-    val immutableImage: Image
-        get() {
-            if (_immutableImage == null) {
-                _immutableImage = immutableImage()
-            }
-            return _immutableImage!!
-        }
-    @Transient
-    private var _immutableImage: Image? = null
 
     init {
-        image = idleImage()
         var forceSum = 0.0
         var turnSum = 0.0
         var healthSum = 0
