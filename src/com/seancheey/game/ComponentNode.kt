@@ -54,5 +54,27 @@ open class ComponentNode protected constructor(open val model: ComponentModel, v
             return null
         }
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is ComponentNode) return false
+
+        if (model != other.model) return false
+        if (gridX != other.gridX) return false
+        if (gridY != other.gridY) return false
+        if (type != other.type) return false
+        if (orientation != other.orientation) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = model.hashCode()
+        result = 31 * result + gridX
+        result = 31 * result + gridY
+        result = 31 * result + type.hashCode()
+        result = 31 * result + orientation.hashCode()
+        return result
+    }
 }
 
