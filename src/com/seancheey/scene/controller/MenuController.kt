@@ -40,24 +40,25 @@ class MenuController : Initializable {
         titleImageView!!.image = Image(Resources.titleImageInStream)
     }
 
-    fun startGame() {
+    fun startGameButtonPressed() {
         Stages.switchScene(Scenes.bot_battle)
         if (Config.fullScreen)
             Stages.primaryStage!!.isFullScreen = true
     }
 
-    fun editRobots() {
+    fun editRobotsButtonPressed() {
         Stages.switchScene(Scenes.bot_edit, 1080.0, 670.0)
         if (Config.fullScreen)
             Stages.primaryStage!!.isFullScreen = true
     }
 
-    fun settings() {
+    fun settingsButtonPressed() {
 
     }
 
-    fun exit() {
+    fun exitButtonPressed() {
         Stages.primaryStage!!.close()
+        Config.programClosed = true
     }
 
 }
