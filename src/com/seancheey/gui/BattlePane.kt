@@ -6,7 +6,6 @@ import javafx.animation.AnimationTimer
 import javafx.concurrent.Task
 import javafx.scene.canvas.Canvas
 import javafx.scene.input.MouseButton
-import javafx.scene.layout.Region
 import javafx.scene.paint.Color
 import javafx.scene.shape.Rectangle
 import javafx.scene.transform.Affine
@@ -15,10 +14,10 @@ import javafx.scene.transform.Affine
  * Created by Seancheey on 01/06/2017.
  * GitHub: https://github.com/Seancheey
  */
-class BattlePane(override val battlefield: Battlefield) : Canvas(battlefield.width, battlefield.height), GameInspector {
+class BattlePane(override val battlefield: Battlefield, val clipWidth: Double, val clipHeight: Double) : Canvas(battlefield.width, battlefield.height), GameInspector {
     override fun clickRobot(model: RobotModel) {
         if (!model.empty) {
-            battlefield.putRobot(model, 150.0 + Math.random() * 50, 200.0 + Math.random() * 30, Math.random(), Math.random() * 6)
+            battlefield.putRobot(model, battlefield.width / 2, battlefield.height / 2, Math.random() * 6)
         }
     }
 
@@ -39,11 +38,7 @@ class BattlePane(override val battlefield: Battlefield) : Canvas(battlefield.wid
             scaleY = value
             scaleZ = value
             field = value
-            //ensure the canvas doesn't come out
-            val maxWidth = maxAllowedWidth()
-            val maxHeight = maxAllowedHeight()
-            val clipRect = Rectangle((width - maxWidth / cameraScale) / 2, (height - maxHeight / cameraScale) / 2, maxWidth / cameraScale, maxHeight / cameraScale)
-            clip = clipRect
+            clipCanvas()
         }
     override val guiWidth: Double
         get() = width
@@ -69,6 +64,10 @@ class BattlePane(override val battlefield: Battlefield) : Canvas(battlefield.wid
             focusedNodes.forEach { drawFocus(it) }
             graphicsContext2D.restore()
         }
+
+        clipCanvas()
+        fullMapScale()
+
 
         setOnMouseClicked { event ->
             if (event.button == MouseButton.PRIMARY) {
@@ -96,25 +95,13 @@ class BattlePane(override val battlefield: Battlefield) : Canvas(battlefield.wid
         start()
     }
 
-    private fun maxAllowedWidth(): Double {
-        if (parent is Region) {
-            return (parent as Region).width
-        } else {
-            return width
-        }
-    }
-
-    private fun maxAllowedHeight(): Double {
-        if (parent is Region) {
-            return (parent as Region).height
-        } else {
-            return height
-        }
-    }
-
     fun moveCamera(x: Int, y: Int) {
         cameraTransX += x
         cameraTransY += y
+    }
+
+    fun fullMapScale() {
+        cameraScale = minOf(clipWidth / width, clipHeight / height)
     }
 
     fun start() {
@@ -131,6 +118,14 @@ class BattlePane(override val battlefield: Battlefield) : Canvas(battlefield.wid
     fun stop() {
         gameDirector.stop = true
         renderTimer.stop()
+    }
+
+    /**
+     * ensure the canvas doesn't come out
+     */
+    private fun clipCanvas() {
+        val clipRect = Rectangle((width - clipWidth / cameraScale) / 2, (height - clipHeight / cameraScale) / 2, clipWidth / cameraScale, clipHeight / cameraScale)
+        clip = clipRect
     }
 
     private fun nodeTranslation(node: Node): Affine {

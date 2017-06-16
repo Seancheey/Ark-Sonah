@@ -9,6 +9,6 @@ import java.util.*
  */
 class TestBattlefield(players: ArrayList<PlayerInGame>) : DefaultBattlefield(players) {
     override var name: String = "Test Battlefield"
-    override val width: Double = 700.0
-    override val height: Double = 400.0
+    override val width: Double = 2000.0
+    override val height: Double = 1200.0
 }
