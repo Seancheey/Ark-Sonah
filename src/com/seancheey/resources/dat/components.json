@@ -6,7 +6,8 @@
       "health": 10,
       "weight": 10,
       "gridWidth": 1,
-      "gridHeight": 1
+      "gridHeight": 1,
+      "price": 10
     },
     {
       "name": "block 2x2",
@@ -14,7 +15,8 @@
       "health": 40,
       "weight": 40,
       "gridWidth": 2,
-      "gridHeight": 2
+      "gridHeight": 2,
+      "price":10
     },
     {
       "name": "block 2x1",
@@ -22,7 +24,8 @@
       "health": 20,
       "weight": 20,
       "gridWidth": 2,
-      "gridHeight": 1
+      "gridHeight": 1,
+      "price":10
     },
     {
       "name": "weapon mount 2x2",
@@ -31,7 +34,8 @@
       "weight": 30,
       "gridWidth": 2,
       "gridHeight": 2,
-      "special": "mount"
+      "special": "mount",
+      "price":10
     },
     {
       "name": "builder block",
@@ -39,7 +43,8 @@
       "health": 10,
       "weight": 20,
       "gridWidth": 2,
-      "gridHeight": 2
+      "gridHeight": 2,
+      "price":10
     }
   ],
   "movements": [
@@ -51,7 +56,8 @@
       "gridWidth": 1,
       "gridHeight": 2,
       "force": 0.05,
-      "turn": 0.01
+      "turn": 0.01,
+      "price":10
     }
   ],
   "weapons": [
@@ -64,7 +70,8 @@
       "gridHeight": 4,
       "damage": 20,
       "range": 200,
-      "frequency": 2
+      "frequency": 2,
+      "price":10
     }
   ]
 }

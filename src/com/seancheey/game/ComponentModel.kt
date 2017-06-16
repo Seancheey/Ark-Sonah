@@ -12,7 +12,7 @@ import javax.json.JsonObjectBuilder
  * GitHub: https://github.com/Seancheey
  */
 
-open class ComponentModel(val name: String, imageURL: String, var health: Int, var weight: Int, var gridWidth: Int, var gridHeight: Int) : Model, Serializable {
+open class ComponentModel(val name: String, imageURL: String, var health: Int, var weight: Int, var gridWidth: Int, var gridHeight: Int, var price: Int) : Model, Serializable {
     /**
      * pixel width of component
      */
@@ -55,12 +55,12 @@ open class ComponentModel(val name: String, imageURL: String, var health: Int, v
 
 
     companion object {
-        private val requiredKeys = listOf("name", "imageURL", "health", "weight", "gridWidth", "gridHeight")
-        private val specialKey = "special"
+        val requiredKeys = listOf("name", "imageURL", "health", "weight", "gridWidth", "gridHeight", "price")
+        protected val specialKey = "special"
         fun create(j: JsonObject): ComponentModel? {
             if (requiredKeys.any { it !in j.keys })
                 return null
-            val model = ComponentModel(j.getString(requiredKeys[0]), j.getString(requiredKeys[1]), j.getInt(requiredKeys[2]), j.getInt(requiredKeys[3]), j.getInt(requiredKeys[4]), j.getInt(requiredKeys[5]))
+            val model = ComponentModel(j.getString(requiredKeys[0]), j.getString(requiredKeys[1]), j.getInt(requiredKeys[2]), j.getInt(requiredKeys[3]), j.getInt(requiredKeys[4]), j.getInt(requiredKeys[5]), j.getInt(requiredKeys[6]))
             if (specialKey in j.keys) {
                 // deal with special attributes
                 val attrString:String = j.getJsonString(specialKey).string
