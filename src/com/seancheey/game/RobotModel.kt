@@ -147,19 +147,25 @@ open class RobotModel(var name: String, val components: List<ComponentNode>) : M
             val overlapPoints: ArrayList<Point> = arrayListOf()
             val pointMap: HashMap<Point, ComponentNode> = hashMapOf()
             for (comp in components) {
-                val point = Point(comp.gridX, comp.gridY)
-                if (pointMap.containsKey(point)) {
-                    // except for weapon & mount
-                    if (comp.model.attributes.contains(Attribute.weapon_mount) && pointMap[point]!!.model is WeaponModel) {
-                        continue
+                // record all point that the component has
+                val points: ArrayList<Point> = arrayListOf()
+                for (y in comp.gridY until comp.gridY + comp.model.gridHeight) {
+                    (comp.gridX until comp.gridX + comp.model.gridWidth).mapTo(points) { x -> Point(x, y) }
+                }
+                for (point in points) {
+                    if (pointMap.containsKey(point)) {
+                        // except for weapon & mount
+                        if (comp.model.attributes.contains(Attribute.weapon_mount) && pointMap[point]!!.model is WeaponModel) {
+                            continue
+                        }
+                        if (pointMap[point]!!.model.attributes.contains(Attribute.weapon_mount) && comp.model is WeaponModel) {
+                            continue
+                        }
+                        if (!overlapPoints.contains(point))
+                            overlapPoints.add(point)
+                    } else {
+                        pointMap.put(point, comp)
                     }
-                    if (pointMap[point]!!.model.attributes.contains(Attribute.weapon_mount) && comp.model is WeaponModel) {
-                        continue
-                    }
-                    if (!overlapPoints.contains(point))
-                        overlapPoints.add(point)
-                } else {
-                    pointMap.put(point, comp)
                 }
             }
             if (overlapPoints.isEmpty()) return null else return WrongMessage("Overlapped components found", overlapPoints)
