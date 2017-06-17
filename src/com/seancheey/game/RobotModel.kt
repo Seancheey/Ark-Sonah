@@ -135,32 +135,34 @@ open class RobotModel(var name: String, val components: List<ComponentNode>) : M
         private val verifyList: ArrayList<() -> WrongMessage?> = arrayListOf()
 
         init {
-            // verify movable
-            verifyList.add {
-                if (components.any { it.type == ComponentType.movement }) null else WrongMessage("The robot can't move! put some movement components")
-            }
-            // verify overlap
-            verifyList.add {
-                val overlapPoints: ArrayList<Point> = arrayListOf()
-                val pointMap: HashMap<Point, ComponentNode> = hashMapOf()
-                for (comp in components) {
-                    val point = Point(comp.gridX, comp.gridY)
-                    if (pointMap.containsKey(point)) {
-                        // except for weapon & mount
-                        if (comp.model.attributes.contains(Attribute.weapon_mount) && pointMap[point]!!.model is WeaponModel) {
-                            continue
-                        }
-                        if (pointMap[point]!!.model.attributes.contains(Attribute.weapon_mount) && comp.model is WeaponModel) {
-                            continue
-                        }
-                        if (!overlapPoints.contains(point))
-                            overlapPoints.add(point)
-                    } else {
-                        pointMap.put(point, comp)
+            verifyList.add { verifyMovements() }
+            verifyList.add { verifyOverlap() }
+        }
+
+        fun verifyMovements(): WrongMessage? {
+            if (components.any { it.type == ComponentType.movement }) return null else return WrongMessage("The robot can't move! put some movement components")
+        }
+
+        fun verifyOverlap(): WrongMessage? {
+            val overlapPoints: ArrayList<Point> = arrayListOf()
+            val pointMap: HashMap<Point, ComponentNode> = hashMapOf()
+            for (comp in components) {
+                val point = Point(comp.gridX, comp.gridY)
+                if (pointMap.containsKey(point)) {
+                    // except for weapon & mount
+                    if (comp.model.attributes.contains(Attribute.weapon_mount) && pointMap[point]!!.model is WeaponModel) {
+                        continue
                     }
+                    if (pointMap[point]!!.model.attributes.contains(Attribute.weapon_mount) && comp.model is WeaponModel) {
+                        continue
+                    }
+                    if (!overlapPoints.contains(point))
+                        overlapPoints.add(point)
+                } else {
+                    pointMap.put(point, comp)
                 }
-                if (overlapPoints.isEmpty()) null else WrongMessage("Overlapped components found", overlapPoints)
             }
+            if (overlapPoints.isEmpty()) return null else return WrongMessage("Overlapped components found", overlapPoints)
         }
 
         fun verify(): ArrayList<WrongMessage> {

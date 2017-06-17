@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -10,7 +9,7 @@
         <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
             <items>
                 <TilePane fx:id="statsPane" prefHeight="200.0" prefWidth="200.0" />
-                <VBox prefHeight="200.0" prefWidth="100.0" />
+                <VBox fx:id="errorMessageBox" prefHeight="200.0" prefWidth="100.0" />
             </items>
         </SplitPane>
     </right>

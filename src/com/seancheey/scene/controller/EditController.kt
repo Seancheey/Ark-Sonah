@@ -10,6 +10,7 @@ import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.Node
 import javafx.scene.control.Button
+import javafx.scene.control.Label
 import javafx.scene.control.TextField
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
@@ -18,6 +19,7 @@ import javafx.scene.input.TransferMode
 import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.HBox
 import javafx.scene.layout.TilePane
+import javafx.scene.layout.VBox
 import java.net.URL
 import java.util.*
 
@@ -73,6 +75,12 @@ class EditController : Initializable, RobotEditInterface {
                         else if (it.statusName == "acceleration") editingRobot.maxAcceleration
                         else if (it.statusName == "turn") editingRobot.turnSpeed
                         else -1.0
+        }
+        // update error message
+        errorMessageBox!!.children.clear()
+        val messages = editingRobot.verify()
+        messages.forEach { message ->
+            errorMessageBox!!.children.add(Label(message.message))
         }
     }
 
@@ -138,6 +146,11 @@ class EditController : Initializable, RobotEditInterface {
      */
     @FXML
     var rightButton: Button? = null
+    /**
+     * errorMessageBox for verify robot
+     */
+    @FXML
+    var errorMessageBox: VBox? = null
 
     /**
      * Index of player's selected index of bot group and model
