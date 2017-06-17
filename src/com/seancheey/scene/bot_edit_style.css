@@ -12,6 +12,10 @@ ModelSlot {
     -fx-border-color: darkgrey;
 }
 
+WrongMessageLabel {
+    -fx-background-color: orangered;
+}
+
 .tab-pane {
     -fx-border-width: 3;
     -fx-border-color: dimgray;

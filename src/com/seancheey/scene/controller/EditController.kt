@@ -10,7 +10,6 @@ import javafx.fxml.FXML
 import javafx.fxml.Initializable
 import javafx.scene.Node
 import javafx.scene.control.Button
-import javafx.scene.control.Label
 import javafx.scene.control.TextField
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
@@ -79,9 +78,7 @@ class EditController : Initializable, RobotEditInterface {
         // update error message
         errorMessageBox!!.children.clear()
         val messages = editingRobot.verify()
-        messages.forEach { message ->
-            errorMessageBox!!.children.add(Label(message.message))
-        }
+        errorMessageBox!!.children.addAll(messages.map { WrongMessageLabel(it) })
     }
 
     /**
@@ -239,7 +236,6 @@ class EditController : Initializable, RobotEditInterface {
         statsPane!!.children.add(StatusLabel("maxSpeed", 0.0))
         statsPane!!.children.add(StatusLabel("acceleration", 0.0))
         statsPane!!.children.add(StatusLabel("turn", 0.0))
-
     }
 
     /**
