@@ -36,6 +36,7 @@ open class RobotModel(var name: String, val components: List<ComponentNode>) : M
             }
             return field
         }
+    val price: Int
     val maxSpeed: Double
     val maxAcceleration: Double
     val turnSpeed: Double
@@ -45,22 +46,15 @@ open class RobotModel(var name: String, val components: List<ComponentNode>) : M
         get() = components.isEmpty()
 
     init {
-        var forceSum = 0.0
-        var turnSum = 0.0
-        var healthSum = 0
-        var weightSum = 0
-        for (comp in components.filter { it.type == ComponentType.movement }) {
-            val model = comp.getModel<MovementModel>()!!
-            forceSum += model.force
-            turnSum += model.turn
-            healthSum += model.health
-            weightSum += model.weight
-        }
-        maxSpeed = forceSum
-        maxAcceleration = forceSum / 20
-        turnSpeed = turnSum
-        health = healthSum
-        weight = weightSum
+        val movementModels = components.filter { it.type == ComponentType.movement }.map { it.getModel<MovementModel>()!! }
+        val allModels = components.map { it.model }
+
+        health = allModels.sumBy { it.health }
+        weight = allModels.sumBy { it.weight }
+        price = allModels.sumBy { it.price }
+        maxSpeed = movementModels.sumByDouble { it.force }
+        maxAcceleration = movementModels.sumByDouble { it.force } / 20
+        turnSpeed = movementModels.sumByDouble { it.turn }
     }
 
     constructor() : this("", arrayListOf())

@@ -55,6 +55,25 @@ class EditController : Initializable, RobotEditInterface {
         (botGroupBox!!.children[selectBotModelIndex] as ModelSlot).updateModel(editingRobot)
         // save player's data
         Config.player.saveData()
+        // update stats pane
+        val intStatLabels = statsPane!!.children.filterIsInstance<StatusLabel<Int>>()
+        intStatLabels.forEach {
+            if (it.statusValue is Int)
+                it.statusValue =
+                        if (it.statusName == "health") editingRobot.health
+                        else if (it.statusName == "weight") editingRobot.weight
+                        else if (it.statusName == "price") editingRobot.price
+                        else -1
+        }
+        val doubleStatLabels = statsPane!!.children.filterIsInstance<StatusLabel<Double>>()
+        doubleStatLabels.forEach {
+            if (it.statusValue is Double)
+                it.statusValue =
+                        if (it.statusName == "maxSpeed") editingRobot.maxSpeed
+                        else if (it.statusName == "acceleration") editingRobot.maxAcceleration
+                        else if (it.statusName == "turn") editingRobot.turnSpeed
+                        else -1.0
+        }
     }
 
     /**
@@ -135,6 +154,7 @@ class EditController : Initializable, RobotEditInterface {
         initEditPane()
         initBotGroup()
         initMovingButtons()
+        initStatusPane()
         setEditingRobot(0)
     }
 
@@ -197,6 +217,16 @@ class EditController : Initializable, RobotEditInterface {
         downButton!!.graphic = downImage
         rightButton!!.graphic = rightImage
         leftButton!!.graphic = leftImage
+    }
+
+    private fun initStatusPane() {
+        statsPane!!.children.add(StatusLabel("price", 0))
+        statsPane!!.children.add(StatusLabel("health", 0))
+        statsPane!!.children.add(StatusLabel("weight", 0))
+        statsPane!!.children.add(StatusLabel("maxSpeed", 0.0))
+        statsPane!!.children.add(StatusLabel("acceleration", 0.0))
+        statsPane!!.children.add(StatusLabel("turn", 0.0))
+
     }
 
     /**
