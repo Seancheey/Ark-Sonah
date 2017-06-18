@@ -1,16 +1,14 @@
 package com.seancheey.scene.controller
 
 import com.seancheey.game.Config
-import com.seancheey.game.PlayerInGame
+import com.seancheey.game.DefaultBattleInitializer
 import com.seancheey.game.battlefield.EmptyBattlefield
-import com.seancheey.game.battlefield.TestBattlefield
 import com.seancheey.gui.BattlePane
 import com.seancheey.gui.RobotModelSlot
 import com.seancheey.scene.Scenes
 import com.seancheey.scene.Stages
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
-import javafx.scene.layout.AnchorPane
 import javafx.scene.layout.HBox
 import javafx.scene.layout.StackPane
 import java.net.URL
@@ -50,8 +48,8 @@ class BattleController : Initializable {
         // init selection slots
         RobotModelSlot.allAllTo(botGroupBox!!.children, models, { battlePane.clickRobot(it) })
         // init battle field
-        val testField = TestBattlefield(arrayListOf(PlayerInGame(Config.player, Config.player.robotGroups[0], PlayerInGame.Side.side1)))
-        battlePane = BattlePane(testField, Stages.primaryStage!!.width, Stages.primaryStage!!.height - botGroupBox!!.height - 200)
+        val battleField = DefaultBattleInitializer(2000).create()
+        battlePane = BattlePane(battleField, Stages.primaryStage!!.width, Stages.primaryStage!!.height - botGroupBox!!.height - 200)
         battleContainer!!.children.add(battlePane)
         botGroupBox!!.toFront()
     }
