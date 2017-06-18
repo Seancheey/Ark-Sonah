@@ -9,6 +9,7 @@ import com.seancheey.scene.Scenes
 import com.seancheey.scene.Stages
 import javafx.fxml.FXML
 import javafx.fxml.Initializable
+import javafx.scene.control.Label
 import javafx.scene.layout.HBox
 import javafx.scene.layout.StackPane
 import java.net.URL
@@ -33,6 +34,8 @@ class BattleController : Initializable {
     var botGroupBox: HBox? = null
     @FXML
     var battleContainer: StackPane? = null
+    @FXML
+    var moneyLabel: Label? = null
 
     var battlePane: BattlePane
 
@@ -52,6 +55,8 @@ class BattleController : Initializable {
         battlePane = BattlePane(battleField, Stages.primaryStage!!.width, Stages.primaryStage!!.height - botGroupBox!!.height - 200)
         battleContainer!!.children.add(battlePane)
         botGroupBox!!.toFront()
+        // init money label
+        moneyLabel!!.text = "money: ${battleField.players[0].money}"
     }
 
     fun menu() {
