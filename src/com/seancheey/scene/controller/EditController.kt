@@ -79,6 +79,9 @@ class EditController : Initializable, RobotEditInterface {
         errorMessageBox!!.children.clear()
         val messages = editingRobot.verify()
         errorMessageBox!!.children.addAll(messages.map { WrongMessageLabel(it) })
+        // update warning grid
+        editPane!!.children.removeAll(editPane!!.children.filterIsInstance<WarningGrid>())
+        messages.forEach { it.points.forEach { addWarningGrid(it) } }
     }
 
     /**
@@ -273,6 +276,13 @@ class EditController : Initializable, RobotEditInterface {
         editPane!!.children.removeAll(
                 editPane!!.children.filterIsInstance<ComponentView>().firstOrNull { it.component == node }
         )
+    }
+
+    private fun addWarningGrid(point: RobotModel.Point) {
+        val grid = WarningGrid()
+        AnchorPane.setLeftAnchor(grid, point.x * Config.botGridSize)
+        AnchorPane.setTopAnchor(grid, point.y * Config.botGridSize)
+        editPane!!.children.add(grid)
     }
 
     fun dragComponentStart(componentModel: ComponentModel, node: Node): Unit {
