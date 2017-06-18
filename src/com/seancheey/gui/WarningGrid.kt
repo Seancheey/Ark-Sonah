@@ -13,5 +13,6 @@ class WarningGrid() : Pane() {
         minHeight = Config.botGridSize
         maxWidth = Config.botGridSize
         maxHeight = Config.botGridSize
+        isMouseTransparent = true
     }
 }
