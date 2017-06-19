@@ -14,11 +14,10 @@ import javafx.scene.control.TextField
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.input.ClipboardContent
+import javafx.scene.input.KeyCode
+import javafx.scene.input.KeyEvent
 import javafx.scene.input.TransferMode
-import javafx.scene.layout.AnchorPane
-import javafx.scene.layout.HBox
-import javafx.scene.layout.TilePane
-import javafx.scene.layout.VBox
+import javafx.scene.layout.*
 import java.net.URL
 import java.util.*
 
@@ -151,6 +150,11 @@ class EditController : Initializable, RobotEditInterface {
      */
     @FXML
     var errorMessageBox: VBox? = null
+    /**
+     * root pane for recursively doing things
+     */
+    @FXML
+    var rootPane: BorderPane? = null
 
     /**
      * Index of player's selected index of bot group and model
@@ -168,6 +172,7 @@ class EditController : Initializable, RobotEditInterface {
         initBotGroup()
         initMovingButtons()
         initStatusPane()
+        initKeyListener()
         setEditingRobot(0)
     }
 
@@ -239,6 +244,28 @@ class EditController : Initializable, RobotEditInterface {
         statsPane!!.children.add(StatusLabel("maxSpeed", 0.0))
         statsPane!!.children.add(StatusLabel("acceleration", 0.0))
         statsPane!!.children.add(StatusLabel("turn", 0.0))
+    }
+
+    private fun initKeyListener() {
+        recursiveAddListener(rootPane!!, { event ->
+            when (event.code) {
+                KeyCode.A ->
+                    moveLeftButtonPressed()
+                KeyCode.D ->
+                    moveRightButtonPressed()
+                KeyCode.W ->
+                    moveUpButtonPressed()
+                KeyCode.S ->
+                    moveDownButtonPressed()
+            }
+        })
+    }
+
+    private fun recursiveAddListener(node: Node, action: (KeyEvent) -> Unit) {
+        if (node is Region && node != nameField) {
+            node.childrenUnmodifiable.forEach { recursiveAddListener(it, action) }
+            node.setOnKeyPressed(action)
+        }
     }
 
     /**
