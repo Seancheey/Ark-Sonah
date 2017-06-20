@@ -14,10 +14,7 @@ import javafx.scene.control.TextField
 import javafx.scene.control.ToggleButton
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
-import javafx.scene.input.ClipboardContent
-import javafx.scene.input.KeyCode
-import javafx.scene.input.KeyEvent
-import javafx.scene.input.TransferMode
+import javafx.scene.input.*
 import javafx.scene.layout.*
 import java.net.URL
 import java.util.*
@@ -179,6 +176,7 @@ class EditController : Initializable, RobotEditInterface {
         initMovingButtons()
         initStatusPane()
         initKeyListener()
+        initMouseListener()
         setEditingRobot(0)
     }
 
@@ -253,7 +251,7 @@ class EditController : Initializable, RobotEditInterface {
     }
 
     private fun initKeyListener() {
-        recursiveAddListener(rootPane!!, { event ->
+        recursiveAddKeyListener(rootPane!!, { event ->
             when (event.code) {
                 KeyCode.A ->
                     moveLeftButtonPressed()
@@ -263,13 +261,29 @@ class EditController : Initializable, RobotEditInterface {
                     moveUpButtonPressed()
                 KeyCode.S ->
                     moveDownButtonPressed()
+                else ->
+                    return@recursiveAddKeyListener
             }
         })
     }
 
-    private fun recursiveAddListener(node: Node, action: (KeyEvent) -> Unit) {
+    private fun initMouseListener() {
+        recursiveAddMouseListener(rootPane!!, {
+            setAllMountComponentTransparent(false)
+        })
+    }
+
+
+    private fun recursiveAddMouseListener(node: Node, action: (MouseEvent) -> Unit) {
         if (node is Region && node != nameField) {
-            node.childrenUnmodifiable.forEach { recursiveAddListener(it, action) }
+            node.childrenUnmodifiable.forEach { recursiveAddMouseListener(it, action) }
+            node.setOnMouseReleased(action)
+        }
+    }
+
+    private fun recursiveAddKeyListener(node: Node, action: (KeyEvent) -> Unit) {
+        if (node is Region && node != nameField) {
+            node.childrenUnmodifiable.forEach { recursiveAddKeyListener(it, action) }
             node.setOnKeyPressed(action)
         }
     }
