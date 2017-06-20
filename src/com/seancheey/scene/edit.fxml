@@ -47,6 +47,7 @@
                         <Button mnemonicParsing="false" onAction="#saveButtonPressed" text="Save" />
                         <Button mnemonicParsing="false" onAction="#clearComponents" text="Clear" />
                   <Button mnemonicParsing="false" onAction="#undoButtonPressed" text="Undo" />
+                  <ToggleButton fx:id="symmetricBuildButton" mnemonicParsing="false" onAction="#symmetricButtonPressed" text="Symmetric" />
                     </children>
                 </HBox>
             </children>

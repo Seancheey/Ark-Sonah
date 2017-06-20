@@ -11,6 +11,7 @@ import javafx.fxml.Initializable
 import javafx.scene.Node
 import javafx.scene.control.Button
 import javafx.scene.control.TextField
+import javafx.scene.control.ToggleButton
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.scene.input.ClipboardContent
@@ -32,6 +33,7 @@ import java.util.*
  * One should not create any new instance of this class
  */
 class EditController : Initializable, RobotEditInterface {
+    override var symmetricBuild: Boolean = false
     /**
      * change stack used to record all changes on current robot
      */
@@ -155,7 +157,11 @@ class EditController : Initializable, RobotEditInterface {
      */
     @FXML
     var rootPane: BorderPane? = null
-
+    /**
+     * toggle button for symmetric building
+     */
+    @FXML
+    var symmetricBuildButton: ToggleButton? = null
     /**
      * Index of player's selected index of bot group and model
      */
@@ -368,6 +374,10 @@ class EditController : Initializable, RobotEditInterface {
 
     fun undoButtonPressed() {
         undoRobotModel()
+    }
+
+    fun symmetricButtonPressed() {
+        symmetricBuild = symmetricBuildButton!!.isSelected
     }
 }
 

@@ -2,6 +2,7 @@ package com.seancheey.gui
 
 import com.seancheey.game.ComponentModel
 import com.seancheey.game.ComponentNode
+import com.seancheey.game.Config
 import com.seancheey.game.RobotModel
 
 /**
@@ -9,20 +10,38 @@ import com.seancheey.game.RobotModel
  * GitHub: https://github.com/Seancheey
  */
 interface RobotEditInterface {
+    companion object {
+        private fun symmetricComponent(component: ComponentNode): ComponentNode? {
+            val symX = Config.botGridNum - component.gridX - component.model.gridWidth
+            if (symX != component.gridX) {
+                return ComponentNode.create(component.model, Config.botGridNum - component.gridX - component.model.gridWidth, component.gridY)
+            } else {
+                return null
+            }
+        }
+    }
+
     var editingRobot: RobotModel
     var editRobotModelStack: ArrayList<RobotModel>
+    var symmetricBuild: Boolean
 
     fun addComponentAt(x: Int, y: Int, model: ComponentModel) {
         addComponent(ComponentNode.create(model, x, y))
     }
 
     fun addComponent(component: ComponentNode) {
-        editingRobot = RobotModel(editingRobot.name, editingRobot.components + component)
+        val symComponent = symmetricComponent(component)
+        if (symmetricBuild && symComponent != null) {
+            editingRobot = RobotModel(editingRobot.name, editingRobot.components + component + symComponent)
+        } else {
+            editingRobot = RobotModel(editingRobot.name, editingRobot.components + component)
+        }
         updateRobotModel()
     }
 
     fun removeComponent(component: ComponentNode) {
-        editingRobot = RobotModel(editingRobot.name, editingRobot.components.filterNot { it == component })
+        val symComp = symmetricComponent(component)
+        editingRobot = RobotModel(editingRobot.name, editingRobot.components.filterNot { it == component || (symmetricBuild && it == symComp) })
         updateRobotModel()
     }
 
