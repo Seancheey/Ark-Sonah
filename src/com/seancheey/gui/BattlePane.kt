@@ -5,6 +5,7 @@ import com.seancheey.game.battlefield.Battlefield
 import javafx.animation.AnimationTimer
 import javafx.concurrent.Task
 import javafx.scene.canvas.Canvas
+import javafx.scene.input.KeyCode
 import javafx.scene.input.MouseButton
 import javafx.scene.paint.Color
 import javafx.scene.shape.Rectangle
@@ -26,11 +27,13 @@ class BattlePane(override val battlefield: Battlefield, val clipWidth: Double, v
         set(value) {
             field = value
             translateX = value
+            clipCanvas()
         }
     override var cameraTransY: Double = 0.0
         set(value) {
             field = value
             translateY = value
+            clipCanvas()
         }
     override var cameraScale: Double = 1.0
         set(value) {
@@ -50,6 +53,8 @@ class BattlePane(override val battlefield: Battlefield, val clipWidth: Double, v
             gameDirector.render(0.0)
         }
     }
+    private var vx: Double = 0.0
+    private var vy: Double = 0.0
 
     init {
         // set the background of battle field to light gray
@@ -63,6 +68,10 @@ class BattlePane(override val battlefield: Battlefield, val clipWidth: Double, v
             battlefield.nodes.forEach { drawNode(it) }
             focusedNodes.forEach { drawFocus(it) }
             graphicsContext2D.restore()
+            // request focus to handle key event
+            requestFocus()
+            cameraTransX += vx
+            cameraTransY += vy
         }
 
         clipCanvas()
@@ -92,13 +101,33 @@ class BattlePane(override val battlefield: Battlefield, val clipWidth: Double, v
                 cameraScale *= 1 + Config.scrollSpeedDelta
             }
         }
+
+        setOnKeyPressed { event ->
+            when (event.code) {
+                KeyCode.W ->
+                    vy = -1.0
+                KeyCode.S ->
+                    vy = 1.0
+                KeyCode.A ->
+                    vx = -1.0
+                KeyCode.D ->
+                    vx = 1.0
+                else -> return@setOnKeyPressed
+            }
+        }
+
+        setOnKeyReleased { event ->
+            when (event.code) {
+                KeyCode.A, KeyCode.D ->
+                    vx = 0.0
+                KeyCode.W, KeyCode.S ->
+                    vy = 0.0
+                else -> return@setOnKeyReleased
+            }
+        }
         start()
     }
 
-    fun moveCamera(x: Int, y: Int) {
-        cameraTransX += x
-        cameraTransY += y
-    }
 
     fun fullMapScale() {
         cameraScale = minOf(clipWidth / width, clipHeight / height)
@@ -124,7 +153,8 @@ class BattlePane(override val battlefield: Battlefield, val clipWidth: Double, v
      * ensure the canvas doesn't come out
      */
     private fun clipCanvas() {
-        val clipRect = Rectangle((width - clipWidth / cameraScale) / 2, (height - clipHeight / cameraScale) / 2, clipWidth / cameraScale, clipHeight / cameraScale)
+
+        val clipRect = Rectangle((width - clipWidth / cameraScale) / 2 - translateX / cameraScale, (height - clipHeight / cameraScale) / 2 - translateY / cameraScale, clipWidth / cameraScale, clipHeight / cameraScale)
         clip = clipRect
     }
 
