@@ -105,13 +105,13 @@ class BattlePane(override val battlefield: Battlefield, val clipWidth: Double, v
         setOnKeyPressed { event ->
             when (event.code) {
                 KeyCode.W ->
-                    vy = -1.0
-                KeyCode.S ->
                     vy = 1.0
+                KeyCode.S ->
+                    vy = -1.0
                 KeyCode.A ->
-                    vx = -1.0
-                KeyCode.D ->
                     vx = 1.0
+                KeyCode.D ->
+                    vx = -1.0
                 else -> return@setOnKeyPressed
             }
         }
