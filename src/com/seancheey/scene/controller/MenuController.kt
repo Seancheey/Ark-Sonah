@@ -53,7 +53,7 @@ class MenuController : Initializable {
     }
 
     fun settingsButtonPressed() {
-
+        Stages.switchScene(Scenes.setting)
     }
 
     fun exitButtonPressed() {
