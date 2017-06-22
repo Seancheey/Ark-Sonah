@@ -13,7 +13,7 @@ import javafx.scene.shape.Shape
  * GitHub: https://github.com/Seancheey
  */
 class BotSelectCirclePane(models: ArrayList<RobotModel>, onClick: (RobotModel) -> Unit = {}) : AnchorPane() {
-    var outerCircleRadius: Double = 140.0
+    var outerCircleRadius: Double = 120.0
         set(value) {
             field = value
             clipPane()
