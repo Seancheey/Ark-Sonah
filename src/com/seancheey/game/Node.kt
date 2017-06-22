@@ -77,10 +77,6 @@ interface Node : Model {
      * the battlefield this node is at
      */
     var field: Battlefield
-    /**
-     * the action tree that the node will perform each frame
-     */
-    val actionTree: ActionTree
 
     /**
      * update function is called each frame to make node perform actions

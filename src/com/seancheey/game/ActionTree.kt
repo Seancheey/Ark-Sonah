@@ -6,9 +6,9 @@ import java.io.Serializable
  * Created by Seancheey on 05/06/2017.
  * GitHub: https://github.com/Seancheey
  */
-class ActionTree : Serializable {
-    private val actions: MutableMap<Int, Action> = mutableMapOf()
+class ActionTree(private val actions: MutableMap<Int, Action>) : Serializable {
 
+    constructor() : this(mutableMapOf())
 
     fun putAction(action: Action, type: Int): Unit {
         actions[type] = action

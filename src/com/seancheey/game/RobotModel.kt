@@ -14,6 +14,7 @@ import javafx.scene.image.WritableImage
  * Designed as an immutable class as robot model
  */
 open class RobotModel(var name: String, val components: List<ComponentNode>) : Model {
+    override final val actionTree: ActionTree = ActionTree(mutableMapOf(Action.MOVE_ACTION to Action.moveAction()))
     override val width: Double
         get() = Config.botPixelSize
     override val height: Double
@@ -48,6 +49,7 @@ open class RobotModel(var name: String, val components: List<ComponentNode>) : M
     init {
         val movementModels = components.filter { it.type == ComponentType.movement }.map { it.getModel<MovementModel>()!! }
         val allModels = components.map { it.model }
+
 
         health = allModels.sumBy { it.health }
         weight = allModels.sumBy { it.weight }

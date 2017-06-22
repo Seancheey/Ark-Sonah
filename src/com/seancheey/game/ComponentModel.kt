@@ -13,6 +13,7 @@ import javax.json.JsonObjectBuilder
  */
 
 open class ComponentModel(val name: String, imageURL: String, var health: Int, var weight: Int, var gridWidth: Int, var gridHeight: Int, var price: Int) : Model, Serializable {
+    override final val actionTree: ActionTree = ActionTree()
     /**
      * pixel width of component
      */
@@ -63,11 +64,11 @@ open class ComponentModel(val name: String, imageURL: String, var health: Int, v
             val model = ComponentModel(j.getString(requiredKeys[0]), j.getString(requiredKeys[1]), j.getInt(requiredKeys[2]), j.getInt(requiredKeys[3]), j.getInt(requiredKeys[4]), j.getInt(requiredKeys[5]), j.getInt(requiredKeys[6]))
             if (specialKey in j.keys) {
                 // deal with special attributes
-                val attrString:String = j.getJsonString(specialKey).string
+                val attrString: String = j.getJsonString(specialKey).string
                 attrString.split(Config.attrSeparator)
                         .mapNotNull { Attribute.getAttribute(it) }
                         .forEach { model.attributes.add(it) }
-            }else{
+            } else {
             }
             return model
         }
