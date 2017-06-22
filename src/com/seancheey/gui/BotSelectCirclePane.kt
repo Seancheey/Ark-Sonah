@@ -1,10 +1,10 @@
 package com.seancheey.gui
 
 import com.seancheey.game.RobotModel
-import javafx.collections.ObservableList
 import javafx.geometry.Point2D
-import javafx.scene.Node
-import javafx.scene.layout.Pane
+import javafx.scene.layout.AnchorPane
+import javafx.scene.shape.Arc
+import javafx.scene.shape.ArcType
 import javafx.scene.shape.Circle
 import javafx.scene.shape.Shape
 
@@ -12,17 +12,19 @@ import javafx.scene.shape.Shape
  * Created by Seancheey on 21/06/2017.
  * GitHub: https://github.com/Seancheey
  */
-class BotSelectCirclePane(models: ArrayList<RobotModel>, onClick: (RobotModel) -> Unit = {}) : Pane() {
-    var outerCircleRadius: Double = 300.0
+class BotSelectCirclePane(models: ArrayList<RobotModel>, onClick: (RobotModel) -> Unit = {}) : AnchorPane() {
+    var outerCircleRadius: Double = 140.0
         set(value) {
             field = value
             clipPane()
         }
-    var innerCircleRadius: Double = 200.0
+    var innerCircleRadius: Double = 50.0
         set(value) {
             field = value
             clipPane()
         }
+    val midRadius
+        get() = (outerCircleRadius + innerCircleRadius) / 2
 
     init {
         width = outerCircleRadius * 2
@@ -31,26 +33,38 @@ class BotSelectCirclePane(models: ArrayList<RobotModel>, onClick: (RobotModel) -
         children.forEachIndexed { i, node ->
             if (node is RobotModelSlot) {
                 val centerPoint = centerPoint(i)
-                node.layoutX = centerPoint.x - node.width / 2
-                node.layoutY = centerPoint.y - node.height / 2
+                AnchorPane.setLeftAnchor(node, centerPoint.x - node.maxWidth / 2)
+                AnchorPane.setTopAnchor(node, centerPoint.y - node.maxHeight / 2)
+                node.clip = nodeClipShape(i, node)
             }
         }
+        clipPane()
     }
 
+    private fun nodeAngle(i: Int) = i.toDouble() / children.size * 2 * Math.PI
+
+    private fun nodeClipShape(i: Int, node: RobotModelSlot): Arc {
+        val arc = Arc()
+        arc.radiusX = outerCircleRadius
+        arc.radiusY = outerCircleRadius
+        val angleDiff = nodeAngle(1 % children.size) - nodeAngle(0)
+        val nodeAngle = nodeAngle(i)
+        arc.startAngle = -(nodeAngle - angleDiff / 2) * 180 / Math.PI
+        arc.length = -angleDiff * 180 / Math.PI
+        arc.centerX = -(Math.cos(nodeAngle) * midRadius - node.maxWidth / 2)
+        arc.centerY = -(Math.sin(nodeAngle) * midRadius - node.maxHeight / 2)
+        arc.type = ArcType.ROUND
+        return arc
+    }
+
+
     private fun centerPoint(i: Int): Point2D {
-        val nodeSum = children.size
-        val fraction = i / nodeSum * 2 * Math.PI
-        val midRadius = (outerCircleRadius + innerCircleRadius) / 2
-        return Point2D(midRadius * Math.cos(fraction), midRadius * Math.sin(fraction))
+        val angle = nodeAngle(i)
+        return Point2D(width / 2 + midRadius * Math.cos(angle), height / 2 + midRadius * Math.sin(angle))
     }
 
     private fun clipPane() {
-        val ringShape = Shape.subtract(Circle(outerCircleRadius), Circle(innerCircleRadius))
+        val ringShape = Shape.subtract(Circle(width / 2, height / 2, outerCircleRadius), Circle(width / 2, height / 2, innerCircleRadius))
         clip = ringShape
     }
-
-    override fun getChildren(): ObservableList<Node> {
-        return super.getChildren()
-    }
-
 }
