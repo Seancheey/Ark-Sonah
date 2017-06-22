@@ -10,6 +10,10 @@ class WeaponModel(name: String, imageURL: String, health: Int, weight: Int, grid
 
     constructor(defaultModel: ComponentModel, damage: Int, range: Int, frequency: Int) : this(defaultModel.name, defaultModel.imageURL, defaultModel.health, defaultModel.weight, defaultModel.gridWidth, defaultModel.gridHeight, defaultModel.price, damage, range, frequency)
 
+    init {
+        actionTree.putAction(Action.rotateAction(0.02), Action.SHOOT_ACTION)
+    }
+
     companion object {
         private val keys = listOf("damage", "range", "frequency")
         fun create(j: JsonObject): WeaponModel? {

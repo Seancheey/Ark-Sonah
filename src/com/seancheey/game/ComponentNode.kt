@@ -16,7 +16,6 @@ open class ComponentNode protected constructor(open val model: ComponentModel, v
     override final val peers: ArrayList<Node> = arrayListOf()
     override final val children: ArrayList<Node> = arrayListOf()
     override final var field: Battlefield = EmptyBattlefield()
-    override final val actionTree: ActionTree = ActionTree()
 
     /**
      * create() is used as a factory of ComponentNode
