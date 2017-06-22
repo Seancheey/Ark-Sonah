@@ -30,7 +30,11 @@ import java.util.*
  * One should not create any new instance of this class
  */
 class EditController : Initializable, RobotEditInterface {
-    override var symmetricBuild: Boolean = false
+    override var symmetricBuild: Boolean
+        get() = Config.player.setting.symmetricBuild
+        set(value) {
+            Config.player.setting.symmetricBuild = value
+        }
     /**
      * change stack used to record all changes on current robot
      */
@@ -178,6 +182,9 @@ class EditController : Initializable, RobotEditInterface {
         initKeyListener()
         initMouseListener()
         setEditingRobot(0)
+        if (symmetricBuild) {
+            symmetricBuildButton!!.selectedProperty().set(true)
+        }
     }
 
     private fun initModelSlotTab(pane: TilePane, modelList: List<ComponentModel>) {

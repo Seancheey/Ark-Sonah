@@ -14,6 +14,7 @@ import java.io.Serializable
  * @param robotGroups all robot models the player has
  */
 data class Player(val id: Long, var name: String, val pass_SHA: ByteArray, val robotGroups: ArrayList<RobotModelGroup>) : Serializable {
+    val setting: Setting = Setting()
 
     /**
      * used to initiate a new player
