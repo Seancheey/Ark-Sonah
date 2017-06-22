@@ -6,7 +6,7 @@ import java.io.Serializable
  * Created by Seancheey on 05/06/2017.
  * GitHub: https://github.com/Seancheey
  */
-class ActionTree(val node: Node) : Serializable {
+class ActionTree : Serializable {
     private val actions: MutableMap<Int, Action> = mutableMapOf()
 
 
@@ -14,15 +14,15 @@ class ActionTree(val node: Node) : Serializable {
         actions[type] = action
     }
 
-    fun putAction(action: () -> Unit, type: Int): Unit {
-        this.putAction(Action(node, action), type)
+    fun putAction(action: (Node) -> Unit, type: Int): Unit {
+        this.putAction(Action(action), type)
     }
 
-    fun executeAll() {
+    fun executeAll(node: Node) {
         val toDelete = arrayListOf<Int>()
         for ((key, action) in actions.entries) {
             if (!action.discard) {
-                action.execute()
+                action.execute(node)
             } else {
                 toDelete.add(key)
             }

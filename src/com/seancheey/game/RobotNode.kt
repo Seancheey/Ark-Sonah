@@ -14,11 +14,11 @@ class RobotNode(val model: RobotModel, override var field: Battlefield, override
             field = value - 2 * Math.PI * (value / (2 * Math.PI)).toInt()
         }
     override val children: ArrayList<Node> = arrayListOf()
-    override val actionTree: ActionTree = ActionTree(this)
+    override val actionTree: ActionTree = ActionTree()
     override val peers: ArrayList<Node> = field.nodes
 
     init {
-        actionTree.putAction(Action.moveAction(this), Action.MOVE_ACTION)
+        actionTree.putAction(Action.moveAction(), Action.MOVE_ACTION)
         model.components.filter { it.type == ComponentType.weapon }.forEach { children.add(it) }
     }
 

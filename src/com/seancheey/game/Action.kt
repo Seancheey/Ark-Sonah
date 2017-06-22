@@ -8,7 +8,9 @@ import java.io.Serializable
  * GitHub: https://github.com/Seancheey
  */
 
-class Action(val node: Node, var execute: () -> Unit) : Serializable {
+class Action(var execute: (Node) -> Unit) : Serializable {
+
+
     var discard: Boolean = false
 
     companion object {
@@ -16,8 +18,11 @@ class Action(val node: Node, var execute: () -> Unit) : Serializable {
         val MOVE_ACTION = 1
         val SHOOT_ACTION = 2
         val ANIMATION_ACTION = 3
-        fun moveAction(node: MovableNode): Action {
-            return Action(node, {
+
+
+        fun moveAction() = Action({
+            node ->
+            if (node is MovableNode) {
                 node.x += node.vx
                 node.y += node.vy
                 if (node.speed < node.maxSpeed) {
@@ -25,37 +30,38 @@ class Action(val node: Node, var execute: () -> Unit) : Serializable {
                 } else {
                     node.speed = node.maxSpeed
                 }
-            })
-        }
+            }
+        })
 
-        fun rotateAction(node: Node, speed: Double): Action {
-            return Action(node, {
-                node.orientation += speed
-                node.correctOrientation()
-            })
-        }
+        fun rotateAction(speed: Double) = Action({ node ->
+            node.orientation += speed
+            node.correctOrientation()
+        })
 
-        fun gotoTargetAction(node: MovableNode, x: Double, y: Double): Action {
-            val action = Action(node, {})
-            val rotateAction = rotateToAngleAction(node, node.turnSpeed, Math.atan2((y - node.y), (x - node.x)))
-            action.execute = {
-                rotateAction.execute()
-                if (rotateAction.discard) {
-                    if (Math.abs(node.x - x) <= node.vx || Math.abs(node.y - y) <= node.vy) {
-                        node.stop()
-                        action.discard = true
-                    } else {
-                        node.orientation = Math.atan2((y - node.y), (x - node.x))
+
+        fun gotoTargetAction(x: Double, y: Double): Action {
+            val action = Action({})
+            action.execute = { node ->
+                if (node is MovableNode) {
+                    val rotateAction = rotateToAngleAction(node.turnSpeed, Math.atan2((y - node.y), (x - node.x)))
+                    rotateAction.execute(node)
+                    if (rotateAction.discard) {
+                        if (Math.abs(node.x - x) <= node.vx || Math.abs(node.y - y) <= node.vy) {
+                            node.stop()
+                            action.discard = true
+                        } else {
+                            node.orientation = Math.atan2((y - node.y), (x - node.x))
+                        }
                     }
                 }
             }
             return action
         }
 
-        fun rotateToAngleAction(node: Node, rotateSpeed: Double, targetOrientation: Double): Action {
-            val action = Action(node, {})
-            var diff = Node.minAngleDifference(targetOrientation, node.orientation)
-            action.execute = {
+        fun rotateToAngleAction(rotateSpeed: Double, targetOrientation: Double): Action {
+            val action = Action({})
+            action.execute = { node ->
+                var diff = Node.minAngleDifference(targetOrientation, node.orientation)
                 if (Math.abs(diff) < rotateSpeed) {
                     action.discard = true
                 } else {

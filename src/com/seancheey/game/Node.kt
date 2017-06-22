@@ -86,7 +86,7 @@ interface Node : Model {
      * update function is called each frame to make node perform actions
      */
     fun update() {
-        actionTree.executeAll()
+        actionTree.executeAll(this)
     }
 
     fun containsPoint(pointX: Double, pointY: Double): Boolean {
