@@ -18,6 +18,7 @@ WrongMessageLabel {
 
 WarningGrid {
     -fx-background-color: orangered;
+    -fx-opacity: 0.7;
 }
 
 .tab-pane {
