@@ -3,7 +3,7 @@ package com.seancheey.scene.controller
 import com.seancheey.game.Config
 import com.seancheey.game.DefaultBattleInitializer
 import com.seancheey.game.battlefield.EmptyBattlefield
-import com.seancheey.gui.BattlePane
+import com.seancheey.gui.BattleInspectPane
 import com.seancheey.gui.RobotModelSlot
 import com.seancheey.scene.Scenes
 import com.seancheey.scene.Stages
@@ -37,11 +37,11 @@ class BattleController : Initializable {
     @FXML
     var moneyLabel: Label? = null
 
-    var battlePane: BattlePane
+    var battlePane: BattleInspectPane
 
     init {
         // make sure there is a empty battlefield
-        battlePane = BattlePane(EmptyBattlefield(), 0.0, 0.0)
+        battlePane = BattleInspectPane(EmptyBattlefield(), 0.0, 0.0)
     }
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
@@ -52,7 +52,7 @@ class BattleController : Initializable {
         RobotModelSlot.allAllTo(botGroupBox!!.children, models, { battlePane.clickRobot(it) })
         // init battle field
         val battleField = DefaultBattleInitializer(2000).create()
-        battlePane = BattlePane(battleField, Stages.primaryStage!!.width, Stages.primaryStage!!.height - botGroupBox!!.height - 200)
+        battlePane = BattleInspectPane(battleField, Stages.primaryStage!!.width, Stages.primaryStage!!.height - botGroupBox!!.height - 200)
         battleContainer!!.children.add(battlePane)
         botGroupBox!!.toFront()
         // init money label
@@ -61,15 +61,15 @@ class BattleController : Initializable {
 
     fun menu() {
         Stages.switchScene(Scenes.menu)
-        battlePane.stop()
+        battlePane.battleCanvas.stop()
     }
 
     fun start() {
-        battlePane.start()
+        battlePane.battleCanvas.start()
     }
 
     fun pause() {
-        battlePane.stop()
+        battlePane.battleCanvas.stop()
     }
 
 }
