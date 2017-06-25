@@ -181,12 +181,34 @@ open class RobotModel(var name: String, val components: List<ComponentNode>) : M
                 return null
             }
             val disconnectedPoints = arrayListOf<Point>()
-            for (comp in components) {
-                if (!components.filter { it != comp }.any { comp.adjacentWith(it) }) {
-                    disconnectedPoints.addAll(comp.allPoints())
+            var remainingNode = components.map { it }
+            val connectionGroup = arrayListOf<List<ComponentNode>>()
+            while (remainingNode.isNotEmpty()) {
+                val newGroup = allConnectedComponents(remainingNode[0])
+                connectionGroup.add(newGroup)
+                remainingNode = remainingNode.filter { it !in newGroup }
+            }
+            val largestGroup = connectionGroup.maxBy { it.size }
+            connectionGroup.filter { it != largestGroup }.forEach {
+                for (comp in it) disconnectedPoints.addAll(comp.allPoints())
+            }
+
+            if (disconnectedPoints.isEmpty()) return null else return WrongMessage("Disconnect component found", disconnectedPoints)
+        }
+
+        fun allConnectedComponents(me: ComponentNode, connectedList: ArrayList<ComponentNode> = arrayListOf(me)): ArrayList<ComponentNode> {
+            var conList = connectedList
+            val newNodes = arrayListOf<ComponentNode>()
+            for (other in components.filter { it != me && it !in conList }) {
+                if (other.adjacentWith(me)) {
+                    conList.add(other)
+                    newNodes.add(other)
                 }
             }
-            if (disconnectedPoints.isEmpty()) return null else return WrongMessage("Disconnect component found", disconnectedPoints)
+            for (node in newNodes) {
+                conList = allConnectedComponents(node, conList)
+            }
+            return conList
         }
 
         fun ComponentNode.adjacentWith(other: ComponentNode): Boolean {
