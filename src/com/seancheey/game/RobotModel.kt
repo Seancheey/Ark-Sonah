@@ -13,6 +13,7 @@ import javafx.scene.image.WritableImage
 /**
  * Designed as an immutable class as robot model
  */
+@Suppress("VAL_REASSIGNMENT_VIA_BACKING_FIELD")
 open class RobotModel(var name: String, val components: List<ComponentNode>) : Model {
     override final val actionTree: ActionTree = ActionTree(mutableMapOf(Action.MOVE_ACTION to Action.moveAction()))
     override val width: Double
@@ -139,9 +140,11 @@ open class RobotModel(var name: String, val components: List<ComponentNode>) : M
         init {
             verifyList.add { verifyMovements() }
             verifyList.add { verifyOverlap() }
+            verifyList.add { verifyConnection() }
         }
 
         fun verifyMovements(): WrongMessage? {
+            if (components.isEmpty()) return null
             if (components.any { it.type == ComponentType.movement }) return null else return WrongMessage("The robot can't move! put some movement components")
         }
 
@@ -172,6 +175,49 @@ open class RobotModel(var name: String, val components: List<ComponentNode>) : M
             }
             if (overlapPoints.isEmpty()) return null else return WrongMessage("Overlapped components found", overlapPoints)
         }
+
+        fun verifyConnection(): WrongMessage? {
+            if (components.size <= 1) {
+                return null
+            }
+            val disconnectedPoints = arrayListOf<Point>()
+            for (comp in components) {
+                if (!components.filter { it != comp }.any { comp.adjacentWith(it) }) {
+                    disconnectedPoints.addAll(comp.allPoints())
+                }
+            }
+            if (disconnectedPoints.isEmpty()) return null else return WrongMessage("Disconnect component found", disconnectedPoints)
+        }
+
+        fun ComponentNode.adjacentWith(other: ComponentNode): Boolean {
+            val myList = allPoints()
+            val otherList = other.allPoints()
+            for ((x1, y1) in myList) {
+                for ((x2, y2) in otherList) {
+                    if (x1 == x2) {
+                        if (y1 - y2 <= 1 && y2 - y1 <= 1) {
+                            return true
+                        }
+                    } else if (y1 == y2) {
+                        if (x1 - x2 <= 1 && x2 - x1 <= 1) {
+                            return true
+                        }
+                    }
+                }
+            }
+            return false
+        }
+
+        fun ComponentNode.allPoints(): ArrayList<Point> {
+            val pointList = arrayListOf<Point>()
+            for (y in gridY until gridY + model.gridHeight) {
+                for (x in gridX until gridX + model.gridWidth) {
+                    pointList.add(Point(x, y))
+                }
+            }
+            return pointList
+        }
+
 
         fun verify(): ArrayList<WrongMessage> {
             val messages = arrayListOf<WrongMessage>()
