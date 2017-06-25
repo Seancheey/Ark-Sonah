@@ -8,10 +8,10 @@ import java.io.Serializable
  * GitHub: https://github.com/Seancheey
  */
 
-class Action(var execute: (Node) -> Unit) : Serializable {
-
-
+abstract class Action : Serializable {
     var discard: Boolean = false
+    abstract fun execute(node: Node): Unit
+
 
     companion object {
         val CUSTOM_ACTION = 0
@@ -20,50 +20,50 @@ class Action(var execute: (Node) -> Unit) : Serializable {
         val ANIMATION_ACTION = 3
 
 
-        fun moveAction() = Action({
-            node ->
-            if (node is MovableNode) {
-                node.x += node.vx
-                node.y += node.vy
-                if (node.speed < node.maxSpeed) {
-                    node.speed += node.acceleration
-                } else {
-                    node.speed = node.maxSpeed
+        fun moveAction(): Action = object : Action() {
+            override fun execute(node: Node) {
+                if (node is MovableNode) {
+                    node.x += node.vx
+                    node.y += node.vy
+                    if (node.speed < node.maxSpeed) {
+                        node.speed += node.acceleration
+                    } else {
+                        node.speed = node.maxSpeed
+                    }
                 }
             }
-        })
+        }
 
-        fun rotateAction(speed: Double) = Action({ node ->
-            node.orientation += speed
-            node.correctOrientation()
-        })
+        fun rotateAction(speed: Double) = object : Action() {
+            override fun execute(node: Node) {
+                node.orientation += speed
+                node.correctOrientation()
+            }
+        }
 
 
-        fun gotoTargetAction(x: Double, y: Double): Action {
-            val action = Action({})
-            action.execute = { node ->
+        fun gotoTargetAction(x: Double, y: Double): Action = object : Action() {
+            override fun execute(node: Node) {
                 if (node is MovableNode) {
-                    val rotateAction = rotateToAngleAction(node.turnSpeed, Math.atan2((y - node.y), (x - node.x)))
+                    val rotateAction = Math.atan2((y - node.y), (x - node.x)).rotateToAngleAction(node.turnSpeed)
                     rotateAction.execute(node)
                     if (rotateAction.discard) {
                         if (Math.abs(node.x - x) <= node.vx || Math.abs(node.y - y) <= node.vy) {
                             node.stop()
-                            action.discard = true
+                            discard = true
                         } else {
                             node.orientation = Math.atan2((y - node.y), (x - node.x))
                         }
                     }
                 }
             }
-            return action
         }
 
-        fun rotateToAngleAction(rotateSpeed: Double, targetOrientation: Double): Action {
-            val action = Action({})
-            action.execute = { node ->
-                var diff = Node.minAngleDifference(targetOrientation, node.orientation)
+        fun Double.rotateToAngleAction(rotateSpeed: Double): Action = object : Action() {
+            override fun execute(node: Node) {
+                var diff = Node.minAngleDifference(this@rotateToAngleAction, node.orientation)
                 if (Math.abs(diff) < rotateSpeed) {
-                    action.discard = true
+                    discard = true
                 } else {
                     if (diff > 0) {
                         node.orientation += rotateSpeed
@@ -74,7 +74,6 @@ class Action(var execute: (Node) -> Unit) : Serializable {
                     }
                 }
             }
-            return action
         }
     }
 }

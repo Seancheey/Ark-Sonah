@@ -83,6 +83,7 @@ interface Node : Model {
      */
     fun update() {
         actionTree.executeAll(this)
+        children.forEach { it.update() }
     }
 
     fun containsPoint(pointX: Double, pointY: Double): Boolean {

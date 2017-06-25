@@ -14,10 +14,6 @@ class ActionTree(private val actions: MutableMap<Int, Action>) : Serializable {
         actions[type] = action
     }
 
-    fun putAction(action: (Node) -> Unit, type: Int): Unit {
-        this.putAction(Action(action), type)
-    }
-
     fun executeAll(node: Node) {
         val toDelete = arrayListOf<Int>()
         for ((key, action) in actions.entries) {

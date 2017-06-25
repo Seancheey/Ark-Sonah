@@ -53,6 +53,10 @@ open class ComponentNode protected constructor(open val model: ComponentModel, v
         }
     }
 
+    fun copy(): ComponentNode {
+        return ComponentNode.create(model, gridX, gridY)
+    }
+
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other !is ComponentNode) return false

@@ -68,12 +68,7 @@ open class GameDirector(val asyncNodes: ArrayList<Node>, var inputs: () -> Unit 
     }
 
     open fun update() {
-        for (node in nodes) {
-            node.update()
-            node.children.forEach {
-                it.update()
-            }
-        }
+        nodes.forEach { it.update() }
     }
 
     private fun syncNodes() {
