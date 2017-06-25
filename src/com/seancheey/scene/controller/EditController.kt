@@ -213,8 +213,8 @@ class EditController : Initializable, RobotEditInterface {
         val grids = arrayListOf<DragDropGrid>()
         for (y in 0 until Config.botGridNum) {
             for (x in 0 until Config.botGridNum) {
-                val grid = DragDropGrid(x, y, { x, y, model ->
-                    addComponentAt(x, y, model)
+                val grid = DragDropGrid(x, y, { gridX, gridY, model ->
+                    addComponentAt(gridX, gridY, model)
                     setAllMountComponentTransparent(false)
                 })
                 AnchorPane.setTopAnchor(grid, Config.botGridSize * y)
