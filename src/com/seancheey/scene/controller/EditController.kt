@@ -14,7 +14,10 @@ import javafx.scene.control.TextField
 import javafx.scene.control.ToggleButton
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
-import javafx.scene.input.*
+import javafx.scene.input.ClipboardContent
+import javafx.scene.input.KeyCode
+import javafx.scene.input.MouseEvent
+import javafx.scene.input.TransferMode
 import javafx.scene.layout.*
 import java.net.URL
 import java.util.*
@@ -258,7 +261,7 @@ class EditController : Initializable, RobotEditInterface {
     }
 
     private fun initKeyListener() {
-        recursiveAddKeyListener(rootPane!!, { event ->
+        rootPane!!.setOnKeyPressed { event ->
             when (event.code) {
                 KeyCode.A ->
                     moveLeftButtonPressed()
@@ -269,9 +272,9 @@ class EditController : Initializable, RobotEditInterface {
                 KeyCode.S ->
                     moveDownButtonPressed()
                 else ->
-                    return@recursiveAddKeyListener
+                    return@setOnKeyPressed
             }
-        })
+        }
     }
 
     private fun initMouseListener() {
@@ -285,13 +288,6 @@ class EditController : Initializable, RobotEditInterface {
         if (node is Region && node != nameField) {
             node.childrenUnmodifiable.forEach { recursiveAddMouseListener(it, action) }
             node.setOnMouseReleased(action)
-        }
-    }
-
-    private fun recursiveAddKeyListener(node: Node, action: (KeyEvent) -> Unit) {
-        if (node is Region && node != nameField) {
-            node.childrenUnmodifiable.forEach { recursiveAddKeyListener(it, action) }
-            node.setOnKeyPressed(action)
         }
     }
 
