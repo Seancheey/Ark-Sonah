@@ -46,6 +46,15 @@ open class RobotModel(var name: String, val components: List<ComponentNode>) : M
     val weight: Int
     val empty: Boolean
         get() = components.isEmpty()
+    val valid: Boolean
+        get() = _valid
+    private var _valid: Boolean = false
+        get() {
+            if (!field) {
+                verify()
+            }
+            return field
+        }
 
     init {
         val movementModels = components.filter { it.type == ComponentType.movement }.map { it.getModel<MovementModel>()!! }
@@ -127,7 +136,7 @@ open class RobotModel(var name: String, val components: List<ComponentNode>) : M
         return result
     }
 
-    fun verify(): ArrayList<WrongMessage> {
+    fun verify(): List<WrongMessage> {
         return Verifier().verify()
     }
 
@@ -241,9 +250,9 @@ open class RobotModel(var name: String, val components: List<ComponentNode>) : M
         }
 
 
-        fun verify(): ArrayList<WrongMessage> {
-            val messages = arrayListOf<WrongMessage>()
-            verifyList.mapNotNullTo(messages) { it() }
+        fun verify(): List<WrongMessage> {
+            val messages = verifyList.mapNotNull { it() }
+            _valid = messages.isEmpty()
             return messages
         }
     }
