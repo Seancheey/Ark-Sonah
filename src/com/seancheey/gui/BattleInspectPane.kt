@@ -24,6 +24,17 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
         AnchorPane.setTopAnchor(battleCanvas, 0.0)
         children.add(battleCanvas)
         clip = Rectangle((battleCanvas.guiWidth - battleCanvas.clipWidth) / 2, (battleCanvas.guiHeight - battleCanvas.clipHeight) / 2, battleCanvas.clipWidth, battleCanvas.clipHeight)
+        battleCanvas.drawGuiNode = { a, b -> drawGuiNode(a, b) }
+    }
+
+    fun drawGuiNode(node: GuiNode, parentNode: Node) {
+        val parentX = (parentNode.x - cameraTransX) * cameraScale + (battleCanvas.guiWidth - battleCanvas.clipWidth) / 2
+        val parentY = (parentNode.y - cameraTransY) * cameraScale + (battleCanvas.guiHeight - battleCanvas.clipHeight) / 2
+        if (node.gui !in children) {
+            children.add(node.gui)
+        }
+        AnchorPane.setLeftAnchor(node.gui, node.leftX + parentX)
+        AnchorPane.setTopAnchor(node.gui, node.upperY + parentY)
     }
 
     class BattleCanvas(override val battlefield: Battlefield, val clipWidth: Double, val clipHeight: Double) : Canvas(battlefield.width, battlefield.height), GameInspector {
@@ -66,6 +77,7 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
         }
         private var vx: Double = 0.0
         private var vy: Double = 0.0
+        var drawGuiNode: (GuiNode, Node) -> Unit = { _, _ -> }
 
         init {
             // set the background of battle field to light gray
@@ -87,7 +99,6 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
 
             clipCanvas()
             fullMapScale()
-
 
             setOnMouseClicked { event ->
                 if (event.button == MouseButton.PRIMARY) {
@@ -160,11 +171,13 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
             renderTimer.stop()
         }
 
+        fun clipOffsetX() = (width - clipWidth / cameraScale) / 2 - translateX / cameraScale
+        fun clipOffsetY() = (height - clipHeight / cameraScale) / 2 - translateY / cameraScale
         /**
          * ensure the canvas doesn't come out
          */
         private fun clipCanvas() {
-            val clipRect = Rectangle((width - clipWidth / cameraScale) / 2 - translateX / cameraScale, (height - clipHeight / cameraScale) / 2 - translateY / cameraScale, clipWidth / cameraScale, clipHeight / cameraScale)
+            val clipRect = Rectangle(clipOffsetX(), clipOffsetY(), clipWidth / cameraScale, clipHeight / cameraScale)
             clip = clipRect
         }
 
@@ -188,7 +201,11 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
             graphicsContext2D.drawImage(node.image, 0.0, 0.0, node.width, node.height)
             // recursively draw its children
             node.children.forEach {
-                drawNode(it, newTrans.clone())
+                if (it is GuiNode) {
+                    drawGuiNode(it, node)
+                } else {
+                    drawNode(it, newTrans.clone())
+                }
             }
         }
 
