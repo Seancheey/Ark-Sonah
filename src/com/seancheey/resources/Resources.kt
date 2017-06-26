@@ -17,6 +17,8 @@ object Resources {
         get() = getResourceInStream("dat/arrow.png") ?: errorImageInStream
     val titleImageInStream: InputStream
         get() = getResourceInStream("dat/title.png") ?: errorImageInStream
+    val transparentImageInStream: InputStream
+        get() = getResourceInStream("dat/transparent.png") ?: errorImageInStream
 
     fun getResourceString(path: String): String? {
         try {
