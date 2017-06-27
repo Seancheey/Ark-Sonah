@@ -28,8 +28,8 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
     }
 
     fun drawGuiNode(node: GuiNode, parentNode: Node) {
-        val parentX = (parentNode.x - cameraTransX) * cameraScale + (battleCanvas.guiWidth - battleCanvas.clipWidth) / 2
-        val parentY = (parentNode.y - cameraTransY) * cameraScale + (battleCanvas.guiHeight - battleCanvas.clipHeight) / 2
+        val parentX = parentNode.x * cameraScale - (battleCanvas.guiWidth * cameraScale - width) / 2 + cameraTransX
+        val parentY = parentNode.y * cameraScale - (battleCanvas.guiHeight * cameraScale - height) / 2 + cameraTransY
         if (node.gui !in children) {
             children.add(node.gui)
         }
