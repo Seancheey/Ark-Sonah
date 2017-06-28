@@ -9,6 +9,7 @@ import javafx.scene.image.Image
  * GitHub: https://github.com/Seancheey
  */
 open class GuiNode(val gui: javafx.scene.Node, override var field: Battlefield) : Node {
+    override var requestDeletion: Boolean = false
     override val image: Image = Image(Resources.transparentImageInStream)
     override val width: Double
         get() = gui.boundsInLocal.width

@@ -7,6 +7,7 @@ import com.seancheey.game.battlefield.Battlefield
  * GitHub: https://github.com/Seancheey
  */
 class RobotNode(val model: RobotModel, override var field: Battlefield, override var x: Double, override var y: Double) : RobotModel(model.name, model.components.map { it.copy() }), MovableNode {
+    override var requestDeletion: Boolean = false
     override var acceleration: Double = 0.0
     override var speed: Double = 0.0
     override var orientation: Double = 0.0

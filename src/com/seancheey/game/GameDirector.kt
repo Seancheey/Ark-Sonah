@@ -68,6 +68,7 @@ open class GameDirector(val asyncNodes: ArrayList<Node>, var inputs: () -> Unit 
     }
 
     open fun update() {
+        nodes.removeAll(nodes.filter { it.requestDeletion })
         nodes.forEach { it.update() }
     }
 

@@ -77,12 +77,16 @@ interface Node : Model {
      * the battlefield this node is at
      */
     var field: Battlefield
-
+    /**
+     * set it to true to let gameDirector to remove this node
+     */
+    var requestDeletion: Boolean
 
     /**
      * update function is called each frame to make node perform actions
      */
     fun update() {
+        children.removeAll(children.filter { it.requestDeletion })
         actionTree.executeAll(this)
         children.forEach { it.update() }
     }

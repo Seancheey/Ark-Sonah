@@ -8,6 +8,7 @@ import com.seancheey.game.battlefield.EmptyBattlefield
  * GitHub: https://github.com/Seancheey
  */
 open class ComponentNode protected constructor(open val model: ComponentModel, val gridX: Int, val gridY: Int, val type: ComponentType) : Model by model, Node {
+    override var requestDeletion: Boolean = false
     override final var x: Double = 0.0
         get() = gridX * Config.botGridSize + width / 2
     override final var y: Double = 0.0

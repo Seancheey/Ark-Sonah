@@ -7,6 +7,7 @@ import com.seancheey.game.battlefield.Battlefield
  * GitHub: https://github.com/Seancheey
  */
 class ParticleNode(val model: ParticleModel, override var x: Double, override var y: Double, override var field: Battlefield) : MovableNode, Model by ParticleModel(model.width, model.height, model.image) {
+    override var requestDeletion: Boolean = false
     override val maxSpeed: Double = 100.0
     override val turnSpeed: Double = 0.0
     override val maxAcceleration: Double = 100.0
