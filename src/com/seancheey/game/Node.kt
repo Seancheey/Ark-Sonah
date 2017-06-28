@@ -53,7 +53,7 @@ interface Node : Model {
         get() = y - height / 2
     val rightX: Double
         get() = x + width / 2
-    val buttonY: Double
+    val lowerY: Double
         get() = y + height / 2
     /**
      * orientation in arc, 0 <= orientation <= 2*PI
@@ -78,6 +78,7 @@ interface Node : Model {
      */
     var field: Battlefield
 
+
     /**
      * update function is called each frame to make node perform actions
      */
@@ -87,7 +88,7 @@ interface Node : Model {
     }
 
     fun containsPoint(pointX: Double, pointY: Double): Boolean {
-        if (pointX < x - width / 2 || pointY < y - height / 2 || pointX > x + width / 2 || pointY > y + height / 2) return false
+        if (pointX < leftX || pointY < upperY || pointX > rightX || pointY > lowerY) return false
         return true
     }
 
