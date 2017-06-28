@@ -19,8 +19,6 @@ import javafx.scene.transform.Affine
 class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInspector by battleCanvas {
     constructor(battlefield: Battlefield, clipWidth: Double, clipHeight: Double) : this(BattleCanvas(battlefield, clipWidth, clipHeight))
 
-    val drawnGuiNodes: ArrayList<GuiNode> = arrayListOf()
-
     init {
         AnchorPane.setLeftAnchor(battleCanvas, 0.0)
         AnchorPane.setTopAnchor(battleCanvas, 0.0)
@@ -31,7 +29,6 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
     }
 
     fun drawGuiNode(node: GuiNode, parentNode: Node) {
-        drawnGuiNodes.add(node)
         val parentX = parentNode.x * cameraScale - (battleCanvas.guiWidth * cameraScale - width) / 2 + cameraTransX
         val parentY = parentNode.y * cameraScale - (battleCanvas.guiHeight * cameraScale - height) / 2 + cameraTransY
         if (node.gui !in children) {
@@ -42,7 +39,13 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
     }
 
     fun clearGuiNodes() {
-        val toRemove = children.filter { it !in drawnGuiNodes.map { it.gui } && it != battleCanvas }
+        val guiNodes = arrayListOf<GuiNode>()
+        gameDirector.nodes.forEach {
+            guiNodes.addAll(it.children.filterIsInstance<GuiNode>())
+        }
+        val guis = guiNodes.map { it.gui }
+        val toRemove = children.filter { it !in guis && it != battleCanvas }
+
         children.removeAll(toRemove)
     }
 
@@ -131,7 +134,7 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
                     it.children.add(BotSelectNode(battlefield.players[0], battlefield))
                 }
                 lastFocusedNodes.filter { it !in focusedNodes }.forEach {
-                    it.children.remove(BotSelectNode(battlefield.players[0], battlefield))
+                    it.children.removeAll(it.children.filterIsInstance<GuiNode>())
                 }
 
                 lastFocusedNodes.clear()
