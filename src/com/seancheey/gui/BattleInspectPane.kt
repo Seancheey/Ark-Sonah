@@ -19,15 +19,19 @@ import javafx.scene.transform.Affine
 class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInspector by battleCanvas {
     constructor(battlefield: Battlefield, clipWidth: Double, clipHeight: Double) : this(BattleCanvas(battlefield, clipWidth, clipHeight))
 
+    val drawnGuiNodes: ArrayList<GuiNode> = arrayListOf()
+
     init {
         AnchorPane.setLeftAnchor(battleCanvas, 0.0)
         AnchorPane.setTopAnchor(battleCanvas, 0.0)
         children.add(battleCanvas)
         clip = Rectangle((battleCanvas.guiWidth - battleCanvas.clipWidth) / 2, (battleCanvas.guiHeight - battleCanvas.clipHeight) / 2, battleCanvas.clipWidth, battleCanvas.clipHeight)
         battleCanvas.drawGuiNode = { a, b -> drawGuiNode(a, b) }
+        battleCanvas.clearGuiNode = { clearGuiNodes() }
     }
 
     fun drawGuiNode(node: GuiNode, parentNode: Node) {
+        drawnGuiNodes.add(node)
         val parentX = parentNode.x * cameraScale - (battleCanvas.guiWidth * cameraScale - width) / 2 + cameraTransX
         val parentY = parentNode.y * cameraScale - (battleCanvas.guiHeight * cameraScale - height) / 2 + cameraTransY
         if (node.gui !in children) {
@@ -35,6 +39,11 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
         }
         AnchorPane.setLeftAnchor(node.gui, node.leftX + parentX)
         AnchorPane.setTopAnchor(node.gui, node.upperY + parentY)
+    }
+
+    fun clearGuiNodes() {
+        val toRemove = children.filter { it !in drawnGuiNodes.map { it.gui } && it != battleCanvas }
+        children.removeAll(toRemove)
     }
 
     class BattleCanvas(override val battlefield: Battlefield, val clipWidth: Double, val clipHeight: Double) : Canvas(battlefield.width, battlefield.height), GameInspector {
@@ -45,6 +54,7 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
         }
 
         override val focusedNodes: ArrayList<Node> = arrayListOf()
+        val lastFocusedNodes: ArrayList<Node> = arrayListOf()
         override var cameraTransX: Double = 0.0
             set(value) {
                 field = value
@@ -78,6 +88,7 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
         private var vx: Double = 0.0
         private var vy: Double = 0.0
         var drawGuiNode: (GuiNode, Node) -> Unit = { _, _ -> }
+        var clearGuiNode: () -> Unit = {}
 
         init {
             // set the background of battle field to light gray
@@ -95,6 +106,8 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
                 requestFocus()
                 cameraTransX += vx
                 cameraTransY += vy
+                // clear Gui Nodes
+                clearGuiNode()
             }
 
             clipCanvas()
@@ -114,6 +127,15 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
                         selectAllRobotsWithSameType(firstNode)
                     }
                 }
+                focusedNodes.filter { it !in lastFocusedNodes }.forEach {
+                    it.children.add(BotSelectNode(battlefield.players[0], battlefield))
+                }
+                lastFocusedNodes.filter { it !in focusedNodes }.forEach {
+                    it.children.remove(BotSelectNode(battlefield.players[0], battlefield))
+                }
+
+                lastFocusedNodes.clear()
+                lastFocusedNodes.addAll(focusedNodes)
             }
 
             setOnScroll { event ->

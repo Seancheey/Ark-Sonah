@@ -1,2 +1,6 @@
 BattleInspectPane {
 }
+
+BotSelectCirclePane{
+    -fx-opacity: 0.9;
+}
