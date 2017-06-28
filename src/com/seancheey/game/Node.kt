@@ -81,6 +81,10 @@ interface Node : Model {
      * set it to true to let gameDirector to remove this node
      */
     var requestDeletion: Boolean
+    /**
+     * set by GameInspector, used for handling any possible event when focused
+     */
+    var focusedByPlayer: Boolean
 
     /**
      * update function is called each frame to make node perform actions
@@ -105,4 +109,6 @@ interface Node : Model {
     fun correctOrientation() {
         orientation = Node.correctArcAngle(orientation)
     }
+
+    fun updateFocusedStatus() {}
 }

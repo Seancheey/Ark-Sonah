@@ -7,6 +7,7 @@ import com.seancheey.game.battlefield.Battlefield
  * GitHub: https://github.com/Seancheey
  */
 class RobotNode(val model: RobotModel, override var field: Battlefield, override var x: Double, override var y: Double) : RobotModel(model.name, model.components.map { it.copy() }), MovableNode {
+    override var focusedByPlayer: Boolean = false
     override var requestDeletion: Boolean = false
     override var acceleration: Double = 0.0
     override var speed: Double = 0.0
@@ -19,6 +20,10 @@ class RobotNode(val model: RobotModel, override var field: Battlefield, override
 
     init {
         components.filter { it.type == ComponentType.weapon }.forEach { children.add(it) }
+    }
+
+    override fun updateFocusedStatus() {
+        super.updateFocusedStatus()
     }
 
     override fun equals(other: Any?): Boolean {
