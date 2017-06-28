@@ -130,15 +130,7 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
                         selectAllRobotsWithSameType(firstNode)
                     }
                 }
-                focusedNodes.filter { it !in lastFocusedNodes }.forEach {
-                    it.children.add(BotSelectNode(battlefield.players[0], battlefield))
-                }
-                lastFocusedNodes.filter { it !in focusedNodes }.forEach {
-                    it.children.removeAll(it.children.filterIsInstance<GuiNode>())
-                }
-
-                lastFocusedNodes.clear()
-                lastFocusedNodes.addAll(focusedNodes)
+                syncBuilderGui()
             }
 
             setOnScroll { event ->
@@ -173,6 +165,21 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
                 }
             }
             start()
+        }
+
+        fun syncBuilderGui() {
+            val builderNodes = focusedNodes.filterIsInstance<RobotNode>().filter { it.components.any { it.model.name == "builder block" } }
+            val lastNodes = lastFocusedNodes.filterIsInstance<RobotNode>().filter { it.components.any { it.model.name == "builder block" } }
+
+            builderNodes.filter { it !in lastNodes }.forEach {
+                it.children.add(BotSelectNode(battlefield.players[0], battlefield))
+            }
+            lastNodes.filter { it !in builderNodes }.forEach {
+                it.children.filterIsInstance<BotSelectNode>().forEach { it.requestDeletion = true }
+            }
+
+            lastFocusedNodes.clear()
+            lastFocusedNodes.addAll(focusedNodes)
         }
 
 
