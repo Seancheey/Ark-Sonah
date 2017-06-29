@@ -56,8 +56,6 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
             }
         }
 
-        override val focusedNodes: ArrayList<Node> = arrayListOf()
-        val lastFocusedNodes: ArrayList<Node> = arrayListOf()
         override var cameraTransX: Double = 0.0
             set(value) {
                 field = value
@@ -103,7 +101,6 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
                 graphicsContext2D.save()
                 graphicsContext2D.scale(cameraScale, cameraScale)
                 battlefield.nodes.forEach { drawNode(it) }
-                focusedNodes.forEach { drawFocus(it) }
                 graphicsContext2D.restore()
                 // request focus to handle key event
                 requestFocus()
@@ -130,7 +127,6 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
                         selectAllRobotsWithSameType(firstNode)
                     }
                 }
-                syncBuilderGui()
             }
 
             setOnScroll { event ->
@@ -166,22 +162,6 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
             }
             start()
         }
-
-        fun syncBuilderGui() {
-            val builderNodes = focusedNodes.filterIsInstance<RobotNode>().filter { it.components.any { it.model.name == "builder block" } }
-            val lastNodes = lastFocusedNodes.filterIsInstance<RobotNode>().filter { it.components.any { it.model.name == "builder block" } }
-
-            builderNodes.filter { it !in lastNodes }.forEach {
-                it.children.add(BotSelectNode(battlefield.players[0], battlefield))
-            }
-            lastNodes.filter { it !in builderNodes }.forEach {
-                it.children.filterIsInstance<BotSelectNode>().forEach { it.requestDeletion = true }
-            }
-
-            lastFocusedNodes.clear()
-            lastFocusedNodes.addAll(focusedNodes)
-        }
-
 
         fun fullMapScale() {
             cameraScale = minOf(clipWidth / width, clipHeight / height)
@@ -231,6 +211,10 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
             newTrans.append(nodeRotation(node))
             graphicsContext2D.transform = newTrans
             graphicsContext2D.drawImage(node.image, 0.0, 0.0, node.width, node.height)
+            // draw focus if apply
+            if (node.focusedByPlayer) {
+                drawFocus(node)
+            }
             // recursively draw its children
             node.children.forEach {
                 if (it is GuiNode) {

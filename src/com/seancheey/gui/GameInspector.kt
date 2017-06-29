@@ -20,8 +20,10 @@ interface GameInspector {
     /**
      * player's selected nodes
      */
-    val focusedNodes: ArrayList<Node>
-
+    val focusedNodes: List<Node>
+        get() {
+            return gameDirector.nodes.filter { it.focusedByPlayer }
+        }
     /**
      * pixel width of interface
      */
@@ -50,10 +52,10 @@ interface GameInspector {
 
 
     fun selectRobotBeside(x: Double, y: Double) {
-        focusedNodes.clear()
-        val minDistanceNode = gameDirector.nodes.filter { it is RobotNode && it.containsPoint(x, y) }.minBy { it.distanceTo(x, y) }
+        focusedNodes.forEach { it.focusedByPlayer = false }
+        val minDistanceNode = gameDirector.nodes.filterIsInstance<RobotNode>().filter { it.containsPoint(x, y) }.minBy { it.distanceTo(x, y) }
         if (minDistanceNode != null) {
-            focusedNodes.add(minDistanceNode)
+            minDistanceNode.focusedByPlayer = true
         }
     }
 
@@ -62,7 +64,7 @@ interface GameInspector {
     }
 
     fun selectAllRobotsWithSameType(robotModel: RobotModel) {
-        focusedNodes.clear()
-        battlefield.nodes.filter { it is RobotNode && it.model == robotModel }.forEach { focusedNodes.add(it) }
+        focusedNodes.forEach { it.focusedByPlayer = false }
+        battlefield.nodes.filter { it is RobotNode && it.model == robotModel }.forEach { it.focusedByPlayer = true }
     }
 }

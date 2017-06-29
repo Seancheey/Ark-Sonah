@@ -8,6 +8,12 @@ import com.seancheey.game.battlefield.Battlefield
  */
 class RobotNode(val model: RobotModel, override var field: Battlefield, override var x: Double, override var y: Double) : RobotModel(model.name, model.components.map { it.copy() }), MovableNode {
     override var focusedByPlayer: Boolean = false
+        set(value) {
+            if (field != value) {
+                field = value
+                updateFocusedStatus()
+            }
+        }
     override var requestDeletion: Boolean = false
     override var acceleration: Double = 0.0
     override var speed: Double = 0.0
@@ -23,7 +29,13 @@ class RobotNode(val model: RobotModel, override var field: Battlefield, override
     }
 
     override fun updateFocusedStatus() {
-        super.updateFocusedStatus()
+        if (components.any { it.model.name == "builder block" }) {
+            if (focusedByPlayer) {
+                children.add(BotSelectNode(field.players[0], field))
+            } else {
+                children.filterIsInstance<BotSelectNode>().forEach { it.requestDeletion = true }
+            }
+        }
     }
 
     override fun equals(other: Any?): Boolean {
@@ -31,26 +43,32 @@ class RobotNode(val model: RobotModel, override var field: Battlefield, override
         if (other !is RobotNode) return false
         if (!super.equals(other)) return false
 
-        if (field != other.field) return false
+        if (model != other.model) return false
         if (x != other.x) return false
         if (y != other.y) return false
-        if (actionTree != other.actionTree) return false
+        if (focusedByPlayer != other.focusedByPlayer) return false
+        if (requestDeletion != other.requestDeletion) return false
+        if (acceleration != other.acceleration) return false
         if (speed != other.speed) return false
         if (orientation != other.orientation) return false
-        if (peers != other.peers) return false
 
         return true
     }
 
     override fun hashCode(): Int {
         var result = super.hashCode()
-        result = 31 * result + field.hashCode()
+        result = 31 * result + model.hashCode()
         result = 31 * result + x.hashCode()
         result = 31 * result + y.hashCode()
-        result = 31 * result + actionTree.hashCode()
+        result = 31 * result + focusedByPlayer.hashCode()
+        result = 31 * result + requestDeletion.hashCode()
+        result = 31 * result + acceleration.hashCode()
         result = 31 * result + speed.hashCode()
         result = 31 * result + orientation.hashCode()
-        result = 31 * result + peers.hashCode()
         return result
+    }
+
+    override fun toString(): String {
+        return "RobotNode(x=$x, y=$y, focusedByPlayer=$focusedByPlayer, acceleration=$acceleration, speed=$speed)"
     }
 }
