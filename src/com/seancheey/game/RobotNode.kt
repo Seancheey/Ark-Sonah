@@ -32,7 +32,7 @@ class RobotNode(val model: RobotModel, override var field: Battlefield, override
         if (components.any { it.model.name == "builder block" }) {
             if (focusedByPlayer) {
                 children.add(BotSelectNode(field.players[0], field, { selectedModel ->
-                    field.putRobot(selectedModel, x, y)
+                    field.putRobot(selectedModel, x, y, 0.0, orientation)
                 }))
             } else {
                 children.filterIsInstance<BotSelectNode>().forEach { it.requestDeletion = true }
