@@ -60,7 +60,6 @@ open class RobotModel(var name: String, val components: List<ComponentNode>) : M
         val movementModels = components.filter { it.type == ComponentType.movement }.map { it.getModel<MovementModel>()!! }
         val allModels = components.map { it.model }
 
-
         health = allModels.sumBy { it.health }
         weight = allModels.sumBy { it.weight }
         price = allModels.sumBy { it.price }
@@ -105,7 +104,7 @@ open class RobotModel(var name: String, val components: List<ComponentNode>) : M
         // add all moving nodes to immutableImage
         val writableImage = immutableImage()
         val writer = writableImage.pixelWriter
-        components.filter { it.type != ComponentType.weapon }.forEach { writer.setPixels(it.leftX.toInt(), it.upperY.toInt(), it.image) }
+        components.forEach { writer.setPixels(it.leftX.toInt(), it.upperY.toInt(), it.image) }
 
         return writableImage
     }
