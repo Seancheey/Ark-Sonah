@@ -150,6 +150,24 @@ open class RobotModel(var name: String, val components: List<ComponentNode>) : M
             verifyList.add { verifyMovements() }
             verifyList.add { verifyOverlap() }
             verifyList.add { verifyConnection() }
+            verifyList.add { verifyWeaponConnection() }
+        }
+
+        fun verifyWeaponConnection(): WrongMessage? {
+            val wrongPoints = arrayListOf<Point>()
+            components.filter { it.type == ComponentType.weapon }.forEach { weapon ->
+                val hasMount: Boolean = components.filter { Attribute.weapon_mount in it.model.attributes }.filter { it.gridX == weapon.gridX }.any { mount ->
+                    mount.gridY - weapon.gridY == (weapon.model.gridHeight - mount.model.gridHeight) / 2
+                }
+                if (!hasMount) {
+                    wrongPoints.addAll(weapon.allPoints())
+                }
+            }
+            if (wrongPoints.isEmpty()) {
+                return null
+            } else {
+                return WrongMessage("Weapon not connected to a mount", wrongPoints)
+            }
         }
 
         fun verifyMovements(): WrongMessage? {
