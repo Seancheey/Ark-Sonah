@@ -74,6 +74,12 @@ interface Node : Model {
      */
     val children: ArrayList<Node>
     /**
+     * children for observing only
+     * prevent concurrency issue
+     */
+    val immutableChildren: List<Node>
+        get() = children.map { it }
+    /**
      * the battlefield this node is at
      */
     var field: Battlefield

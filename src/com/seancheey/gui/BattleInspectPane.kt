@@ -215,8 +215,9 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
             if (node.focusedByPlayer) {
                 drawFocus(node)
             }
-            // recursively draw its children
-            node.children.forEach {
+            // recursively draw its children, assign a copy to prevent concurrency problem
+            val children = node.immutableChildren
+            children.forEach {
                 if (it is GuiNode) {
                     drawGuiNode(it, node)
                 } else {
