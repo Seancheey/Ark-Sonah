@@ -45,18 +45,8 @@ interface RobotEditInterface {
         updateRobotModel()
     }
 
-    fun removeComponentAt(x: Int, y: Int) {
-        editingRobot = RobotModel(editingRobot.name, editingRobot.components.filterNot { it.gridX == x && it.gridY == y })
-        updateRobotModel()
-    }
-
     fun clearComponents() {
         editingRobot = RobotModel(editingRobot.name, listOf())
-        updateRobotModel()
-    }
-
-    fun addAllComponents(model: RobotModel) {
-        editingRobot = RobotModel(editingRobot.name, editingRobot.components + model.components)
         updateRobotModel()
     }
 

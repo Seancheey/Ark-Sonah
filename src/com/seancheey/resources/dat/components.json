@@ -67,11 +67,12 @@
       "health": 5,
       "weight": 30,
       "gridWidth": 2,
-      "gridHeight": 4,
+      "gridHeight": 2,
       "damage": 20,
       "range": 200,
       "frequency": 2,
-      "price":10
+      "price": 10,
+      "visualHeight": 4
     }
   ]
 }

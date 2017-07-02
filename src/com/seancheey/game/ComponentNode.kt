@@ -11,9 +11,9 @@ open class ComponentNode protected constructor(open val model: ComponentModel, v
     override var focusedByPlayer: Boolean = false
     override var requestDeletion: Boolean = false
     override final var x: Double = 0.0
-        get() = gridX * Config.botGridSize + width / 2
+        get() = gridX * Config.botGridSize + width / 2 - model.xCorrect
     override final var y: Double = 0.0
-        get() = gridY * Config.botGridSize + height / 2
+        get() = gridY * Config.botGridSize + height / 2 - model.yCorrect
     override final var orientation: Double = 0.0
     override final val peers: ArrayList<Node> = arrayListOf()
     override final val children: ArrayList<Node> = arrayListOf()

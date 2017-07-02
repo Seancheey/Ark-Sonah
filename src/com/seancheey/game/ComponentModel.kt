@@ -12,18 +12,18 @@ import javax.json.JsonObjectBuilder
  * GitHub: https://github.com/Seancheey
  */
 
-open class ComponentModel(val name: String, imageURL: String, var health: Int, var weight: Int, var gridWidth: Int, var gridHeight: Int, var price: Int) : Model, Serializable {
+open class ComponentModel(val name: String, imageURL: String, var health: Int, var weight: Int, var gridWidth: Int, var gridHeight: Int, var price: Int, var visualWidth: Int = gridWidth, var visualHeight: Int = gridHeight) : Model, Serializable {
     override final val actionTree: ActionTree = ActionTree()
     /**
      * pixel width of component
      */
     override val width: Double
-        get() = gridWidth * Config.botGridSize
+        get() = visualWidth * Config.botGridSize
     /**
      * pixel height of component
      */
     override val height: Double
-        get() = gridHeight * Config.botGridSize
+        get() = visualHeight * Config.botGridSize
     /**
      * image of component with size same as width/height specified
      */
@@ -48,27 +48,48 @@ open class ComponentModel(val name: String, imageURL: String, var health: Int, v
      * function used to modify stats of robot
      */
     open var modifyRobot: (robot: RobotNode) -> Unit = {}
-
     /**
      * special attributes of a component
      */
     val attributes: ArrayList<Attribute> = arrayListOf()
 
+    val xCorrect: Int
+        get() = ((visualWidth - gridWidth) / 2 * Config.botGridSize).toInt()
+    val yCorrect: Int
+        get() = ((visualHeight - gridHeight) / 2 * Config.botGridSize).toInt()
 
     companion object {
-        val requiredKeys = listOf("name", "imageURL", "health", "weight", "gridWidth", "gridHeight", "price")
-        protected val specialKey = "special"
+        protected object keys {
+            val name = "name"
+            val imageURL = "imageURL"
+            val health = "health"
+            val weight = "weight"
+            val gridWidth = "gridWidth"
+            val gridHeight = "gridHeight"
+            val price = "price"
+            val special = "special"
+            val visualWidth = "visualWidth"
+            val visualHeight = "visualHeight"
+        }
+
+        val requiredKeys = listOf(keys.name, keys.imageURL, keys.health, keys.weight, keys.gridWidth, keys.gridHeight, keys.price)
+
         fun create(j: JsonObject): ComponentModel? {
             if (requiredKeys.any { it !in j.keys })
                 return null
             val model = ComponentModel(j.getString(requiredKeys[0]), j.getString(requiredKeys[1]), j.getInt(requiredKeys[2]), j.getInt(requiredKeys[3]), j.getInt(requiredKeys[4]), j.getInt(requiredKeys[5]), j.getInt(requiredKeys[6]))
-            if (specialKey in j.keys) {
-                // deal with special attributes
-                val attrString: String = j.getJsonString(specialKey).string
+
+            if (keys.special in j.keys) {
+                val attrString: String = j.getJsonString(keys.special).string
                 attrString.split(Config.attrSeparator)
                         .mapNotNull { Attribute.getAttribute(it) }
                         .forEach { model.attributes.add(it) }
-            } else {
+            }
+            if (keys.visualWidth in j.keys) {
+                model.visualWidth = j.getInt(keys.visualWidth)
+            }
+            if (keys.visualHeight in j.keys) {
+                model.visualHeight = j.getInt(keys.visualHeight)
             }
             return model
         }
@@ -89,12 +110,19 @@ open class ComponentModel(val name: String, imageURL: String, var health: Int, v
     }
 
     open protected fun createJsonBuilder(): JsonObjectBuilder {
-        return Json.createObjectBuilder().add("name", name)
-                .add("imageURL", imageURL)
-                .add("health", health)
-                .add("weight", weight)
-                .add("gridWidth", gridWidth)
-                .add("gridHeight", gridHeight)
-                .add("special", attributes.joinToString(separator = Config.attrSeparator))
+        return Json.createObjectBuilder().add(keys.name, name)
+                .add(keys.imageURL, imageURL)
+                .add(keys.health, health)
+                .add(keys.weight, weight)
+                .add(keys.gridWidth, gridWidth)
+                .add(keys.gridHeight, gridHeight)
+                .add(keys.special, attributes.joinToString(separator = Config.attrSeparator))
+                .add(keys.visualWidth, visualWidth)
+                .add(keys.visualHeight, visualHeight)
     }
+
+    override fun toString(): String {
+        return "ComponentModel(name='$name', health=$health, weight=$weight, gridWidth=$gridWidth, gridHeight=$gridHeight, price=$price, visualWidth=$visualWidth, visualHeight=$visualHeight, imageURL='$imageURL')"
+    }
+
 }

@@ -75,14 +75,17 @@ open class RobotModel(var name: String, val components: List<ComponentNode>) : M
         val writer = writeImage.pixelWriter
         components
                 .filter { it.type != ComponentType.weapon }
-                .forEach { writer.setPixels(it.leftX.toInt(), it.upperY.toInt(), it.image) }
+                .forEach { writer.setPixels(it) }
         return writeImage
     }
 
     /**
      * write a image to pixel writer
      */
-    private fun PixelWriter.setPixels(x: Int, y: Int, image: Image) {
+    private fun PixelWriter.setPixels(node: ComponentNode) {
+        val x = node.leftX.toInt()
+        val y = node.upperY.toInt()
+        val image = node.image
         val reader = image.pixelReader
         for (readY in 0 until image.height.toInt()) {
             for (readX in 0 until image.width.toInt()) {
@@ -104,7 +107,7 @@ open class RobotModel(var name: String, val components: List<ComponentNode>) : M
         // add all moving nodes to immutableImage
         val writableImage = immutableImage()
         val writer = writableImage.pixelWriter
-        components.forEach { writer.setPixels(it.leftX.toInt(), it.upperY.toInt(), it.image) }
+        components.forEach { writer.setPixels(it) }
 
         return writableImage
     }
