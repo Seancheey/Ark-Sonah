@@ -344,8 +344,8 @@ class EditController : Initializable, RobotEditInterface {
         db.setContent(clipboard)
         // set mouse holding image and offsets
         db.dragView = componentModel.image
-        db.dragViewOffsetX = (componentModel.gridWidth - 1) * componentModel.image.width / componentModel.gridWidth / 2
-        db.dragViewOffsetY = -(componentModel.gridHeight - 1) * componentModel.image.height / componentModel.gridHeight / 2
+        db.dragViewOffsetX = (componentModel.gridWidth - 1) * componentModel.image.width / componentModel.gridWidth / 2 - componentModel.xCorrect / 2
+        db.dragViewOffsetY = -(componentModel.gridHeight - 1) * componentModel.image.height / componentModel.gridHeight / 2 + componentModel.yCorrect / 2
         setAllMountComponentTransparent(true)
     }
 
