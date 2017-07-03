@@ -16,7 +16,8 @@ class RobotModelSlot(val robotModel: RobotModel, onClick: (RobotModel) -> Unit =
     var onClick: (RobotModel) -> Unit = {}
         set(value) {
             setOnMouseClicked {
-                value(robotModel)
+                if (robotModel.verify().isEmpty())
+                    value(robotModel)
             }
             field = value
         }
