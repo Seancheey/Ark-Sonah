@@ -12,11 +12,11 @@ import javafx.scene.input.MouseEvent
  * Created by Seancheey on 14/06/2017.
  * GitHub: https://github.com/Seancheey
  */
-class RobotModelSlot(val robotModel: RobotModel, onClick: (RobotModel) -> Unit = {}, onDragStart: (MouseEvent, RobotModel) -> Unit = { _, _ -> }) : ModelSlot(robotModel, Config.botDisplaySize, Config.botDisplaySize, robotModel.idleImage) {
+class RobotModelSlot(val robotModel: RobotModel, onClick: (RobotModel) -> Unit = {}, onDragStart: (MouseEvent, RobotModel) -> Unit = { _, _ -> }, var verifyValid: Boolean = false) : ModelSlot(robotModel, Config.botDisplaySize, Config.botDisplaySize, robotModel.idleImage) {
     var onClick: (RobotModel) -> Unit = {}
         set(value) {
             setOnMouseClicked {
-                if (robotModel.verify().isEmpty())
+                if (!verifyValid || robotModel.verify().isEmpty())
                     value(robotModel)
             }
             field = value
@@ -30,8 +30,8 @@ class RobotModelSlot(val robotModel: RobotModel, onClick: (RobotModel) -> Unit =
         }
 
     companion object {
-        fun allAllTo(children: ObservableList<Node>, models: List<RobotModel>, onClick: (RobotModel) -> Unit = {}) {
-            models.forEach { children.add(RobotModelSlot(it, onClick)) }
+        fun allAllTo(children: ObservableList<Node>, models: List<RobotModel>, onClick: (RobotModel) -> Unit = {}, verifyValid: Boolean = false) {
+            models.forEach { children.add(RobotModelSlot(it, onClick, verifyValid = verifyValid)) }
         }
     }
 

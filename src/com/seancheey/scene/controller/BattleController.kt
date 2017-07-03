@@ -49,7 +49,7 @@ class BattleController : Initializable {
         // select player's first BotGroup to initialize
         val models = Config.player.robotGroups[0]
         // init selection slots
-        RobotModelSlot.allAllTo(botGroupBox!!.children, models, { battlePane.clickRobot(it) })
+        RobotModelSlot.allAllTo(botGroupBox!!.children, models, { battlePane.clickRobot(it) }, true)
         // init battle field
         val battleField = DefaultBattleInitializer(2000).create()
         battlePane = BattleInspectPane(battleField, Stages.primaryStage!!.width, Stages.primaryStage!!.height - botGroupBox!!.height - 200)
