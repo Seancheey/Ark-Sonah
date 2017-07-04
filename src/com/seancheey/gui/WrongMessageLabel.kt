@@ -1,6 +1,6 @@
 package com.seancheey.gui
 
-import com.seancheey.game.RobotModel
+import com.seancheey.game.model.RobotModel
 import javafx.scene.control.Label
 
 /**

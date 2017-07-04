@@ -1,7 +1,7 @@
 package com.seancheey.game.command
 
 import com.seancheey.game.Action
-import com.seancheey.game.MovableNode
+import com.seancheey.game.model.MovableNode
 import com.seancheey.game.Player
 
 /**

@@ -1,5 +1,6 @@
-package com.seancheey.game
+package com.seancheey.game.model
 
+import com.seancheey.game.*
 import com.seancheey.resources.Resources
 import javafx.scene.image.Image
 import javafx.scene.image.PixelWriter

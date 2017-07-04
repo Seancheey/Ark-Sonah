@@ -1,5 +1,7 @@
-package com.seancheey.game
+package com.seancheey.game.model
 
+import com.seancheey.game.ComponentType
+import com.seancheey.game.Config
 import com.seancheey.game.battlefield.Battlefield
 import com.seancheey.game.battlefield.EmptyBattlefield
 
@@ -56,7 +58,7 @@ open class ComponentNode protected constructor(open val model: ComponentModel, v
     }
 
     fun copy(): ComponentNode {
-        return ComponentNode.create(model, gridX, gridY)
+        return create(model, gridX, gridY)
     }
 
     override fun equals(other: Any?): Boolean {

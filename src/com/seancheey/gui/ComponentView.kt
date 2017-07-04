@@ -1,7 +1,7 @@
 package com.seancheey.gui
 
-import com.seancheey.game.ComponentModel
-import com.seancheey.game.ComponentNode
+import com.seancheey.game.model.ComponentModel
+import com.seancheey.game.model.ComponentNode
 import javafx.scene.image.ImageView
 import javafx.scene.input.MouseEvent
 

@@ -1,6 +1,7 @@
-package com.seancheey.game
+package com.seancheey.game.model
 
 import com.seancheey.game.battlefield.Battlefield
+import com.seancheey.game.model.GuiNode
 import javafx.animation.AnimationTimer
 import javafx.scene.control.ProgressBar
 

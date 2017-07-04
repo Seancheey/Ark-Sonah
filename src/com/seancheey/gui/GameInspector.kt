@@ -3,6 +3,10 @@ package com.seancheey.gui
 import com.seancheey.game.*
 import com.seancheey.game.battlefield.Battlefield
 import com.seancheey.game.command.MoveCommand
+import com.seancheey.game.model.MovableNode
+import com.seancheey.game.model.Node
+import com.seancheey.game.model.RobotModel
+import com.seancheey.game.model.RobotNode
 
 /**
  * Created by Seancheey on 04/06/2017.

@@ -2,6 +2,10 @@ package com.seancheey.gui
 
 import com.seancheey.game.*
 import com.seancheey.game.battlefield.Battlefield
+import com.seancheey.game.model.GuiNode
+import com.seancheey.game.model.Node
+import com.seancheey.game.model.RobotModel
+import com.seancheey.game.model.RobotNode
 import javafx.animation.AnimationTimer
 import javafx.concurrent.Task
 import javafx.scene.canvas.Canvas

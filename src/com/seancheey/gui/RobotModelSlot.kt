@@ -1,8 +1,8 @@
 package com.seancheey.gui
 
 import com.seancheey.game.Config
-import com.seancheey.game.Model
-import com.seancheey.game.RobotModel
+import com.seancheey.game.model.Model
+import com.seancheey.game.model.RobotModel
 import javafx.collections.ObservableList
 import javafx.scene.Node
 import javafx.scene.image.Image

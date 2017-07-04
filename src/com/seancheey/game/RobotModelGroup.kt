@@ -1,5 +1,6 @@
 package com.seancheey.game
 
+import com.seancheey.game.model.RobotModel
 import java.io.Serializable
 
 /**

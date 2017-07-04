@@ -1,6 +1,9 @@
 package com.seancheey.scene.controller
 
 import com.seancheey.game.*
+import com.seancheey.game.model.ComponentModel
+import com.seancheey.game.model.ComponentNode
+import com.seancheey.game.model.RobotModel
 import com.seancheey.gui.*
 import com.seancheey.resources.Models
 import com.seancheey.resources.Resources

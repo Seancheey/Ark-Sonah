@@ -1,8 +1,8 @@
 package com.seancheey.resources
 
-import com.seancheey.game.ComponentModel
-import com.seancheey.game.MovementModel
-import com.seancheey.game.WeaponModel
+import com.seancheey.game.model.ComponentModel
+import com.seancheey.game.model.MovementModel
+import com.seancheey.game.model.WeaponModel
 import java.io.StringReader
 import javax.json.Json
 import javax.json.JsonObject

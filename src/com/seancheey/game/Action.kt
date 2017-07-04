@@ -1,5 +1,7 @@
 package com.seancheey.game
 
+import com.seancheey.game.model.MovableNode
+import com.seancheey.game.model.Node
 import java.io.Serializable
 
 

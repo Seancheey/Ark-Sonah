@@ -1,6 +1,9 @@
 package com.seancheey.game.battlefield
 
 import com.seancheey.game.*
+import com.seancheey.game.model.Node
+import com.seancheey.game.model.RobotModel
+import com.seancheey.game.model.RobotNode
 import java.io.Serializable
 
 

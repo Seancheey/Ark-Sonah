@@ -1,5 +1,6 @@
-package com.seancheey.game
+package com.seancheey.game.model
 
+import com.seancheey.game.Action
 import javax.json.JsonObject
 
 /**

@@ -1,5 +1,8 @@
-package com.seancheey.game
+package com.seancheey.game.model
 
+import com.seancheey.game.ActionTree
+import com.seancheey.game.Attribute
+import com.seancheey.game.Config
 import com.seancheey.resources.Resources
 import javafx.scene.image.Image
 import java.io.Serializable

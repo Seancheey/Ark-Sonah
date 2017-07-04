@@ -1,6 +1,6 @@
 package com.seancheey.gui
 
-import com.seancheey.game.RobotModel
+import com.seancheey.game.model.RobotModel
 import javafx.geometry.Point2D
 import javafx.scene.layout.AnchorPane
 import javafx.scene.shape.Arc

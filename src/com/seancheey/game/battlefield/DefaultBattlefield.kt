@@ -1,6 +1,6 @@
 package com.seancheey.game.battlefield
 
-import com.seancheey.game.Node
+import com.seancheey.game.model.Node
 import com.seancheey.game.PlayerInGame
 
 /**

@@ -1,5 +1,6 @@
-package com.seancheey.game
+package com.seancheey.game.model
 
+import com.seancheey.game.PlayerInGame
 import com.seancheey.game.battlefield.Battlefield
 import com.seancheey.gui.BotSelectCirclePane
 

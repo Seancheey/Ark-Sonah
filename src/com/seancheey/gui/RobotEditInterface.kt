@@ -1,9 +1,9 @@
 package com.seancheey.gui
 
-import com.seancheey.game.ComponentModel
-import com.seancheey.game.ComponentNode
+import com.seancheey.game.model.ComponentModel
+import com.seancheey.game.model.ComponentNode
 import com.seancheey.game.Config
-import com.seancheey.game.RobotModel
+import com.seancheey.game.model.RobotModel
 
 /**
  * Created by Seancheey on 13/06/2017.

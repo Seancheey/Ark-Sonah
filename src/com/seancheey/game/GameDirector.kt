@@ -1,6 +1,7 @@
 package com.seancheey.game
 
 import com.seancheey.game.command.Command
+import com.seancheey.game.model.Node
 
 /**
  * Created by Seancheey on 30/05/2017.

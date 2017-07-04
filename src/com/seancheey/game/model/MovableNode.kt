@@ -1,4 +1,6 @@
-package com.seancheey.game
+package com.seancheey.game.model
+
+import com.seancheey.game.model.Node
 
 /**
  * Created by Seancheey on 06/06/2017.

@@ -1,4 +1,4 @@
-package com.seancheey.game
+package com.seancheey.game.model
 
 import com.seancheey.game.battlefield.Battlefield
 
@@ -113,7 +113,7 @@ interface Node : Model {
     }
 
     fun correctOrientation() {
-        orientation = Node.correctArcAngle(orientation)
+        orientation = correctArcAngle(orientation)
     }
 
     fun updateFocusedStatus() {}

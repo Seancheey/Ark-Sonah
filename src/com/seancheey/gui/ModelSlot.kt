@@ -1,6 +1,6 @@
 package com.seancheey.gui
 
-import com.seancheey.game.Model
+import com.seancheey.game.model.Model
 import javafx.scene.control.Button
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView

@@ -1,4 +1,4 @@
-package com.seancheey.game
+package com.seancheey.game.model
 
 import javax.json.JsonObject
 import javax.json.JsonObjectBuilder

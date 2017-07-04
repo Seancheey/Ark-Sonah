@@ -1,6 +1,6 @@
 package com.seancheey.gui
 
-import com.seancheey.game.ComponentModel
+import com.seancheey.game.model.ComponentModel
 import com.seancheey.game.Config
 import javafx.scene.input.TransferMode
 import javafx.scene.layout.StackPane
