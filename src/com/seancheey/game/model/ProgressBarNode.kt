@@ -1,7 +1,6 @@
 package com.seancheey.game.model
 
 import com.seancheey.game.battlefield.Battlefield
-import com.seancheey.game.model.GuiNode
 import javafx.animation.AnimationTimer
 import javafx.scene.control.ProgressBar
 
@@ -15,19 +14,20 @@ class ProgressBarNode(val timeInSecond: Double, field: Battlefield, val onProgre
 
     private var startTime = -1L
     private val progressTimer: AnimationTimer = object : AnimationTimer() {
-        override fun start() {
-            super.start()
-            startTime = System.currentTimeMillis()
-        }
 
         override fun handle(now: Long) {
-            val progress = timeInSecond / (now - startTime)
-            if (progress < 1) {
-                progressGui.progress = progress
+            if (startTime == -1L) {
+                startTime = now
             } else {
-                progressGui.progress = 1.0
-                onProgressEnd()
-                stop()
+                val progress = (now - startTime) / timeInSecond / 1000000000
+                if (progress < 1) {
+                    progressGui.progress = progress
+                } else {
+                    progressGui.progress = 1.0
+                    onProgressEnd()
+                    stop()
+                    requestDeletion = true
+                }
             }
         }
     }
