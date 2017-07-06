@@ -8,7 +8,7 @@
     <right>
         <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
             <items>
-                <TilePane fx:id="statsPane" prefHeight="200.0" prefWidth="200.0" />
+                <TilePane fx:id="statsPane" prefHeight="200.0" prefWidth="200.0" tileAlignment="TOP_LEFT"/>
                 <VBox fx:id="errorMessageBox" prefHeight="200.0" prefWidth="100.0" />
             </items>
         </SplitPane>
