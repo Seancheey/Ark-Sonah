@@ -71,6 +71,7 @@
       "damage": 20,
       "range": 200,
       "frequency": 2,
+      "turnSpeed": 0.02,
       "price": 10,
       "visualHeight": 4
     }
