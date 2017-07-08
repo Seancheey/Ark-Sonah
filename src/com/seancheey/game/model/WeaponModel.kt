@@ -1,6 +1,7 @@
 package com.seancheey.game.model
 
 import com.seancheey.game.Action
+import com.seancheey.game.ActionTree
 import javax.json.JsonObject
 
 /**
@@ -8,12 +9,9 @@ import javax.json.JsonObject
  * GitHub: https://github.com/Seancheey
  */
 class WeaponModel(name: String, imageURL: String, health: Int, weight: Int, gridWidth: Int, gridHeight: Int, price: Int, visualWidth: Int, visualHeight: Int, val damage: Int, val range: Int, val frequency: Int, val turnSpeed: Double) : ComponentModel(name, imageURL, health, weight, gridWidth, gridHeight, price, visualWidth, visualHeight) {
+    override val actionTree: ActionTree = ActionTree(Action.SHOOT_ACTION to Action.rotateAction(turnSpeed))
 
     constructor(defaultModel: ComponentModel, damage: Int, range: Int, frequency: Int, turnSpeed: Double) : this(defaultModel.name, defaultModel.imageURL, defaultModel.health, defaultModel.weight, defaultModel.gridWidth, defaultModel.gridHeight, defaultModel.price, defaultModel.visualWidth, defaultModel.visualHeight, damage, range, frequency, turnSpeed)
-
-    init {
-        actionTree.putAction(Action.rotateAction(turnSpeed), Action.SHOOT_ACTION)
-    }
 
     companion object {
         private val keys = listOf("damage", "range", "frequency", "turnSpeed")

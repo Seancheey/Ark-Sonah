@@ -16,7 +16,7 @@ import javax.json.JsonObjectBuilder
  */
 
 open class ComponentModel(val name: String, imageURL: String, var health: Int, var weight: Int, var gridWidth: Int, var gridHeight: Int, var price: Int, var visualWidth: Int = gridWidth, var visualHeight: Int = gridHeight) : Model, Serializable {
-    override final val actionTree: ActionTree = ActionTree()
+    override val actionTree: ActionTree = ActionTree()
     /**
      * pixel width of component
      */

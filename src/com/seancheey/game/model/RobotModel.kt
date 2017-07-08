@@ -16,7 +16,7 @@ import javafx.scene.image.WritableImage
  */
 @Suppress("VAL_REASSIGNMENT_VIA_BACKING_FIELD")
 open class RobotModel(var name: String, val components: List<ComponentNode>) : Model {
-    override final val actionTree: ActionTree = ActionTree(mutableMapOf(Action.MOVE_ACTION to Action.moveAction()))
+    override final val actionTree: ActionTree = ActionTree(Action.MOVE_ACTION to Action.moveAction())
     override val width: Double
         get() = Config.botPixelSize
     override val height: Double

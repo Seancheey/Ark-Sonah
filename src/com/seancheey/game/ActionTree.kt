@@ -9,7 +9,7 @@ import java.io.Serializable
  */
 class ActionTree(private val actions: MutableMap<Int, Action>) : Serializable {
 
-    constructor() : this(mutableMapOf())
+    constructor(vararg pairs: Pair<Int, Action>) : this(mutableMapOf(*pairs))
 
     fun putAction(action: Action, type: Int): Unit {
         actions[type] = action
