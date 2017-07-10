@@ -7,8 +7,9 @@ import com.seancheey.game.model.Node
  * GitHub: https://github.com/Seancheey
  */
 class TestBattlefield : Battlefield {
-    override var name: String = "Test Battlefield"
-    override val width: Double = 2000.0
-    override val height: Double = 1200.0
-    override val nodes: ArrayList<Node> = arrayListOf()
+    override val nodeAddQueue = arrayListOf<Node>()
+    override var name = "Test Battlefield"
+    override val width = 2000.0
+    override val height = 1200.0
+    override val nodes = arrayListOf<Node>()
 }

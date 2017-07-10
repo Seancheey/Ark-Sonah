@@ -7,6 +7,7 @@ import com.seancheey.game.model.Node
  * GitHub: https://github.com/Seancheey
  */
 class EmptyBattlefield : Battlefield {
+    override val nodeAddQueue: ArrayList<Node> = arrayListOf()
     override var name: String = ""
     override val width: Double = 0.0
     override val height: Double = 0.0

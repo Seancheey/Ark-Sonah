@@ -13,4 +13,5 @@ interface Battlefield : Serializable {
     val width: Double
     val height: Double
     val nodes: ArrayList<Node>
+    val nodeAddQueue: ArrayList<Node>
 }

@@ -7,23 +7,39 @@ import com.seancheey.game.model.Node
  * Created by Seancheey on 30/05/2017.
  * GitHub: https://github.com/Seancheey
  */
-open class GameDirector(val game: Game, var inputs: () -> Unit = {}, var render: (lag: Double) -> Unit = {}) {
-    val asyncNodes: ArrayList<Node> = game.field.nodes
+class GameDirector(val game: Game, var render: (lag: Double) -> Unit = {}) {
+    /**
+     * public access cannot modify nodes, which may lead to concurrence issue
+     */
+    val nodes: List<Node> = game.field.nodes
+    /**
+     * only for private access to modify nodes
+     */
+    private val mutableNodes: ArrayList<Node> = game.field.nodes
+    /**
+     * stop indicates the game director is not running
+     */
     var stop = true
+    /**
+     * started indicates the game director is running
+     */
     val started
         get() = !stop
+    /**
+     * update time frame
+     */
     val MS_PER_UPDATE = Config.updatePerMilisecond
+    /**
+     * player's command waiting to be executed
+     */
     private val commands: ArrayList<Command> = arrayListOf()
-    val nodes: List<Node>
-        get() = syncNodes
-    val syncNodes: ArrayList<Node> = arrayListOf()
+
     var lastTime: Long = System.currentTimeMillis()
     var currentTime: Long = System.currentTimeMillis()
     var elapsed: Int = 0
     var lag = 0
 
     init {
-        syncNodes += asyncNodes
         updateTime()
     }
 
@@ -54,28 +70,23 @@ open class GameDirector(val game: Game, var inputs: () -> Unit = {}, var render:
         stop = false
         while (!stop && !Config.programClosed) {
             updateTime()
-            lag = 0
-            inputs()
             if (lag < MS_PER_UPDATE) {
                 Thread.sleep(MS_PER_UPDATE.toLong() - lag)
                 updateTime()
             }
             while (lag > MS_PER_UPDATE) {
-                syncNodes()
                 executeCommands()
                 update()
+                updateTime()
                 lag -= MS_PER_UPDATE
             }
         }
     }
 
-    open fun update() {
-        asyncNodes.removeAll(nodes.filter { it.requestDeletion })
+    fun update() {
+        mutableNodes.addAll(game.field.nodeAddQueue)
+        game.field.nodeAddQueue.clear()
+        mutableNodes.removeAll(nodes.filter { it.requestDeletion })
         nodes.forEach { it.update() }
-    }
-
-    private fun syncNodes() {
-        syncNodes.clear()
-        syncNodes += asyncNodes
     }
 }

@@ -32,9 +32,8 @@ interface GameInspector {
      * player's selected nodes
      */
     val focusedNodes: List<Node>
-        get() {
-            return gameDirector.nodes.filter { it.focusedByPlayer }
-        }
+        get() = gameDirector.nodes.filter { it.focusedByPlayer }
+
     /**
      * pixel width of interface
      */
