@@ -7,13 +7,14 @@ import com.seancheey.game.model.Node
  * Created by Seancheey on 30/05/2017.
  * GitHub: https://github.com/Seancheey
  */
-open class GameDirector(val asyncNodes: ArrayList<Node>, var inputs: () -> Unit = {}, var render: (lag: Double) -> Unit = {}) {
+open class GameDirector(val game: Game, var inputs: () -> Unit = {}, var render: (lag: Double) -> Unit = {}) {
+    val asyncNodes: ArrayList<Node> = game.field.nodes
     var stop = true
     val started
         get() = !stop
     val MS_PER_UPDATE = Config.updatePerMilisecond
     private val commands: ArrayList<Command> = arrayListOf()
-    val nodes: ArrayList<Node>
+    val nodes: List<Node>
         get() = syncNodes
     val syncNodes: ArrayList<Node> = arrayListOf()
     var lastTime: Long = System.currentTimeMillis()
@@ -69,7 +70,7 @@ open class GameDirector(val asyncNodes: ArrayList<Node>, var inputs: () -> Unit 
     }
 
     open fun update() {
-        nodes.removeAll(nodes.filter { it.requestDeletion })
+        asyncNodes.removeAll(nodes.filter { it.requestDeletion })
         nodes.forEach { it.update() }
     }
 
@@ -77,5 +78,4 @@ open class GameDirector(val asyncNodes: ArrayList<Node>, var inputs: () -> Unit 
         syncNodes.clear()
         syncNodes += asyncNodes
     }
-
 }

@@ -3,13 +3,12 @@ package com.seancheey.game.model
 import com.seancheey.game.ComponentType
 import com.seancheey.game.Config
 import com.seancheey.game.battlefield.Battlefield
-import com.seancheey.game.battlefield.EmptyBattlefield
 
 /**
  * Created by Seancheey on 23/05/2017.
  * GitHub: https://github.com/Seancheey
  */
-open class ComponentNode protected constructor(open val model: ComponentModel, val gridX: Int, val gridY: Int, val type: ComponentType) : Model by model, Node {
+open class ComponentNode protected constructor(open val model: ComponentModel, val gridX: Int, val gridY: Int, val type: ComponentType, override final var field: Battlefield) : Model by model, Node {
     override var focusedByPlayer: Boolean = false
     override var requestDeletion: Boolean = false
     override final var x: Double = 0.0
@@ -19,13 +18,12 @@ open class ComponentNode protected constructor(open val model: ComponentModel, v
     override final var orientation: Double = 0.0
     override final val peers: ArrayList<Node> = arrayListOf()
     override final val children: ArrayList<Node> = arrayListOf()
-    override final var field: Battlefield = EmptyBattlefield()
 
     /**
      * create() is used as a factory of ComponentNode
      */
     companion object {
-        fun create(componentModel: ComponentModel, gridX: Int, gridY: Int): ComponentNode {
+        fun create(componentModel: ComponentModel, gridX: Int, gridY: Int, field: Battlefield): ComponentNode {
             // limit out bound position
             var x = gridX
             var y = gridY
@@ -40,10 +38,10 @@ open class ComponentNode protected constructor(open val model: ComponentModel, v
                 y = 0
             // create component according to type of model
             if (componentModel is MovementModel)
-                return ComponentNode(componentModel, x, y, ComponentType.movement)
+                return ComponentNode(componentModel, x, y, ComponentType.movement, field)
             if (componentModel is WeaponModel)
-                return ComponentNode(componentModel, x, y, ComponentType.weapon)
-            return ComponentNode(componentModel, x, y, ComponentType.default)
+                return ComponentNode(componentModel, x, y, ComponentType.weapon, field)
+            return ComponentNode(componentModel, x, y, ComponentType.default, field)
         }
     }
 
@@ -58,7 +56,7 @@ open class ComponentNode protected constructor(open val model: ComponentModel, v
     }
 
     fun copy(): ComponentNode {
-        return create(model, gridX, gridY)
+        return create(model, gridX, gridY, field)
     }
 
     override fun equals(other: Any?): Boolean {

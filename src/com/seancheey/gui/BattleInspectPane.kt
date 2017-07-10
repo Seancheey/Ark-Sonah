@@ -1,7 +1,8 @@
 package com.seancheey.gui
 
-import com.seancheey.game.*
-import com.seancheey.game.battlefield.Battlefield
+import com.seancheey.game.Config
+import com.seancheey.game.Game
+import com.seancheey.game.GameDirector
 import com.seancheey.game.model.GuiNode
 import com.seancheey.game.model.Node
 import com.seancheey.game.model.RobotModel
@@ -21,7 +22,7 @@ import javafx.scene.transform.Affine
  * GitHub: https://github.com/Seancheey
  */
 class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInspector by battleCanvas {
-    constructor(battlefield: Battlefield, clipWidth: Double, clipHeight: Double) : this(BattleCanvas(battlefield, clipWidth, clipHeight))
+    constructor(game: Game, clipWidth: Double, clipHeight: Double) : this(BattleCanvas(game, clipWidth, clipHeight))
 
     init {
         AnchorPane.setLeftAnchor(battleCanvas, 0.0)
@@ -53,10 +54,11 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
         children.removeAll(toRemove)
     }
 
-    class BattleCanvas(override val battlefield: Battlefield, val clipWidth: Double, val clipHeight: Double) : Canvas(battlefield.width, battlefield.height), GameInspector {
+    class BattleCanvas(override val game: Game, val clipWidth: Double, val clipHeight: Double) : Canvas(game.field.width, game.field.height), GameInspector {
+
         override fun clickRobot(model: RobotModel) {
             if (!model.empty) {
-                battlefield.putRobot(model, battlefield.width / 2, battlefield.height / 2, Math.random() * 6)
+                battlefield.nodes.add(RobotNode(model, battlefield, battlefield.width / 2, battlefield.height / 2, game.playerMap[Config.player]!!))
             }
         }
 
@@ -84,7 +86,7 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
             get() = width
         override val guiHeight: Double
             get() = height
-        override val gameDirector: GameDirector = GameDirector(battlefield.nodes)
+        override val gameDirector: GameDirector = GameDirector(game)
         private val renderTimer: AnimationTimer = object : AnimationTimer() {
             override fun handle(now: Long) {
                 gameDirector.render(0.0)

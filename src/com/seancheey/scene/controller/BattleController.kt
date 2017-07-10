@@ -1,8 +1,8 @@
 package com.seancheey.scene.controller
 
 import com.seancheey.game.Config
-import com.seancheey.game.DefaultBattleInitializer
-import com.seancheey.game.battlefield.EmptyBattlefield
+import com.seancheey.game.Game
+import com.seancheey.game.battlefield.TestBattlefield
 import com.seancheey.gui.BattleInspectPane
 import com.seancheey.gui.RobotModelSlot
 import com.seancheey.scene.Scenes
@@ -39,24 +39,23 @@ class BattleController : Initializable {
 
     var battlePane: BattleInspectPane
 
+    val game = Game(2000, mutableMapOf(Config.player to 1), TestBattlefield())
+
     init {
         // make sure there is a empty battlefield
-        battlePane = BattleInspectPane(EmptyBattlefield(), 0.0, 0.0)
+        battlePane = BattleInspectPane(game, 0.0, 0.0)
     }
 
     override fun initialize(location: URL?, resources: ResourceBundle?) {
         battleController = this
-        // select player's first BotGroup to initialize
-        val models = Config.player.robotGroups[0]
         // init selection slots
-        RobotModelSlot.allAllTo(botGroupBox!!.children, models, { battlePane.clickRobot(it) }, true)
+        RobotModelSlot.addAllTo(botGroupBox!!.children, Config.player.robotGroups[0], { battlePane.clickRobot(it) }, true)
         // init battle field
-        val battleField = DefaultBattleInitializer(2000).create()
-        battlePane = BattleInspectPane(battleField, Stages.primaryStage!!.width, Stages.primaryStage!!.height - botGroupBox!!.height - 200)
+        battlePane = BattleInspectPane(game, Stages.primaryStage!!.width, Stages.primaryStage!!.height - botGroupBox!!.height - 200)
         battleContainer!!.children.add(battlePane)
         botGroupBox!!.toFront()
         // init money label
-        moneyLabel!!.text = "money: ${battleField.players[0].money}"
+        moneyLabel!!.text = "money: ${game.gamePlayers[0].money}"
     }
 
     fun menu() {

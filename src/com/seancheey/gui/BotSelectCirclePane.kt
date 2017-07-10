@@ -29,7 +29,7 @@ class BotSelectCirclePane(models: ArrayList<RobotModel>, onClick: (RobotModel) -
     init {
         width = outerCircleRadius * 2
         height = outerCircleRadius * 2
-        RobotModelSlot.allAllTo(children, models, onClick, true)
+        RobotModelSlot.addAllTo(children, models, onClick, true)
         children.forEachIndexed { i, node ->
             if (node is RobotModelSlot) {
                 val centerPoint = centerPoint(i)

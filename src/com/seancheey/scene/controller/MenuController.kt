@@ -34,7 +34,7 @@ class MenuController : Initializable {
         playerLabel!!.text = "${Config.player.name}'s Robots"
 
         // add player's first robot group
-        RobotModelSlot.allAllTo(botGroupBox!!.children, Config.player.robotGroups[0])
+        RobotModelSlot.addAllTo(botGroupBox!!.children, Config.player.robotGroups[0])
 
         // put title image
         titleImageView!!.image = Image(Resources.titleImageInStream)

@@ -8,7 +8,7 @@ import java.io.Serializable
  * GitHub: https://github.com/Seancheey
  */
 /**
- * @param id identity id used to distinguish different players
+ * @param id identity id used to distinguish different gamePlayers
  * @param name the displayed name of player
  * @param pass_SHA the SHA256 of password used to identify player
  * @param robotGroups all robot models the player has

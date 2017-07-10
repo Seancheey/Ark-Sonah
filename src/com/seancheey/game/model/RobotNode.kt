@@ -1,13 +1,14 @@
 package com.seancheey.game.model
 
 import com.seancheey.game.ComponentType
+import com.seancheey.game.PlayerInGame
 import com.seancheey.game.battlefield.Battlefield
 
 /**
  * Created by Seancheey on 29/05/2017.
  * GitHub: https://github.com/Seancheey
  */
-class RobotNode(val model: RobotModel, override var field: Battlefield, override var x: Double, override var y: Double) : RobotModel(model.name, model.components.map { it.copy() }), MovableNode {
+class RobotNode(val model: RobotModel, override var field: Battlefield, override var x: Double, override var y: Double, val owner: PlayerInGame) : RobotModel(model.name, model.components.map { it.copy() }), MovableNode {
     override var focusedByPlayer: Boolean = false
         set(value) {
             if (field != value) {
@@ -32,10 +33,14 @@ class RobotNode(val model: RobotModel, override var field: Battlefield, override
     override fun updateFocusedStatus() {
         if (components.any { it.model.name == "builder block" }) {
             if (focusedByPlayer) {
-                children.add(BotSelectNode(field.players[0], field, { selectedModel ->
+                children.add(BotSelectNode(owner, field, { selectedModel ->
                     // only allow one build at a time
                     if (children.filterIsInstance<ProgressBarNode>().isEmpty()) {
-                        val progressBar = ProgressBarNode(2.0, field, { field.putRobot(selectedModel, x, y, 0.0, orientation) })
+                        val progressBar = ProgressBarNode(10.0 / components.filter { it.model.name == "builder block" }.size, field, {
+                            val newNode = RobotNode(selectedModel, field, x, y, owner)
+                            newNode.orientation = orientation
+                            field.nodes.add(newNode)
+                        })
                         progressBar.y = -40.0
                         children.add(progressBar)
                     }

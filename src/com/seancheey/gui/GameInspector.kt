@@ -1,6 +1,8 @@
 package com.seancheey.gui
 
-import com.seancheey.game.*
+import com.seancheey.game.Config
+import com.seancheey.game.Game
+import com.seancheey.game.GameDirector
 import com.seancheey.game.battlefield.Battlefield
 import com.seancheey.game.command.MoveCommand
 import com.seancheey.game.model.MovableNode
@@ -18,9 +20,14 @@ interface GameInspector {
      */
     val gameDirector: GameDirector
     /**
+     * game the inspector is inspecting
+     */
+    val game: Game
+    /**
      * used for painting battlefield
      */
     val battlefield: Battlefield
+        get() = game.field
     /**
      * player's selected nodes
      */

@@ -30,7 +30,7 @@ class RobotModelSlot(val robotModel: RobotModel, onClick: (RobotModel) -> Unit =
         }
 
     companion object {
-        fun allAllTo(children: ObservableList<Node>, models: List<RobotModel>, onClick: (RobotModel) -> Unit = {}, verifyValid: Boolean = false) {
+        fun addAllTo(children: ObservableList<Node>, models: List<RobotModel>, onClick: (RobotModel) -> Unit = {}, verifyValid: Boolean = false) {
             models.forEach { children.add(RobotModelSlot(it, onClick, verifyValid = verifyValid)) }
         }
     }

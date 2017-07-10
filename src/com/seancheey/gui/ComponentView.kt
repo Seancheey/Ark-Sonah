@@ -1,5 +1,6 @@
 package com.seancheey.gui
 
+import com.seancheey.game.battlefield.EmptyBattlefield
 import com.seancheey.game.model.ComponentModel
 import com.seancheey.game.model.ComponentNode
 import javafx.scene.image.ImageView
@@ -16,7 +17,7 @@ import javafx.scene.input.MouseEvent
  */
 class ComponentView(val componentModel: ComponentModel, val x: Int, val y: Int, val dragStart: (event: MouseEvent, compView: ComponentView) -> Unit) : ImageView(componentModel.image) {
     val component: ComponentNode
-        get() = ComponentNode.create(componentModel, x, y)
+        get() = ComponentNode.create(componentModel, x, y, EmptyBattlefield())
 
     init {
         setOnDragDetected { event ->

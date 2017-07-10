@@ -1,8 +1,9 @@
 package com.seancheey.gui
 
+import com.seancheey.game.Config
+import com.seancheey.game.battlefield.EmptyBattlefield
 import com.seancheey.game.model.ComponentModel
 import com.seancheey.game.model.ComponentNode
-import com.seancheey.game.Config
 import com.seancheey.game.model.RobotModel
 
 /**
@@ -14,7 +15,7 @@ interface RobotEditInterface {
         private fun symmetricComponent(component: ComponentNode): ComponentNode? {
             val symX = Config.botGridNum - component.gridX - component.model.gridWidth
             if (symX != component.gridX) {
-                return ComponentNode.create(component.model, Config.botGridNum - component.gridX - component.model.gridWidth, component.gridY)
+                return ComponentNode.create(component.model, Config.botGridNum - component.gridX - component.model.gridWidth, component.gridY, EmptyBattlefield())
             } else {
                 return null
             }
@@ -26,7 +27,7 @@ interface RobotEditInterface {
     var symmetricBuild: Boolean
 
     fun addComponentAt(x: Int, y: Int, model: ComponentModel) {
-        addComponent(ComponentNode.create(model, x, y))
+        addComponent(ComponentNode.create(model, x, y, EmptyBattlefield()))
     }
 
     fun addComponent(component: ComponentNode) {
@@ -58,7 +59,7 @@ interface RobotEditInterface {
     }
 
     fun moveAllComponents(dx: Int, dy: Int) {
-        val newComps = editingRobot.components.map { ComponentNode.create(it.model, it.gridX + dx, it.gridY + dy) }
+        val newComps = editingRobot.components.map { ComponentNode.create(it.model, it.gridX + dx, it.gridY + dy, EmptyBattlefield()) }
         editingRobot = RobotModel(editingRobot.name, newComps)
         updateRobotModel()
     }
