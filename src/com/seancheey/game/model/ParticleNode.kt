@@ -15,6 +15,6 @@ class ParticleNode(val model: ParticleModel, override var x: Double, override va
     override var acceleration: Double = 0.0
     override var speed: Double = 0.0
     override var orientation: Double = 0.0
-    override val peers: ArrayList<Node> = field.nodes
+    override val peers: ArrayList<Node> = field.mutableNodes
     override val children: ArrayList<Node> = arrayListOf()
 }

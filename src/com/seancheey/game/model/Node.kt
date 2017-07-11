@@ -66,7 +66,7 @@ interface Node : Model {
     val degreeOrientation: Double
         get() = orientation * 180 / Math.PI
     /**
-     * peer nodes that this node may affect
+     * peer mutableNodes that this node may affect
      */
     val peers: ArrayList<Node>
     /**

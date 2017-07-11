@@ -11,5 +11,5 @@ class TestBattlefield : Battlefield {
     override var name = "Test Battlefield"
     override val width = 2000.0
     override val height = 1200.0
-    override val nodes = arrayListOf<Node>()
+    override val mutableNodes = arrayListOf<Node>()
 }

@@ -12,6 +12,8 @@ interface Battlefield : Serializable {
     var name: String
     val width: Double
     val height: Double
-    val nodes: ArrayList<Node>
+    val mutableNodes: ArrayList<Node>
+    val nodes: List<Node>
+        get() = mutableNodes
     val nodeAddQueue: ArrayList<Node>
 }

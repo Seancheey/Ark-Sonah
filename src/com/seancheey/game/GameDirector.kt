@@ -2,20 +2,21 @@ package com.seancheey.game
 
 import com.seancheey.game.command.Command
 import com.seancheey.game.model.Node
+import javafx.animation.AnimationTimer
 
 /**
  * Created by Seancheey on 30/05/2017.
  * GitHub: https://github.com/Seancheey
  */
-class GameDirector(val game: Game, var render: (lag: Double) -> Unit = {}) {
+class GameDirector(val game: Game, var render: (nodes: List<Node>, lag: Double) -> Unit = { _, _ -> }) {
     /**
-     * public access cannot modify nodes, which may lead to concurrence issue
+     * public access cannot modify mutableNodes, which may lead to concurrence issue
      */
     val nodes: List<Node> = game.field.nodes
     /**
-     * only for private access to modify nodes
+     * only for private access to modify mutableNodes
      */
-    private val mutableNodes: ArrayList<Node> = game.field.nodes
+    private val mutableNodes: ArrayList<Node> = game.field.mutableNodes
     /**
      * stop indicates the game director is not running
      */
@@ -67,26 +68,42 @@ class GameDirector(val game: Game, var render: (lag: Double) -> Unit = {}) {
     }
 
     fun start() {
-        stop = false
-        while (!stop && !Config.programClosed) {
-            updateTime()
-            if (lag < MS_PER_UPDATE) {
-                Thread.sleep(MS_PER_UPDATE.toLong() - lag)
-                updateTime()
+        if (!started) {
+            stop = false
+            val timer = object : AnimationTimer() {
+                override fun handle(now: Long) {
+                    if (!stop && !Config.programClosed)
+                        gameLoop()
+                    else
+                        stop()
+                }
             }
-            while (lag > MS_PER_UPDATE) {
-                executeCommands()
-                update()
-                updateTime()
-                lag -= MS_PER_UPDATE
-            }
+            timer.start()
         }
     }
 
     fun update() {
+        // add nodes
         mutableNodes.addAll(game.field.nodeAddQueue)
         game.field.nodeAddQueue.clear()
+        // remove nodes
         mutableNodes.removeAll(nodes.filter { it.requestDeletion })
+        // update rest nodes
         nodes.forEach { it.update() }
+    }
+
+    private fun gameLoop() {
+        updateTime()
+        if (lag < MS_PER_UPDATE) {
+            Thread.sleep(MS_PER_UPDATE.toLong() - lag)
+            updateTime()
+        }
+        while (lag > MS_PER_UPDATE) {
+            executeCommands()
+            update()
+            render(nodes, lag.toDouble())
+            updateTime()
+            lag -= MS_PER_UPDATE
+        }
     }
 }

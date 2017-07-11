@@ -29,7 +29,7 @@ interface GameInspector {
     val battlefield: Battlefield
         get() = game.field
     /**
-     * player's selected nodes
+     * player's selected mutableNodes
      */
     val focusedNodes: List<Node>
         get() = gameDirector.nodes.filter { it.focusedByPlayer }

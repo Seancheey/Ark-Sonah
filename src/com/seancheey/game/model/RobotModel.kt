@@ -105,7 +105,7 @@ open class RobotModel(var name: String, val components: List<ComponentNode>) : M
         if (components.isEmpty()) {
             return Image(Resources.noRobotImageInStream)
         }
-        // add all moving nodes to immutableImage
+        // add all moving mutableNodes to immutableImage
         val writableImage = immutableImage()
         val writer = writableImage.pixelWriter
         components.forEach { writer.setPixels(it) }

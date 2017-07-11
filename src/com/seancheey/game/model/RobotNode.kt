@@ -24,7 +24,7 @@ class RobotNode(val model: RobotModel, override var field: Battlefield, override
             field = value - 2 * Math.PI * (value / (2 * Math.PI)).toInt()
         }
     override val children: ArrayList<Node> = arrayListOf()
-    override val peers: ArrayList<Node> = field.nodes
+    override val peers: ArrayList<Node> = field.mutableNodes
 
     init {
         components.filter { it.type == ComponentType.weapon }.forEach { children.add(it) }
@@ -39,7 +39,7 @@ class RobotNode(val model: RobotModel, override var field: Battlefield, override
                         val progressBar = ProgressBarNode(10.0 / components.filter { it.model.name == "builder block" }.size, field, {
                             val newNode = RobotNode(selectedModel, field, x, y, owner)
                             newNode.orientation = orientation
-                            field.nodes.add(newNode)
+                            field.nodeAddQueue.add(newNode)
                         })
                         progressBar.y = -40.0
                         children.add(progressBar)

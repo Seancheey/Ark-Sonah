@@ -11,5 +11,5 @@ class EmptyBattlefield : Battlefield {
     override var name: String = ""
     override val width: Double = 0.0
     override val height: Double = 0.0
-    override val nodes: ArrayList<Node> = arrayListOf()
+    override val mutableNodes: ArrayList<Node> = arrayListOf()
 }

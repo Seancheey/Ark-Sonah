@@ -7,8 +7,6 @@ import com.seancheey.game.model.GuiNode
 import com.seancheey.game.model.Node
 import com.seancheey.game.model.RobotModel
 import com.seancheey.game.model.RobotNode
-import javafx.animation.AnimationTimer
-import javafx.concurrent.Task
 import javafx.scene.canvas.Canvas
 import javafx.scene.input.KeyCode
 import javafx.scene.input.MouseButton
@@ -58,7 +56,7 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
 
         override fun clickRobot(model: RobotModel) {
             if (!model.empty) {
-                battlefield.nodes.add(RobotNode(model, battlefield, battlefield.width / 2, battlefield.height / 2, game.playerMap[Config.player]!!))
+                battlefield.nodeAddQueue.add(RobotNode(model, battlefield, battlefield.width / 2, battlefield.height / 2, game.playerMap[Config.player]!!))
             }
         }
 
@@ -86,36 +84,32 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
             get() = width
         override val guiHeight: Double
             get() = height
-        override val gameDirector: GameDirector = GameDirector(game)
-        private val renderTimer: AnimationTimer = object : AnimationTimer() {
-            override fun handle(now: Long) {
-                gameDirector.render(0.0)
+        override val gameDirector: GameDirector = GameDirector(game, { nodes, lag ->
+            graphicsContext2D.restore()
+            graphicsContext2D.fill = Color.LIGHTGRAY
+            graphicsContext2D.fillRect(0.0, 0.0, this.width, this.height)
+            graphicsContext2D.save()
+            graphicsContext2D.fill = Color.ALICEBLUE
+            graphicsContext2D.scale(cameraScale, cameraScale)
+
+            nodes.forEach {
+                drawNode(it)
             }
-        }
+
+            // request focus to handle key event
+            requestFocus()
+            cameraTransX += vx
+            cameraTransY += vy
+            // clear Gui Nodes
+            clearGuiNode()
+
+        })
         private var vx: Double = 0.0
         private var vy: Double = 0.0
         var drawGuiNode: (GuiNode, Node) -> Unit = { _, _ -> }
         var clearGuiNode: () -> Unit = {}
 
         init {
-            // set the background of battle field to light gray
-            graphicsContext2D.fill = Color.LIGHTGRAY
-
-            // render method
-            gameDirector.render = {
-                graphicsContext2D.fillRect(0.0, 0.0, this.width, this.height)
-                graphicsContext2D.save()
-                graphicsContext2D.scale(cameraScale, cameraScale)
-                battlefield.nodes.forEach { drawNode(it) }
-                graphicsContext2D.restore()
-                // request focus to handle key event
-                requestFocus()
-                cameraTransX += vx
-                cameraTransY += vy
-                // clear Gui Nodes
-                clearGuiNode()
-            }
-
             clipCanvas()
             fullMapScale()
 
@@ -174,19 +168,11 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
         }
 
         fun start() {
-            if (!gameDirector.started) {
-                Thread(object : Task<Unit>() {
-                    override fun call() {
-                        gameDirector.start()
-                    }
-                }).start()
-                renderTimer.start()
-            }
+            gameDirector.start()
         }
 
         fun stop() {
             gameDirector.stop = true
-            renderTimer.stop()
         }
 
         fun clipOffsetX() = (width - clipWidth / cameraScale) / 2 - translateX / cameraScale
@@ -212,6 +198,7 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
         }
 
         private fun drawNode(node: Node, transform: Affine = Affine()) {
+            val originalTrans = graphicsContext2D.transform
             val newTrans: Affine = transform
             newTrans.append(nodeTranslation(node))
             newTrans.append(nodeRotation(node))
@@ -230,6 +217,7 @@ class BattleInspectPane(val battleCanvas: BattleCanvas) : AnchorPane(), GameInsp
                     drawNode(it, newTrans.clone())
                 }
             }
+            graphicsContext2D.transform = originalTrans
         }
 
         private fun drawFocus(node: Node) {
