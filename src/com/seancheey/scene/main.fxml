@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
@@ -9,7 +10,7 @@
         <Label style="-fx-font-size: 25pt;" text="Ark Sonah" BorderPane.alignment="CENTER" />
     </top>
     <bottom>
-        <VBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
+        <VBox alignment="CENTER" prefHeight="118.0" prefWidth="600.0" spacing="10.0" BorderPane.alignment="CENTER">
             <BorderPane.margin>
                 <Insets />
             </BorderPane.margin>
@@ -20,10 +21,15 @@
                </VBox.margin>
             </Button>
                <Button alignment="CENTER" mnemonicParsing="false" onAction="#credit" text="Credit" textAlignment="CENTER">
-               <VBox.margin>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </VBox.margin>
-            </Button>
+                   <VBox.margin>
+                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                   </VBox.margin>
+               </Button>
+               <Button mnemonicParsing="false" onAction="#exitGameButtonPressed" text="Exit Game">
+                   <VBox.margin>
+                       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                   </VBox.margin>
+               </Button>
            </children>
         </VBox>
     </bottom>

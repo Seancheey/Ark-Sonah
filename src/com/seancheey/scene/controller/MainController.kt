@@ -68,4 +68,9 @@ class MainController {
     fun credit() {
 
     }
+
+    fun exitGameButtonPressed() {
+        Stages.primaryStage!!.close()
+        Config.programClosed = true
+    }
 }
