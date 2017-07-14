@@ -17,7 +17,7 @@ class MainStage : Application() {
     override fun start(primaryStage: Stage) {
         Stages.primaryStage = primaryStage
         primaryStage.title = "Ark Sonah"
-        primaryStage.scene = Scene(Scenes.main, 800.0, 600.0)
+        primaryStage.scene = Scene(Scenes.main)
         primaryStage.show()
         // when close stage, also close all threads
         primaryStage.setOnCloseRequest {
