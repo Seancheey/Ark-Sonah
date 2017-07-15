@@ -1,5 +1,7 @@
 # Ark Sonah
-This project was created by Seancheey at 5.18.2017
+This project was created by Seancheey at 5.18.2017. I'm still working on this project but considering migrating the game from JavaFX to Unity platform.
+
+
 
 ### Building Project
 Simply go to the root directory of the project and run following command
